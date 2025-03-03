@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EventApp.ClassFolder;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,28 @@ namespace EventApp.WindowFolder
     /// </summary>
     public partial class WindowMain : Window
     {
-        public WindowMain()
+        public WindowMain(Page thisPage)
         {
             InitializeComponent();
+            FrameConnect.Navigate(thisPage);
+        }
+        private void TopBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
+        }
+        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
+        private void MaximizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = this.WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            MBClass.ExitMB();
         }
     }
 }

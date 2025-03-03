@@ -27,7 +27,7 @@ namespace EventApp.ClassFolder
         }
         public static void ExitMB()
         {
-            bool result = QuestionMB("Вы уверенны что хотите выйти?");
+            bool result = QuestionMB("Вы уверены что хотите выйти?");
             if (result)
             {
                 App.Current.Shutdown();

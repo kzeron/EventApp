@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace EventApp.ClassFolder
 {
@@ -10,17 +7,18 @@ namespace EventApp.ClassFolder
     {
         public string Login { get; set; }
         public string Password { get; set; }
-        public Role Role { get; set; }
+        public UserRole Role { get; set; }
         public int IDRole { get; set; }
         public Statuses Statuses { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
+        public int IdTrainer { get; set; }
     }
-    public enum Role
+    public enum UserRole
     {
-        Admin,
-        Teacher,
-        Participant
+        Admin = 1,
+        Teacher = 2,
+        Participant = 3
     }
     public enum Statuses
     {
