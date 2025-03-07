@@ -1,4 +1,5 @@
 ﻿using EventApp.ClassFolder;
+using EventApp.PageFolder.ListFolder;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,10 +21,32 @@ namespace EventApp.WindowFolder
     /// </summary>
     public partial class WindowMain : Window
     {
+        private UserRole _userRole;
+
         public WindowMain(Page thisPage)
         {
             InitializeComponent();
-            FrameConnect.Navigate(thisPage);
+            MainFrame.Content = thisPage;
+            _userRole =(UserRole)ClassSaveSassion.LoadSession().IdRole;
+            //SetupNavigation();
+        }
+        private void SetupNavigation()
+        {
+            if (_userRole == UserRole.Participant)
+            {
+                UsersButton.Visibility = Visibility.Collapsed;
+            }
+            // Добавьте проверки для других ролей
+        }
+
+        private void ShowUsersPage(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Content = new ListUser(); // Или ваша страница UsersPage
+        }
+
+        private void ShowEventsPage(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Content = new ListEvent(); // Или ваша страница EventsPage
         }
         private void TopBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {

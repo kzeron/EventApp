@@ -1,6 +1,4 @@
-﻿using System;
-
-
+﻿
 namespace EventApp.ClassFolder
 {
     public class ClassUser

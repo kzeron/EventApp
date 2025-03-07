@@ -1,23 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using EventApp.ClassFolder;
-using EventApp.PageFolder;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using EventApp.DataFolder;
 using EventApp.PageFolder.ListFolder;
 
 namespace EventApp.WindowFolder
 {
-    /// <summary>
-    /// Логика взаимодействия для WindowAuth.xaml
-    /// </summary>
     public partial class WindowAuth : Window
     {
         public WindowAuth()
@@ -48,6 +38,24 @@ namespace EventApp.WindowFolder
                 catch (Exception ex)
                 {
                     MBClass.ErrorMB(ex);
+                }
+                switch ((UserRole)currentUser.IdRole)
+                {
+                    case UserRole.Admin:
+                        new WindowMain(new ListUser())
+                            .Show();
+                        this.Close();
+                        break;
+                    case UserRole.Participant:
+                        new WindowMain(new ListEventForParticipant())
+                            .Show();
+                        this.Close();
+                        break;
+                    case UserRole.Teacher:
+                        new WindowMain(new ListEvent())
+                            .Show();
+                        this.Close();
+                        break;
                 }
             }
 
@@ -111,14 +119,17 @@ namespace EventApp.WindowFolder
                             case UserRole.Admin:
                                 new WindowMain(new ListUser())
                                     .Show();
+                                this.Close();
                                 break;
                             case UserRole.Participant:
                                 new WindowMain(new ListEventForParticipant())
-                                    .Show(); 
+                                    .Show();
+                                this.Close();
                                 break;
                             case UserRole.Teacher:
                                 new WindowMain(new ListEvent())
-                                    .Show(); 
+                                    .Show();
+                                this.Close();
                                 break;
                         }
                     }

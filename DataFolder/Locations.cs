@@ -24,7 +24,7 @@ namespace EventApp.DataFolder
         public string LocationName { get; set; }
         public string Address { get; set; }
         public int NumberCab { get; set; }
-        public int Capacity { get; set; }
+        public Nullable<int> Capacity { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Events> Events { get; set; }

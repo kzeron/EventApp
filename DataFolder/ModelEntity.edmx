@@ -33,7 +33,7 @@
           <Property Name="LocationName" Type="nvarchar" MaxLength="80" Nullable="false" />
           <Property Name="Address" Type="nvarchar" MaxLength="80" Nullable="false" />
           <Property Name="NumberCab" Type="int" Nullable="false" />
-          <Property Name="Capacity" Type="int" Nullable="false" />
+          <Property Name="Capacity" Type="int" />
         </EntityType>
         <EntityType Name="Notifications">
           <Key>
@@ -358,7 +358,7 @@
           <Property Name="LocationName" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Address" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="NumberCab" Type="Int32" Nullable="false" />
-          <Property Name="Capacity" Type="Int32" Nullable="false" />
+          <Property Name="Capacity" Type="Int32" />
           <NavigationProperty Name="Events" Relationship="Self.FK_Events_Locations" FromRole="Locations" ToRole="Events" />
         </EntityType>
         <EntityType Name="Notifications">

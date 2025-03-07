@@ -9,6 +9,17 @@
       Title="ListEvent">
 
     <Grid>
-        
+        <!-- Можно использовать ListBox, DataGrid или что угодно -->
+        <ListBox x:Name="EventsListBox" Margin="10">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="16"/>
+                        <TextBlock Text="{Binding Description}" Margin="0,5,0,0"/>
+                        <TextBlock Text="{Binding DateStart, StringFormat={}{0:dd.MM.yyyy}}" Foreground="Gray"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </Page>

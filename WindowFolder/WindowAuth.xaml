@@ -42,6 +42,7 @@
                 
                 <TextBox x:Name="LoginTb"
                          materialDesign:HintAssist.Hint="Логин"
+                         materialDesign:HintAssist.Background="#4A4A4A"
                          Style="{StaticResource MaterialDesignOutlinedTextBox}"
                          Foreground="LightGray"
                          BorderBrush="LightGray"
@@ -50,6 +51,7 @@
                 
                 <PasswordBox x:Name="PasswordPb"
                              materialDesign:HintAssist.Hint="Пароль"
+                             materialDesign:HintAssist.Background="#4A4A4A"
                              Style="{StaticResource MaterialDesignOutlinedPasswordBox}"
                              Foreground="LightGray"
                              BorderBrush="LightGray"

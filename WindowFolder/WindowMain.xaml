@@ -6,7 +6,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:EventApp.WindowFolder"
         mc:Ignorable="d"
-        Title="WindowMain" Height="450" Width="800"
+        Title="WindowMain" Height="900" Width="1440"
         WindowStyle="None" AllowsTransparency="True" Background="Transparent"
         WindowStartupLocation="CenterScreen">
     <Border BorderThickness="2" CornerRadius="10" Background="#4A4A4A" >
@@ -26,7 +26,7 @@
                     <Button Grid.Column="0" Width="20" Height="20" Background="Transparent" BorderBrush="Transparent" Click="MinimizeButton_Click" Padding="0">
                         <materialDesign:PackIcon Kind="Minimize" Foreground="White" Width="15" Height="15"/>
                     </Button>
-
+                    
                     <Button Grid.Column="1" Width="20" Height="20" Background="Transparent" BorderBrush="Transparent" Click="MaximizeButton_Click"
                         Padding="0">
                         <materialDesign:PackIcon Kind="WindowMaximize" Foreground="White" BorderBrush="Transparent" Width="15" Height="15"/>
@@ -37,7 +37,23 @@
                     </Button>
                 </Grid>
             </DockPanel>
-            <Frame x:Name="FrameConnect" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <DockPanel Grid.Row="1" 
+                       LastChildFill="True" 
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Stretch">
+                
+                <StackPanel DockPanel.Dock="Left" 
+                            Background="#363636" Width="300" Cursor="">
+                    
+                    <Button x:Name="UsersButton" Content="Пользователи" Click="ShowUsersPage" />
+                    <Button Content="Мероприятия" Click="ShowEventsPage" />
+                </StackPanel>
+                
+                <Frame x:Name="MainFrame" 
+                       HorizontalAlignment="Stretch"
+                       VerticalAlignment="Stretch" 
+                       NavigationUIVisibility="Hidden"/>
+            </DockPanel>
         </Grid>
     </Border>
 </Window>

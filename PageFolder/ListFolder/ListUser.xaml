@@ -9,6 +9,22 @@
       Title="ListUser">
 
     <Grid>
-        
+        <ListBox x:Name="UsersListBox" Margin="10">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <!-- Логин пользователя -->
+                        <TextBlock Text="{Binding Login}" FontWeight="Bold" FontSize="16"
+                                   Style="{StaticResource StandartText}"/>
+                        <!-- Email -->
+                        <TextBlock Text="{Binding Email}" Margin="0,5,0,0"
+                                   Style="{StaticResource StandartText}"/>
+                        <!-- Телефон -->
+                        <TextBlock Text="{Binding Phone}" Foreground="Gray" FontSize="12"
+                                   Style="{StaticResource StandartText}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </Page>
