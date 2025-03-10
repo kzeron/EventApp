@@ -106,8 +106,7 @@ namespace EventApp.PageFolder.ListFolder
             int currentCount = context.Participants.Count(p => p.IdEvent == selectedItem.IdEvent);
             if (selectedItem.Capacity.HasValue && currentCount >= selectedItem.Capacity.Value)
             {
-                MessageBox.Show("Нет свободных мест на это мероприятие.", "Инфо",
-                    MessageBoxButton.OK, MessageBoxImage.Information);
+                MBClass.ErrorMB("Нет свободных мест на это мероприятие.");
                 return;
             }
 
@@ -141,8 +140,7 @@ namespace EventApp.PageFolder.ListFolder
             context.Participants.Add(newParticipant);
             context.SaveChanges();
 
-            MessageBox.Show("Вы успешно записались на мероприятие!", "Успех",
-                MessageBoxButton.OK, MessageBoxImage.Information);
+            MBClass.InformationMB("Вы успешно записались на мероприятие!");
 
             // Обновляем список (чтобы пересчитать количество участников)
             LoadEvents();

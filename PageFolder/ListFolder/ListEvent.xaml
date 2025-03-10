@@ -9,14 +9,31 @@
       Title="ListEvent">
 
     <Grid>
-        <!-- Можно использовать ListBox, DataGrid или что угодно -->
-        <ListBox x:Name="EventsListBox" Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Кнопка «Добавить мероприятие» в верхней части -->
+        <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Right" Margin="10">
+            <Button Content="Добавить мероприятие" Click="AddEventButton_Click"
+                    Background="Transparent" Foreground="White"
+                    BorderBrush="White" Padding="10,5"/>
+        </StackPanel>
+
+        <!-- Список мероприятий ниже -->
+        <ListBox x:Name="EventsListBox" Margin="10" Grid.Row="1">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="16"/>
                         <TextBlock Text="{Binding Description}" Margin="0,5,0,0"/>
                         <TextBlock Text="{Binding DateStart, StringFormat={}{0:dd.MM.yyyy}}" Foreground="Gray"/>
+
+                        <!-- Кнопка «Список участников» -->
+                        <Button Content="Список участников"
+                                Click="ViewParticipants_Click"
+                                Margin="0,5,0,0"/>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

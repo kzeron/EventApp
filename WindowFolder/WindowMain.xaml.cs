@@ -1,18 +1,9 @@
 ﻿using EventApp.ClassFolder;
 using EventApp.PageFolder.ListFolder;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using EventApp.PageFolder.AddFolder;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace EventApp.WindowFolder
 {
@@ -30,6 +21,17 @@ namespace EventApp.WindowFolder
             _userRole =(UserRole)ClassSaveSassion.LoadSession().IdRole;
             //SetupNavigation();
         }
+        public void OpenAddEventModal()
+        {
+            OverlayGrid.Visibility = Visibility.Visible;
+
+            // Блокируем кнопки
+            UsersButton.IsEnabled = false;
+            EventsButtonManage.IsEnabled = false;
+            AddEventButton.IsEnabled = false;
+
+            AddEventFrame.Navigate(new AddEvent());
+        }
         private void SetupNavigation()
         {
             if (_userRole == UserRole.Participant)
@@ -37,6 +39,18 @@ namespace EventApp.WindowFolder
                 UsersButton.Visibility = Visibility.Collapsed;
             }
             // Добавьте проверки для других ролей
+        }
+
+
+        // Вызывается из AddEventPage, когда сохранено или отменено
+        public void CloseModal()
+        {
+            OverlayGrid.Visibility = Visibility.Collapsed;
+
+            // Разблокируем кнопки
+            UsersButton.IsEnabled = true;
+            EventsButtonManage.IsEnabled = true;
+            AddEventButton.IsEnabled = true;
         }
 
         private void ShowUsersPage(object sender, RoutedEventArgs e)
@@ -65,6 +79,18 @@ namespace EventApp.WindowFolder
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             MBClass.ExitMB();
+        }
+
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            ClassSaveSassion.ClearSession();
+            new WindowAuth().Show();
+            Close();
+        }
+
+        private void EventButtonList_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Content = new ListEventForParticipant();
         }
     }
 }

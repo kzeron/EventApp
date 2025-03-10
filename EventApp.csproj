@@ -190,6 +190,9 @@
     <Compile Include="PageFolder\ListFolder\ListUser.xaml.cs">
       <DependentUpon>ListUser.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PageFolder\ListFolder\PageParticipants.xaml.cs">
+      <DependentUpon>PageParticipants.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WindowFolder\WindowAuth.xaml.cs">
       <DependentUpon>WindowAuth.xaml</DependentUpon>
     </Compile>
@@ -267,6 +270,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="PageFolder\ListFolder\PageParticipants.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="WindowFolder\WindowAuth.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -280,7 +287,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="AssetFolder\image_2025-03-07_19-55-13.png" />
+    <Resource Include="AssetFolder\logo.png" />
     <Content Include="DataFolder\ModelEntity.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ModelEntity.edmx</DependentUpon>

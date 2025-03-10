@@ -32,8 +32,15 @@
                     </Button>
                 </Grid>
             </DockPanel>
-            
+            <Image Source="/AssetFolder/logo.png" 
+                   Grid.Row="1"
+                   VerticalAlignment="Top"
+                   Margin="10"
+                   Height="40"
+                   Width="40"
+                   HorizontalAlignment="Left"/>
             <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="300">
+                
                 <TextBlock Text="Вход в систему"
                            HorizontalAlignment="Center"
                            FontSize="24"
@@ -43,6 +50,7 @@
                 <TextBox x:Name="LoginTb"
                          materialDesign:HintAssist.Hint="Логин"
                          materialDesign:HintAssist.Background="#4A4A4A"
+                         materialDesign:HintAssist.Foreground="LightGray"
                          Style="{StaticResource MaterialDesignOutlinedTextBox}"
                          Foreground="LightGray"
                          BorderBrush="LightGray"
@@ -52,6 +60,7 @@
                 <PasswordBox x:Name="PasswordPb"
                              materialDesign:HintAssist.Hint="Пароль"
                              materialDesign:HintAssist.Background="#4A4A4A"
+                             materialDesign:HintAssist.Foreground="LightGray"
                              Style="{StaticResource MaterialDesignOutlinedPasswordBox}"
                              Foreground="LightGray"
                              BorderBrush="LightGray"

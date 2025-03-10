@@ -8,7 +8,35 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="AddEvent">
 
-    <Grid>
-        
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Добавить мероприятие" 
+                   FontSize="20" 
+                   FontWeight="Bold"
+                   HorizontalAlignment="Center"/>
+
+        <StackPanel Grid.Row="1" Margin="0,10">
+            <TextBlock Text="Название:"/>
+            <TextBox x:Name="TitleTb" Margin="0,5"/>
+
+            <TextBlock Text="Описание:" Margin="0,10,0,0"/>
+            <TextBox x:Name="DescriptionTb" Margin="0,5" Height="80"/>
+
+            <TextBlock Text="Дата начала:" Margin="0,10,0,0"/>
+            <DatePicker x:Name="StartDatePicker" Margin="0,5"/>
+
+            <TextBlock Text="Дата окончания:" Margin="0,10,0,0"/>
+            <DatePicker x:Name="EndDatePicker" Margin="0,5"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Сохранить" Margin="0,0,10,0" Click="SaveButton_Click"/>
+            <Button Content="Отмена" Click="CancelButton_Click"/>
+        </StackPanel>
     </Grid>
 </Page>
