@@ -288,6 +288,8 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="AssetFolder\logo.png" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="DataFolder\ModelEntity.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ModelEntity.edmx</DependentUpon>

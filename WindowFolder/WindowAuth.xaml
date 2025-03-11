@@ -47,24 +47,19 @@
                            Foreground="White"
                            Margin="0 0 0 20"/>
                 
-                <TextBox x:Name="LoginTb"
-                         materialDesign:HintAssist.Hint="Логин"
-                         materialDesign:HintAssist.Background="#4A4A4A"
-                         materialDesign:HintAssist.Foreground="LightGray"
-                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                         Foreground="LightGray"
-                         BorderBrush="LightGray"
-                         FontSize="16"
-                         Margin="0 10"/>
+                    <TextBox x:Name="LoginTb"
+                             materialDesign:HintAssist.Hint="Логин"
+                             Height="50"
+                             Padding="5, 0"
+                             Style="{StaticResource CustomOutlinedTextBox}"
+                             Margin="0 10"/>
                 
                 <PasswordBox x:Name="PasswordPb"
+                             Padding="5, 0"
                              materialDesign:HintAssist.Hint="Пароль"
-                             materialDesign:HintAssist.Background="#4A4A4A"
                              materialDesign:HintAssist.Foreground="LightGray"
-                             Style="{StaticResource MaterialDesignOutlinedPasswordBox}"
-                             Foreground="LightGray"
-                             BorderBrush="LightGray"
-                             FontSize="16"
+                             Height="50"
+                             Style="{StaticResource CustomOutlinedPasswordBox}"
                              Margin="0 10"/>
                 
                 <Button x:Name="AuthButton"

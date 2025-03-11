@@ -5,8 +5,8 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:EventApp.PageFolder.AddFolder"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="AddEvent">
+      d:DesignHeight="500" d:DesignWidth="800"
+      Title="AddEvent" Background="#4A4A4A">
 
     <Grid Margin="20">
         <Grid.RowDefinitions>
@@ -15,23 +15,24 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Добавить мероприятие" 
-                   FontSize="20" 
-                   FontWeight="Bold"
-                   HorizontalAlignment="Center"/>
+        <TextBlock Text="Добавить мероприятие"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource TitleText}"/>
 
         <StackPanel Grid.Row="1" Margin="0,10">
-            <TextBlock Text="Название:"/>
-            <TextBox x:Name="TitleTb" Margin="0,5"/>
+            <TextBlock Text="Название:" Style="{StaticResource StandartText}" FontSize="14"/>
+            <TextBox x:Name="TitleTb" Margin="0,5" Style="{StaticResource CustomUnderlinedTextBox}"/>
 
-            <TextBlock Text="Описание:" Margin="0,10,0,0"/>
-            <TextBox x:Name="DescriptionTb" Margin="0,5" Height="80"/>
+            <TextBlock Text="Описание:" Margin="0,10,0,0" Style="{StaticResource StandartText}" FontSize="14"/>
+            <TextBox x:Name="DescriptionTb" Margin="0,5" Height="80"
+                     Style="{StaticResource CustomUnderlinedTextBox}"/>
 
-            <TextBlock Text="Дата начала:" Margin="0,10,0,0"/>
-            <DatePicker x:Name="StartDatePicker" Margin="0,5"/>
+            <TextBlock Text="Дата начала:" Margin="0,10,0,0" Style="{StaticResource StandartText}" FontSize="14"/>
+            <DatePicker x:Name="StartDatePicker" Margin="0,5" Style="{StaticResource CustomCombinedUnderlinedDatePicker}"/>
 
-            <TextBlock Text="Дата окончания:" Margin="0,10,0,0"/>
-            <DatePicker x:Name="EndDatePicker" Margin="0,5"/>
+            <TextBlock Text="Дата окончания:" Margin="0,10,0,0" Style="{StaticResource StandartText}" FontSize="14"/>
+            <DatePicker x:Name="EndDatePicker" Margin="0,5" Style="{StaticResource CustomCombinedUnderlinedDatePicker}"/>
         </StackPanel>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
