@@ -1,20 +1,10 @@
 ﻿using EventApp.ClassFolder;
 using EventApp.DataFolder;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using static EventApp.ClassFolder.ClassParticipants;
 
 namespace EventApp.PageFolder.ListFolder
@@ -92,13 +82,19 @@ namespace EventApp.PageFolder.ListFolder
 
             var context = EventEntities.GetContext();
 
+            // Проверяем, является ли пользователь участником (IDRole == 3)
+            if (_currentUser.IdRole != (int)UserRole.Participant)
+            {
+                MBClass.ErrorMB("Только участники могут записываться на мероприятия.");
+                return;
+            }
+
             // 1) Проверяем, не записан ли уже пользователь
             bool alreadyRegistered = context.Participants
-                .Any(p => p.IdEvent == selectedItem.IdEvent
-                && p.IdUser == _currentUser.IdUser);
-            if (alreadyRegistered) 
+                .Any(p => p.IdEvent == selectedItem.IdEvent && p.IdUser == _currentUser.IdUser);
+            if (alreadyRegistered)
             {
-                MBClass.ErrorMB("Вы уже записаны на данное мероприятие");
+                MBClass.ErrorMB("Вы уже записаны на данное мероприятие.");
                 return;
             }
 
@@ -111,9 +107,6 @@ namespace EventApp.PageFolder.ListFolder
             }
 
             // 3) Проверяем, нет ли у пользователя мероприятия в ближайшие 7 дней
-            // Например, если user уже записан на мероприятие, которое стартует
-            // +-7 дней от этого мероприятия
-
             var userEvents = from part in context.Participants
                              join ev in context.Events on part.IdEvent equals ev.IdEvent
                              where part.IdUser == _currentUser.IdUser
@@ -130,6 +123,8 @@ namespace EventApp.PageFolder.ListFolder
                     }
                 }
             }
+
+            // Запись пользователя на мероприятие
             var newParticipant = new Participants
             {
                 IdEvent = selectedItem.IdEvent,
@@ -145,5 +140,7 @@ namespace EventApp.PageFolder.ListFolder
             // Обновляем список (чтобы пересчитать количество участников)
             LoadEvents();
         }
+
+
     }
 }

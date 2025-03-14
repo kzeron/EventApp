@@ -4,6 +4,7 @@ using EventApp.PageFolder.AddFolder;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using EventApp.PageFolder.EditFolder;
 
 namespace EventApp.WindowFolder
 {
@@ -32,6 +33,19 @@ namespace EventApp.WindowFolder
 
             AddEventFrame.Navigate(new AddEvent());
         }
+        public void OpenEditEventModal(int eventId)
+        {
+            OverlayGrid.Visibility = Visibility.Visible;
+
+            // Блокируем кнопки
+            UsersButton.IsEnabled = false;
+            EventsButtonManage.IsEnabled = false;
+            AddEventButton.IsEnabled = false;
+
+            AddEventFrame.Navigate(new EditEvent(eventId));
+        }
+
+
         private void SetupNavigation()
         {
             if (_userRole == UserRole.Participant)

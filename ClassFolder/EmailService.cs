@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using EventApp.DataFolder;
 using MailKit.Net.Smtp;
 using MimeKit;
 
@@ -7,43 +8,68 @@ namespace EventApp.ClassFolder
 {
     internal class EmailService
     {
-        private readonly string _smtpServer;
-        private readonly int _port;
-        private readonly string _email;
-        private readonly string _password;
+        //private readonly EventEntities _context;
+        //private readonly EmailService _emailService;
 
-        public EmailService(string smtpServer, int port, string email, string password)
-        {
-            _smtpServer = smtpServer;
-            _port = port;
-            _email = email;
-            _password = password;
-        }
-        public async Task<bool> SendEmailAsync(string recipient, string subject, string body)
-        {
-            try
-            {
-                var message = new MimeMessage();
-                message.From.Add(new MailboxAddress("Отправитель", _email));
-                message.To.Add(new MailboxAddress("Получатель", recipient));
-                message.Subject = subject;
+        //public NotificationService(EventEntities context, EmailService emailService)
+        //{
+        //    _context = context;
+        //    _emailService = emailService;
+        //}
 
-                message.Body = new TextPart("html") { Text = body };
+        //public async Task SendEventRemindersAsync()
+        //{
+        //    DateTime now = DateTime.Now;
+        //    DateTime threshold = now.AddMinutes(30); // За 30 минут до начала
 
-                using(var client = new SmtpClient())
-                {
-                    await client.ConnectAsync(_smtpServer, _port, true);
-                    await client.AuthenticateAsync(_email, _password);
-                    await client.SendAsync(message);
-                    await client.DisconnectAsync(true);
-                }
-                return true;
-            }
-            catch(Exception ex)
-            {
-                MBClass.ErrorMB(ex);
-                return false;
-            }
-        }
+        //    // Найти мероприятия, начинающиеся в ближайшие 30 минут
+        //    var upcomingEvents = await _context.Events
+        //        .Where(e => e.StartTime >= now && e.StartTime <= threshold)
+        //        .ToListAsync();
+
+        //    foreach (var eventItem in upcomingEvents)
+        //    {
+        //        // Найти организатора мероприятия
+        //        var organizer = await _context.User.FindAsync(eventItem.OrganizerId);
+        //        if (organizer != null)
+        //        {
+        //            await SendReminder(eventItem, organizer);
+        //        }
+
+        //        // Найти всех участников мероприятия
+        //        var participants = await _context.EventParticipants
+        //            .Where(ep => ep.EventId == eventItem.Id)
+        //            .Select(ep => ep.User)
+        //            .ToListAsync();
+
+        //        foreach (var participant in participants)
+        //        {
+        //            await SendReminder(eventItem, participant);
+        //        }
+        //    }
+        //}
+
+        //private async Task SendReminder(Events eventItem, User user)
+        //{
+        //    string subject = $"Скоро начнется мероприятие: {eventItem.Title}";
+        //    string body = $"Привет, {user.Name}! Напоминаем, что мероприятие \"{eventItem.Title}\" начнется {eventItem.StartTime:G}.";
+
+        //    bool isSent = await _emailService.SendEmailAsync(user.Email, subject, body);
+
+        //    if (isSent)
+        //    {
+        //        var notification = new Notification
+        //        {
+        //            IdUser = user.Id,
+        //            EventId = eventItem.Id,
+        //            MessageType = "EventReminder",
+        //            Message = body,
+        //            SentDate = DateTime.Now
+        //        };
+
+        //        _context.Notifications.Add(notification);
+        //        await _context.SaveChangesAsync();
+        //    }
+        //}
     }
 }

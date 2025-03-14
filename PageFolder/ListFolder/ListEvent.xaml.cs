@@ -88,6 +88,23 @@ namespace EventApp.PageFolder.ListFolder
                 mainWindow.OpenAddEventModal();
             }
         }
+
+
+        private void EditEvent_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button == null) return;
+
+            var selectedEvent = button.DataContext as ClassEvent;
+            if (selectedEvent == null) return;
+
+            WindowMain mainWindow = Window.GetWindow(this) as WindowMain;
+            if (mainWindow != null)
+            {
+                mainWindow.OpenEditEventModal(selectedEvent.IdEvent);
+            }
+        }
+
     }
 }
 

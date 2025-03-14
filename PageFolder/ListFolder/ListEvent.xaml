@@ -35,6 +35,10 @@
                         <Button Content="Список участников"
                                 Click="ViewParticipants_Click"
                                 Margin="0,5,0,0"/>
+                        <Button x:Name="EditEvent"
+                                Content="Изменить мероприятие" Click="EditEvent_Click"
+                                Background="Transparent" Foreground="White"
+                                BorderBrush="White" Padding="10,5"/>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

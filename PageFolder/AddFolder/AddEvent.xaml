@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:EventApp.PageFolder.AddFolder"
       mc:Ignorable="d" 
-      d:DesignHeight="500" d:DesignWidth="800"
+      d:DesignHeight="550" d:DesignWidth="800"
       Title="AddEvent" Background="#4A4A4A">
 
     <Grid Margin="20">
@@ -22,17 +22,22 @@
 
         <StackPanel Grid.Row="1" Margin="0,10">
             <TextBlock Text="Название:" Style="{StaticResource StandartText}" FontSize="14"/>
-            <TextBox x:Name="TitleTb" Margin="0,5" Style="{StaticResource CustomUnderlinedTextBox}"/>
+            <TextBox x:Name="TitleTb" Margin="0,5" Style="{StaticResource CustomUnderlinedTextBox}"  FontSize="14"/>
 
             <TextBlock Text="Описание:" Margin="0,10,0,0" Style="{StaticResource StandartText}" FontSize="14"/>
-            <TextBox x:Name="DescriptionTb" Margin="0,5" Height="80"
-                     Style="{StaticResource CustomUnderlinedTextBox}"/>
+            <TextBox x:Name="DescriptionTb" Margin="0,5" Height="60"
+                     Style="{StaticResource CustomUnderlinedTextBox}"  FontSize="14"/>
 
             <TextBlock Text="Дата начала:" Margin="0,10,0,0" Style="{StaticResource StandartText}" FontSize="14"/>
-            <DatePicker x:Name="StartDatePicker" Margin="0,5" Style="{StaticResource CustomCombinedUnderlinedDatePicker}"/>
+            <DatePicker x:Name="StartDatePicker" Margin="0,5" Style="{StaticResource CustomCombinedUnderlinedDatePicker}"  FontSize="14"/>
 
             <TextBlock Text="Дата окончания:" Margin="0,10,0,0" Style="{StaticResource StandartText}" FontSize="14"/>
-            <DatePicker x:Name="EndDatePicker" Margin="0,5" Style="{StaticResource CustomCombinedUnderlinedDatePicker}"/>
+            <DatePicker x:Name="EndDatePicker" Margin="0,5" Style="{StaticResource CustomCombinedUnderlinedDatePicker}" FontSize="14"/>
+            <TextBlock Text="Место мероприятия" Margin="0, 10, 0, 0" Style="{StaticResource StandartText}" FontSize="14"/>
+            <ComboBox x:Name="LocationCb" Margin="0, 10" Style="{StaticResource CustomUnderlinedComboBox}"
+                      DisplayMemberPath="LocationName"
+                      SelectedValuePath="IdLocation"
+                      SelectedItem="{Binding Locations}"/>
         </StackPanel>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
