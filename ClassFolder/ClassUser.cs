@@ -11,6 +11,9 @@ namespace EventApp.ClassFolder
         public string Email { get; set; }
         public string Phone { get; set; }
         public int IdTrainer { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public string Patronymic { get; set; }
     }
     public enum UserRole
     {

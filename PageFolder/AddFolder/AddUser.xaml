@@ -5,10 +5,11 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:EventApp.PageFolder.AddFolder"
       mc:Ignorable="d" 
-      d:DesignHeight="550" d:DesignWidth="800"
-      Title="AddUser" Background="#4A4A4A">
+      d:DesignHeight="850" d:DesignWidth="900"
+      MinWidth="900" MinHeight="650"
+      Title="Добавить пользователя" Background="#4A4A4A">
 
-    <Grid Margin="20">
+    <Grid Margin="30" >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -18,40 +19,41 @@
         <TextBlock Text="Добавить пользователя"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
-                   Style="{StaticResource TitleText}"/>
+                   Style="{StaticResource TitleText}" />
 
-        <StackPanel Grid.Row="1" Margin="0,10">
-            <TextBlock Text="Имя:" Style="{StaticResource StandartText}" FontSize="14"/>
-            <TextBox x:Name="FirstNameTb" Margin="0,5" Style="{StaticResource CustomUnderlinedTextBox}" FontSize="14"/>
+        <StackPanel Grid.Row="1" Margin="0,20">
+            <TextBlock Text="Имя:" Style="{StaticResource StandartText}" FontSize="16"/>
+            <TextBox x:Name="FirstNameTb" Margin="0,5" Style="{StaticResource CustomUnderlinedTextBox}" FontSize="16"/>
 
-            <TextBlock Text="Фамилия:" Margin="0,10,0,0" Style="{StaticResource StandartText}" FontSize="14"/>
-            <TextBox x:Name="LastNameTb" Margin="0,5" Style="{StaticResource CustomUnderlinedTextBox}" FontSize="14"/>
+            <TextBlock Text="Фамилия:" Margin="0,15,0,0" Style="{StaticResource StandartText}" FontSize="16"/>
+            <TextBox x:Name="LastNameTb" Margin="0,5" Style="{StaticResource CustomUnderlinedTextBox}" FontSize="16"/>
 
-            <TextBlock Text="Отчество:" Margin="0,10,0,0" Style="{StaticResource StandartText}" FontSize="14"/>
-            <TextBox x:Name="MiddleNameTb" Margin="0,5" Style="{StaticResource CustomUnderlinedTextBox}" FontSize="14"/>
+            <TextBlock Text="Отчество:" Margin="0,15,0,0" Style="{StaticResource StandartText}" FontSize="16"/>
+            <TextBox x:Name="MiddleNameTb" Margin="0,5" Style="{StaticResource CustomUnderlinedTextBox}" FontSize="16"/>
 
-            <TextBlock Text="Логин:" Margin="0,10,0,0" Style="{StaticResource StandartText}" FontSize="14"/>
-            <TextBox x:Name="LoginTb" Margin="0,5" Style="{StaticResource CustomUnderlinedTextBox}" FontSize="14"/>
+            <TextBlock Text="Логин:" Margin="0,15,0,0" Style="{StaticResource StandartText}" FontSize="16"/>
+            <TextBox x:Name="LoginTb" Margin="0,5" Style="{StaticResource CustomUnderlinedTextBox}" FontSize="16"/>
 
-            <TextBlock Text="Пароль:" Margin="0,10,0,0" Style="{StaticResource StandartText}" FontSize="14"/>
-            <PasswordBox x:Name="PasswordPb" Margin="0,5" Style="{StaticResource CustomUnderlinedPasswordBox}" FontSize="14"/>
+            <TextBlock Text="Пароль:" Margin="0,15,0,0" Style="{StaticResource StandartText}" FontSize="16"/>
+            <PasswordBox x:Name="PasswordPb" Margin="0,5" Style="{StaticResource CustomUnderlinedPasswordBox}" FontSize="16"/>
 
-            <TextBlock Text="Email:" Margin="0,10,0,0" Style="{StaticResource StandartText}" FontSize="14"/>
-            <TextBox x:Name="EmailTb" Margin="0,5" Style="{StaticResource CustomUnderlinedTextBox}" FontSize="14"/>
+            <TextBlock Text="Email:" Margin="0,15,0,0" Style="{StaticResource StandartText}" FontSize="16"/>
+            <TextBox x:Name="EmailTb" Margin="0,5" Style="{StaticResource CustomUnderlinedTextBox}" FontSize="16"/>
 
-            <TextBlock Text="Телефон:" Margin="0,10,0,0" Style="{StaticResource StandartText}" FontSize="14"/>
-            <TextBox x:Name="PhoneTb" Margin="0,5" Style="{StaticResource CustomUnderlinedTextBox}" FontSize="14"/>
+            <TextBlock Text="Телефон:" Margin="0,15,0,0" Style="{StaticResource StandartText}" FontSize="16"/>
+            <TextBox x:Name="PhoneTb" Margin="0,5" Style="{StaticResource CustomUnderlinedTextBox}" FontSize="16"/>
 
-            <TextBlock Text="Роль:" Margin="0,10,0,0" Style="{StaticResource StandartText}" FontSize="14"/>
+            <TextBlock Text="Роль:" Margin="0,15,0,0" Style="{StaticResource StandartText}" FontSize="16"/>
             <ComboBox x:Name="RoleCb" Margin="0,5" Style="{StaticResource CustomUnderlinedComboBox}"
                       DisplayMemberPath="RoleName"
                       SelectedValuePath="IdRole"
-                      SelectedItem="{Binding SelectedRole}"/>
+                      SelectedItem="{Binding SelectedRole}"
+                      FontSize="16"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Сохранить" Margin="0,0,10,0" Click="SaveButton_Click"/>
-            <Button Content="Отмена" Click="CancelButton_Click"/>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+            <Button Content="Сохранить" Margin="0,0,15,0" Click="SaveButton_Click" Width="120" Height="40" FontSize="16"/>
+            <Button Content="Отмена" Click="CancelButton_Click" Width="120" Height="40" FontSize="16"/>
         </StackPanel>
     </Grid>
 </Page>

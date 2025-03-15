@@ -26,11 +26,47 @@ namespace EventApp.PageFolder.AddFolder
         }
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            var contex = EventEntities.GetContext();
+            var context = EventEntities.GetContext();
+
             var user = new User
             {
                 Login = LoginTb.Text,
+                Password = PasswordPb.Password,
+                Email = EmailTb.Text,
+                Phone = PhoneTb.Text,
+                Name = FirstNameTb.Text,
+                Surname = LastNameTb.Text,
+                Patronymic = MiddleNameTb.Text,
+                IdRole = (int)RoleCb.SelectedValue,
+                StatusID = (int)ClassFolder.Statuses.Working
             };
+
+            context.User.Add(user);
+            context.SaveChanges();
+
+            // Добавляем пользователя в соответствующую таблицу
+            switch ((UserRole)user.IdRole)
+            {
+                case UserRole.Teacher:
+                    var trainer = new Trainers { UserId = user.IdUser };
+                    context.Trainers.Add(trainer);
+                    break;
+
+                case UserRole.Participant:
+                    var participant = new Participants { IdUser = user.IdUser };
+                    context.Participants.Add(participant);
+                    break;
+            }
+
+            context.SaveChanges();
+            MessageBox.Show("Пользователь успешно добавлен!");
+
+            // Закрываем модальное окно
+            WindowMain mainWindow = Window.GetWindow(this) as WindowMain;
+            if (mainWindow != null)
+            {
+                mainWindow.CloseModal();
+            }
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)

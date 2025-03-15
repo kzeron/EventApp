@@ -98,6 +98,10 @@
           <Property Name="Email" Type="nvarchar" MaxLength="80" />
           <Property Name="Phone" Type="nvarchar" MaxLength="20" />
           <Property Name="StatusID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="80" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="80" />
+          <Property Name="Patronymic" Type="nvarchar" MaxLength="80" />
+          <Property Name="Photo" Type="image" />
         </EntityType>
         <Association Name="FK_Events_Locations">
           <End Role="Locations" Type="Self.Locations" Multiplicity="0..1" />
@@ -433,6 +437,10 @@
           <Property Name="Email" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
           <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="StatusID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="Surname" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="Patronymic" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="Notifications" Relationship="Self.FK_Notifications_User" FromRole="User" ToRole="Notifications" />
           <NavigationProperty Name="Participants" Relationship="Self.FK_Participants_User" FromRole="User" ToRole="Participants" />
           <NavigationProperty Name="Role" Relationship="Self.FK_User_Role" FromRole="User" ToRole="Role" />
@@ -775,6 +783,10 @@
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />
                 <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

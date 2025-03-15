@@ -33,6 +33,17 @@ namespace EventApp.WindowFolder
 
             AddEventFrame.Navigate(new AddEvent());
         }
+        public void OpenAddUserModal()
+        {
+            OverlayGrid.Visibility = Visibility.Visible;
+
+            // Блокируем кнопки
+            UsersButton.IsEnabled = false;
+            EventsButtonManage.IsEnabled = false;
+            AddEventButton.IsEnabled = false;
+
+            AddEventFrame.Navigate(new AddUser());
+        }
         public void OpenEditEventModal(int eventId)
         {
             OverlayGrid.Visibility = Visibility.Visible;

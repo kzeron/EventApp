@@ -9,7 +9,18 @@
       Title="ListUser">
 
     <Grid>
-        <ListBox x:Name="UsersListBox" Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!-- Кнопка «Добавить мероприятие» в верхней части -->
+        <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Right" Margin="10">
+            <Button x:Name="AddUserButton" Content="Добавить пользователя" 
+                    Click="AddUserButton_Click"
+                    Background="Transparent" Foreground="White"
+                    BorderBrush="White" Padding="10,5"/>
+        </StackPanel>
+        <ListBox x:Name="UsersListBox" Margin="10" Grid.Row="1">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical">
