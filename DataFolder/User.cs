@@ -39,7 +39,7 @@ namespace EventApp.DataFolder
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Participants> Participants { get; set; }
         public virtual Role Role { get; set; }
-        public virtual Statuses Statuses { get; set; }
+        public virtual Status Status { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Trainers> Trainers { get; set; }
     }

@@ -157,7 +157,7 @@
     <Compile Include="DataFolder\sp_helpdiagrams_Result.cs">
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataFolder\Statuses.cs">
+    <Compile Include="DataFolder\Status.cs">
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="DataFolder\sysdiagrams.cs">

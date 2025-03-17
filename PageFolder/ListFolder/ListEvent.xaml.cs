@@ -22,7 +22,7 @@ namespace EventApp.PageFolder.ListFolder
             _events = new ObservableCollection<ClassEvent>();
             LoadEvents();
         }
-        private void LoadEvents()
+        public void LoadEvents()
         {
             var context = EventEntities.GetContext();
             var eventData = (from ev in context.Events

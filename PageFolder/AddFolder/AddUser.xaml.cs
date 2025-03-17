@@ -4,19 +4,9 @@ using EventApp.WindowFolder;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace EventApp.PageFolder.AddFolder
 {
-    /// <summary>
-    /// Логика взаимодействия для AddUser.xaml
-    /// </summary>
     public partial class AddUser : Page
     {
         public AddUser()
@@ -24,59 +14,96 @@ namespace EventApp.PageFolder.AddFolder
             InitializeComponent();
             RoleCb.ItemsSource = EventEntities.GetContext().Role.ToList();
         }
+
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            var context = EventEntities.GetContext();
+            string login = LoginTb.Text.Trim();
+            string password = PasswordPb.Password.Trim();
+            string email = EmailTb.Text.Trim();
+            string phone = PhoneTb.Text.Trim();
+            string firstName = FirstNameTb.Text.Trim();
+            string lastName = LastNameTb.Text.Trim();
+            string middleName = MiddleNameTb.Text.Trim();
+            int? roleId = RoleCb.SelectedValue as int?;
 
-            var user = new User
+            if (string.IsNullOrWhiteSpace(login))
             {
-                Login = LoginTb.Text,
-                Password = PasswordPb.Password,
-                Email = EmailTb.Text,
-                Phone = PhoneTb.Text,
-                Name = FirstNameTb.Text,
-                Surname = LastNameTb.Text,
-                Patronymic = MiddleNameTb.Text,
-                IdRole = (int)RoleCb.SelectedValue,
-                StatusID = (int)ClassFolder.Statuses.Working
-            };
-
-            context.User.Add(user);
-            context.SaveChanges();
-
-            // Добавляем пользователя в соответствующую таблицу
-            switch ((UserRole)user.IdRole)
-            {
-                case UserRole.Teacher:
-                    var trainer = new Trainers { UserId = user.IdUser };
-                    context.Trainers.Add(trainer);
-                    break;
-
-                case UserRole.Participant:
-                    var participant = new Participants { IdUser = user.IdUser };
-                    context.Participants.Add(participant);
-                    break;
+                MBClass.ErrorMB("Введите логин.");
             }
-
-            context.SaveChanges();
-            MessageBox.Show("Пользователь успешно добавлен!");
-
-            // Закрываем модальное окно
-            WindowMain mainWindow = Window.GetWindow(this) as WindowMain;
-            if (mainWindow != null)
+            else if (string.IsNullOrWhiteSpace(password))
             {
-                mainWindow.CloseModal();
+                MBClass.ErrorMB("Введите пароль.");
+            }
+            else if (string.IsNullOrWhiteSpace(email))
+            {
+                MBClass.ErrorMB("Введите email.");
+            }
+            else if (!ClassDataValidator.IsEmailValid(email))
+            {
+                MBClass.ErrorMB("Некорректный email. Допустимые домены: gmail.com, yandex.ru, mail.ru.");
+            }
+            else if (string.IsNullOrWhiteSpace(phone))
+            {
+                MBClass.ErrorMB("Введите номер телефона.");
+            }
+            else if (!ClassDataValidator.IsPhoneNumberValid(phone))
+            {
+                MBClass.ErrorMB("Некорректный номер телефона.");
+            }
+            else if (string.IsNullOrWhiteSpace(firstName))
+            {
+                MBClass.ErrorMB("Введите имя.");
+            }
+            else if (string.IsNullOrWhiteSpace(lastName))
+            {
+                MBClass.ErrorMB("Введите фамилию.");
+            }
+            else if (!roleId.HasValue)
+            {
+                MBClass.ErrorMB("Выберите роль пользователя.");
+            }
+            else
+            {
+                var context = EventEntities.GetContext();
+
+                var user = new User
+                {
+                    Login = login,
+                    Password = password,
+                    Email = email,
+                    Phone = phone,
+                    Name = firstName,
+                    Surname = lastName,
+                    Patronymic = middleName,
+                    IdRole = roleId.Value,
+                    StatusID = (int)Statuses.Working
+                };
+
+                context.User.Add(user);
+                context.SaveChanges();
+
+                switch ((UserRole)user.IdRole)
+                {
+                    case UserRole.Teacher:
+                        context.Trainers.Add(new Trainers { UserId = user.IdUser });
+                        break;
+                    case UserRole.Participant:
+                        context.Participants.Add(new Participants { IdUser = user.IdUser });
+                        break;
+                }
+
+                context.SaveChanges();
+                MBClass.InformationMB("Пользователь успешно добавлен!");
+
+                WindowMain mainWindow = Window.GetWindow(this) as WindowMain;
+                mainWindow?.CloseModal();
             }
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            // Закрываем модальное окно
             WindowMain mainWindow = Window.GetWindow(this) as WindowMain;
-            if (mainWindow != null)
-            {
-                mainWindow.CloseModal();
-            }
+            mainWindow?.CloseModal();
         }
     }
 }

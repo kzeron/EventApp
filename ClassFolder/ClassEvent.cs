@@ -23,4 +23,12 @@ namespace EventApp.ClassFolder
         public int? Capacity { get; set; }
         public int CurrentParticipants { get; set; }
     }
+    public enum EventStatuses
+    {
+        Collecting = 6,
+        Start = 7,
+        Passed = 8,
+        Ended = 9,
+        Canceled = 10
+    }
 }

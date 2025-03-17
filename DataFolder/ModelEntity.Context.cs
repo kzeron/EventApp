@@ -33,7 +33,7 @@ namespace EventApp.DataFolder
         public virtual DbSet<Notifications> Notifications { get; set; }
         public virtual DbSet<Participants> Participants { get; set; }
         public virtual DbSet<Role> Role { get; set; }
-        public virtual DbSet<Statuses> Statuses { get; set; }
+        public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Trainers> Trainers { get; set; }
         public virtual DbSet<User> User { get; set; }

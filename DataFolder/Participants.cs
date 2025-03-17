@@ -21,7 +21,7 @@ namespace EventApp.DataFolder
         public Nullable<System.DateTime> RegistrationDate { get; set; }
     
         public virtual Events Events { get; set; }
-        public virtual Statuses Statuses { get; set; }
+        public virtual Status Status { get; set; }
         public virtual User User { get; set; }
     }
 }

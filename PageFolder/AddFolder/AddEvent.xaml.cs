@@ -43,6 +43,7 @@ namespace EventApp.PageFolder.AddFolder
                DateStart = startDate,
                EndDate = endDate,
                LocationId = selectedLocation
+
                // Здесь можно указать LocationId, OrganizerId, если нужно
             };
 

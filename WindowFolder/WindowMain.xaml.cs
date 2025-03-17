@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using EventApp.PageFolder.EditFolder;
+using EventApp.DataFolder;
 
 namespace EventApp.WindowFolder
 {
@@ -20,7 +21,7 @@ namespace EventApp.WindowFolder
             InitializeComponent();
             MainFrame.Content = thisPage;
             _userRole =(UserRole)ClassSaveSassion.LoadSession().IdRole;
-            //SetupNavigation();
+            SetupNavigation();
         }
         public void OpenAddEventModal()
         {
@@ -29,7 +30,7 @@ namespace EventApp.WindowFolder
             // Блокируем кнопки
             UsersButton.IsEnabled = false;
             EventsButtonManage.IsEnabled = false;
-            AddEventButton.IsEnabled = false;
+            ListEventButton.IsEnabled = false;
 
             AddEventFrame.Navigate(new AddEvent());
         }
@@ -40,7 +41,7 @@ namespace EventApp.WindowFolder
             // Блокируем кнопки
             UsersButton.IsEnabled = false;
             EventsButtonManage.IsEnabled = false;
-            AddEventButton.IsEnabled = false;
+            ListEventButton.IsEnabled = false;
 
             AddEventFrame.Navigate(new AddUser());
         }
@@ -51,9 +52,21 @@ namespace EventApp.WindowFolder
             // Блокируем кнопки
             UsersButton.IsEnabled = false;
             EventsButtonManage.IsEnabled = false;
-            AddEventButton.IsEnabled = false;
+            ListEventButton.IsEnabled = false;
 
             AddEventFrame.Navigate(new EditEvent(eventId));
+        }
+
+        public void OpenEditUserModal(int userId)
+        {
+            OverlayGrid.Visibility = Visibility.Visible;
+
+            // Блокируем кнопки
+            UsersButton.IsEnabled = false;
+            EventsButtonManage.IsEnabled = false;
+            ListEventButton.IsEnabled = false;
+
+            AddEventFrame.Navigate(new EditUser(userId));
         }
 
 
@@ -62,6 +75,16 @@ namespace EventApp.WindowFolder
             if (_userRole == UserRole.Participant)
             {
                 UsersButton.Visibility = Visibility.Collapsed;
+                EventsButtonManage.Visibility = Visibility.Collapsed;
+            }
+            else if(_userRole == UserRole.Admin)
+            {
+                EventsButtonManage.Visibility = Visibility.Collapsed;
+                ListEventButton.Visibility = Visibility.Collapsed;
+            }
+            else if(_userRole == UserRole.Teacher)
+            {
+                UsersButton.Visibility= Visibility.Collapsed;
             }
             // Добавьте проверки для других ролей
         }
@@ -75,7 +98,15 @@ namespace EventApp.WindowFolder
             // Разблокируем кнопки
             UsersButton.IsEnabled = true;
             EventsButtonManage.IsEnabled = true;
-            AddEventButton.IsEnabled = true;
+            ListEventButton.IsEnabled = true;
+            if (MainFrame.Content is ListEvent listEventPage)
+            {
+                listEventPage.LoadEvents();
+            }
+            else if(MainFrame.Content is ListUser listUserPage)
+            {
+                listUserPage.LoadUsers();
+            }
         }
 
         private void ShowUsersPage(object sender, RoutedEventArgs e)

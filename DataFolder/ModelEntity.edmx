@@ -63,7 +63,7 @@
           <Property Name="IdRole" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="NameRole" Type="nvarchar" MaxLength="120" Nullable="false" />
         </EntityType>
-        <EntityType Name="Statuses">
+        <EntityType Name="Status">
           <Key>
             <PropertyRef Name="IdStatus" />
           </Key>
@@ -176,10 +176,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Participants_Statuses">
-          <End Role="Statuses" Type="Self.Statuses" Multiplicity="0..1" />
+          <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
           <End Role="Participants" Type="Self.Participants" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Statuses">
+            <Principal Role="Status">
               <PropertyRef Name="IdStatus" />
             </Principal>
             <Dependent Role="Participants">
@@ -224,10 +224,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_User_Statuses">
-          <End Role="Statuses" Type="Self.Statuses" Multiplicity="1" />
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
           <End Role="User" Type="Self.User" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Statuses">
+            <Principal Role="Status">
               <PropertyRef Name="IdStatus" />
             </Principal>
             <Dependent Role="User">
@@ -273,7 +273,7 @@
           <EntitySet Name="Notifications" EntityType="Self.Notifications" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Participants" EntityType="Self.Participants" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Statuses" EntityType="Self.Statuses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Trainers" EntityType="Self.Trainers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
@@ -302,7 +302,7 @@
             <End Role="Participants" EntitySet="Participants" />
           </AssociationSet>
           <AssociationSet Name="FK_Participants_Statuses" Association="Self.FK_Participants_Statuses">
-            <End Role="Statuses" EntitySet="Statuses" />
+            <End Role="Status" EntitySet="Status" />
             <End Role="Participants" EntitySet="Participants" />
           </AssociationSet>
           <AssociationSet Name="FK_Participants_User" Association="Self.FK_Participants_User">
@@ -318,7 +318,7 @@
             <End Role="User" EntitySet="User" />
           </AssociationSet>
           <AssociationSet Name="FK_User_Statuses" Association="Self.FK_User_Statuses">
-            <End Role="Statuses" EntitySet="Statuses" />
+            <End Role="Status" EntitySet="Status" />
             <End Role="User" EntitySet="User" />
           </AssociationSet>
         </EntityContainer>
@@ -387,7 +387,7 @@
           <Property Name="IdStatus" Type="Int32" />
           <Property Name="RegistrationDate" Type="DateTime" Precision="0" />
           <NavigationProperty Name="Events" Relationship="Self.FK_Participants_Events" FromRole="Participants" ToRole="Events" />
-          <NavigationProperty Name="Statuses" Relationship="Self.FK_Participants_Statuses" FromRole="Participants" ToRole="Statuses" />
+          <NavigationProperty Name="Status" Relationship="Self.FK_Participants_Statuses" FromRole="Participants" ToRole="Status" />
           <NavigationProperty Name="User" Relationship="Self.FK_Participants_User" FromRole="Participants" ToRole="User" />
         </EntityType>
         <EntityType Name="Role">
@@ -398,14 +398,14 @@
           <Property Name="NameRole" Type="String" MaxLength="120" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="User" Relationship="Self.FK_User_Role" FromRole="Role" ToRole="User" />
         </EntityType>
-        <EntityType Name="Statuses">
+        <EntityType Name="Status">
           <Key>
             <PropertyRef Name="IdStatus" />
           </Key>
           <Property Name="IdStatus" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NameStatus" Type="String" MaxLength="90" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Participants" Relationship="Self.FK_Participants_Statuses" FromRole="Statuses" ToRole="Participants" />
-          <NavigationProperty Name="User" Relationship="Self.FK_User_Statuses" FromRole="Statuses" ToRole="User" />
+          <NavigationProperty Name="Participants" Relationship="Self.FK_Participants_Statuses" FromRole="Status" ToRole="Participants" />
+          <NavigationProperty Name="User" Relationship="Self.FK_User_Statuses" FromRole="Status" ToRole="User" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -444,7 +444,7 @@
           <NavigationProperty Name="Notifications" Relationship="Self.FK_Notifications_User" FromRole="User" ToRole="Notifications" />
           <NavigationProperty Name="Participants" Relationship="Self.FK_Participants_User" FromRole="User" ToRole="Participants" />
           <NavigationProperty Name="Role" Relationship="Self.FK_User_Role" FromRole="User" ToRole="Role" />
-          <NavigationProperty Name="Statuses" Relationship="Self.FK_User_Statuses" FromRole="User" ToRole="Statuses" />
+          <NavigationProperty Name="Status" Relationship="Self.FK_User_Statuses" FromRole="User" ToRole="Status" />
           <NavigationProperty Name="Trainers" Relationship="Self.FK_Trainers_User" FromRole="User" ToRole="Trainers" />
         </EntityType>
         <Association Name="FK_Events_Locations">
@@ -520,10 +520,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Participants_Statuses">
-          <End Role="Statuses" Type="Self.Statuses" Multiplicity="0..1" />
+          <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
           <End Role="Participants" Type="Self.Participants" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Statuses">
+            <Principal Role="Status">
               <PropertyRef Name="IdStatus" />
             </Principal>
             <Dependent Role="Participants">
@@ -556,10 +556,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_User_Statuses">
-          <End Role="Statuses" Type="Self.Statuses" Multiplicity="1" />
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
           <End Role="User" Type="Self.User" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Statuses">
+            <Principal Role="Status">
               <PropertyRef Name="IdStatus" />
             </Principal>
             <Dependent Role="User">
@@ -586,7 +586,7 @@
           <EntitySet Name="Notifications" EntityType="Self.Notifications" />
           <EntitySet Name="Participants" EntityType="Self.Participants" />
           <EntitySet Name="Role" EntityType="Self.Role" />
-          <EntitySet Name="Statuses" EntityType="Self.Statuses" />
+          <EntitySet Name="Status" EntityType="Self.Status" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="Trainers" EntityType="Self.Trainers" />
           <EntitySet Name="User" EntityType="Self.User" />
@@ -615,7 +615,7 @@
             <End Role="Notifications" EntitySet="Notifications" />
           </AssociationSet>
           <AssociationSet Name="FK_Participants_Statuses" Association="Self.FK_Participants_Statuses">
-            <End Role="Statuses" EntitySet="Statuses" />
+            <End Role="Status" EntitySet="Status" />
             <End Role="Participants" EntitySet="Participants" />
           </AssociationSet>
           <AssociationSet Name="FK_Participants_User" Association="Self.FK_Participants_User">
@@ -627,7 +627,7 @@
             <End Role="User" EntitySet="User" />
           </AssociationSet>
           <AssociationSet Name="FK_User_Statuses" Association="Self.FK_User_Statuses">
-            <End Role="Statuses" EntitySet="Statuses" />
+            <End Role="Status" EntitySet="Status" />
             <End Role="User" EntitySet="User" />
           </AssociationSet>
           <AssociationSet Name="FK_Trainers_User" Association="Self.FK_Trainers_User">
@@ -746,9 +746,9 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Statuses">
-            <EntityTypeMapping TypeName="EventModel.Statuses">
-              <MappingFragment StoreEntitySet="Statuses">
+          <EntitySetMapping Name="Status">
+            <EntityTypeMapping TypeName="EventModel.Status">
+              <MappingFragment StoreEntitySet="Status">
                 <ScalarProperty Name="IdStatus" ColumnName="IdStatus" />
                 <ScalarProperty Name="NameStatus" ColumnName="NameStatus" />
               </MappingFragment>

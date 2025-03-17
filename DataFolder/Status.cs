@@ -12,10 +12,10 @@ namespace EventApp.DataFolder
     using System;
     using System.Collections.Generic;
     
-    public partial class Statuses
+    public partial class Status
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Statuses()
+        public Status()
         {
             this.Participants = new HashSet<Participants>();
             this.User = new HashSet<User>();

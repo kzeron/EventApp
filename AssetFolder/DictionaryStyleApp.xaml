@@ -396,6 +396,7 @@
         <Setter Property="BorderBrush" Value="LightGray"/>
         <!-- Светло-серый подчеркивающий цвет -->
         <Setter Property="materialDesign:HintAssist.Foreground" Value="LightGray"/>
+        <Setter Property="materialDesign:HintAssist.Background" Value="#4A4A4A"/>
         <!-- Светло-серый хинт -->
         <Setter Property="FontSize" Value="16"/>
 
