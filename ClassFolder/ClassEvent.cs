@@ -15,6 +15,7 @@ namespace EventApp.ClassFolder
         public int EventTrainerID { get; set; }
         public int EventID { get; set; }
         public int TrainerID { get; set; }
+        public int? StatusId { get; set; }
         public int UserId { get; set; }
         public int IdEvent { get; set; }
         public string LocationName { get; set; }

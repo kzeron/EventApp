@@ -12,14 +12,16 @@ namespace EventApp.PageFolder.ListFolder
 {
     public partial class ListUser : Page
     {
-        public ObservableCollection<ClassUser> _users;
+        private ObservableCollection<ClassUser> _users;
+        private ObservableCollection<ClassUser> _filteredUsers;
 
         public ListUser()
         {
             InitializeComponent();
             _users = new ObservableCollection<ClassUser>();
+            _filteredUsers = new ObservableCollection<ClassUser>();
             LoadUsers();
-            UsersListBox.ItemsSource = _users;
+            UsersListBox.ItemsSource = _filteredUsers;
         }
 
         public void LoadUsers()
@@ -41,7 +43,7 @@ namespace EventApp.PageFolder.ListFolder
                                  RoleId = role != null ? role.IdRole : 0,
                                  RoleName = role != null ? role.NameRole : null,
                                  StatusId = status != null ? status.IdStatus : 0,
-                                 StatusName = status != null ? status.NameStatus : null, // Получаем название статуса
+                                 StatusName = status != null ? status.NameStatus : null,
                                  user.Email,
                                  user.Phone,
                              }).OrderBy(u => u.IdUser).ToList();
@@ -60,12 +62,34 @@ namespace EventApp.PageFolder.ListFolder
                     IDRole = user.RoleId,
                     Role = (UserRole)user.RoleId,
                     Statuses = (Statuses)user.StatusId,
-                    StatusName = user.StatusName, // Заполняем StatusName
+                    StatusName = user.StatusName,
                     Email = user.Email,
                     Phone = user.Phone
                 });
             }
-            UsersListBox.ItemsSource = _users;
+
+            _filteredUsers = new ObservableCollection<ClassUser>(_users);
+            UsersListBox.ItemsSource = _filteredUsers;
+        }
+
+        private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var searchText = SearchTextBox.Text.ToLower();
+
+            _filteredUsers.Clear();
+
+            foreach (var user in _users.Where(u =>
+                (u.Login?.ToLower().Contains(searchText) ?? false) ||
+                (u.Email?.ToLower().Contains(searchText) ?? false) ||
+                (u.Phone?.Contains(searchText) ?? false) ||
+                (u.Name?.ToLower().Contains(searchText) ?? false) ||
+                (u.Surname?.ToLower().Contains(searchText) ?? false) ||
+                (u.Patronymic?.ToLower().Contains(searchText) ?? false) ||
+                (u.StatusName?.ToLower().Contains(searchText) ?? false)
+            ))
+            {
+                _filteredUsers.Add(user);
+            }
         }
 
         private void AddUserButton_Click(object sender, RoutedEventArgs e)

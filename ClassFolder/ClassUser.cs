@@ -1,4 +1,5 @@
-﻿
+﻿using System.Windows.Media.Imaging;
+
 namespace EventApp.ClassFolder
 {
     public class ClassUser
@@ -16,6 +17,7 @@ namespace EventApp.ClassFolder
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Patronymic { get; set; }
+        public BitmapImage Photo {  get; set; } 
     }
     public enum UserRole
     {

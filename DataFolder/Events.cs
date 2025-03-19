@@ -29,8 +29,10 @@ namespace EventApp.DataFolder
         public Nullable<System.DateTime> EndDate { get; set; }
         public Nullable<int> LocationId { get; set; }
         public Nullable<int> OrganizerId { get; set; }
+        public Nullable<int> StatusId { get; set; }
     
         public virtual Locations Locations { get; set; }
+        public virtual Status Status { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EventTrainers> EventTrainers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

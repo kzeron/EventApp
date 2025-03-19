@@ -86,9 +86,13 @@ namespace EventApp.PageFolder.AddFolder
                 {
                     case UserRole.Teacher:
                         context.Trainers.Add(new Trainers { UserId = user.IdUser });
+
                         break;
                     case UserRole.Participant:
-                        context.Participants.Add(new Participants { IdUser = user.IdUser });
+                        context.Participants.Add(new Participants 
+                        {
+                            IdUser = user.IdUser,
+                        });
                         break;
                 }
 

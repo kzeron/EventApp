@@ -16,6 +16,7 @@
           <Property Name="EndDate" Type="date" />
           <Property Name="LocationId" Type="int" />
           <Property Name="OrganizerId" Type="int" />
+          <Property Name="StatusId" Type="int" />
         </EntityType>
         <EntityType Name="EventTrainers">
           <Key>
@@ -50,7 +51,7 @@
           <Key>
             <PropertyRef Name="IdParticipants" />
           </Key>
-          <Property Name="IdParticipants" Type="int" Nullable="false" />
+          <Property Name="IdParticipants" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdEvent" Type="int" />
           <Property Name="IdUser" Type="int" />
           <Property Name="IdStatus" Type="int" />
@@ -112,6 +113,18 @@
             </Principal>
             <Dependent Role="Events">
               <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Events_Status">
+          <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
+          <End Role="Events" Type="Self.Events" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="IdStatus" />
+            </Principal>
+            <Dependent Role="Events">
+              <PropertyRef Name="StatusId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -281,6 +294,10 @@
             <End Role="Locations" EntitySet="Locations" />
             <End Role="Events" EntitySet="Events" />
           </AssociationSet>
+          <AssociationSet Name="FK_Events_Status" Association="Self.FK_Events_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Events" EntitySet="Events" />
+          </AssociationSet>
           <AssociationSet Name="FK_EventTrainers_Events" Association="Self.FK_EventTrainers_Events">
             <End Role="Events" EntitySet="Events" />
             <End Role="EventTrainers" EntitySet="EventTrainers" />
@@ -338,7 +355,9 @@
           <Property Name="EndDate" Type="DateTime" Precision="0" />
           <Property Name="LocationId" Type="Int32" />
           <Property Name="OrganizerId" Type="Int32" />
+          <Property Name="StatusId" Type="Int32" />
           <NavigationProperty Name="Locations" Relationship="Self.FK_Events_Locations" FromRole="Events" ToRole="Locations" />
+          <NavigationProperty Name="Status" Relationship="Self.FK_Events_Status" FromRole="Events" ToRole="Status" />
           <NavigationProperty Name="EventTrainers" Relationship="Self.FK_EventTrainers_Events" FromRole="Events" ToRole="EventTrainers" />
           <NavigationProperty Name="EventTrainers1" Relationship="Self.FK_EventTrainers_Events1" FromRole="Events" ToRole="EventTrainers" />
           <NavigationProperty Name="Participants" Relationship="Self.FK_Participants_Events" FromRole="Events" ToRole="Participants" />
@@ -381,7 +400,7 @@
           <Key>
             <PropertyRef Name="IdParticipants" />
           </Key>
-          <Property Name="IdParticipants" Type="Int32" Nullable="false" />
+          <Property Name="IdParticipants" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdEvent" Type="Int32" />
           <Property Name="IdUser" Type="Int32" />
           <Property Name="IdStatus" Type="Int32" />
@@ -404,6 +423,7 @@
           </Key>
           <Property Name="IdStatus" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NameStatus" Type="String" MaxLength="90" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Events" Relationship="Self.FK_Events_Status" FromRole="Status" ToRole="Events" />
           <NavigationProperty Name="Participants" Relationship="Self.FK_Participants_Statuses" FromRole="Status" ToRole="Participants" />
           <NavigationProperty Name="User" Relationship="Self.FK_User_Statuses" FromRole="Status" ToRole="User" />
         </EntityType>
@@ -456,6 +476,18 @@
             </Principal>
             <Dependent Role="Events">
               <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Events_Status">
+          <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
+          <End Role="Events" Type="Self.Events" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="IdStatus" />
+            </Principal>
+            <Dependent Role="Events">
+              <PropertyRef Name="StatusId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -594,6 +626,10 @@
             <End Role="Locations" EntitySet="Locations" />
             <End Role="Events" EntitySet="Events" />
           </AssociationSet>
+          <AssociationSet Name="FK_Events_Status" Association="Self.FK_Events_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Events" EntitySet="Events" />
+          </AssociationSet>
           <AssociationSet Name="FK_EventTrainers_Events" Association="Self.FK_EventTrainers_Events">
             <End Role="Events" EntitySet="Events" />
             <End Role="EventTrainers" EntitySet="EventTrainers" />
@@ -692,6 +728,7 @@
                 <ScalarProperty Name="EndDate" ColumnName="EndDate" />
                 <ScalarProperty Name="LocationId" ColumnName="LocationId" />
                 <ScalarProperty Name="OrganizerId" ColumnName="OrganizerId" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

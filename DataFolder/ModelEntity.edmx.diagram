@@ -4,18 +4,19 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="0043c9ffbef84fb99685bd9324eb4079" Name="Diagram1">
-        <EntityTypeShape EntityType="EventModel.Events" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventModel.EventTrainers" Width="1.5" PointX="10.5" PointY="7" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventModel.Locations" Width="1.5" PointX="1.5" PointY="9.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventModel.Notifications" Width="1.5" PointX="8.25" PointY="4" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventModel.Participants" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventModel.Role" Width="1.5" PointX="3.75" PointY="2.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventModel.Status" Width="1.5" PointX="0.75" PointY="5.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventModel.sysdiagrams" Width="1.5" PointX="3.75" PointY="9.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventModel.Trainers" Width="1.5" PointX="8.25" PointY="7.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventModel.User" Width="1.5" PointX="6" PointY="4.5" IsExpanded="true" />
+      <Diagram DiagramId="fe9f17cd48c545e7898fd69ae3daf032" Name="Diagram1">
+        <EntityTypeShape EntityType="EventModel.Events" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventModel.EventTrainers" Width="1.5" PointX="10.5" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventModel.Locations" Width="1.5" PointX="0.75" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventModel.Notifications" Width="1.5" PointX="8.25" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventModel.Participants" Width="1.5" PointX="11.25" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventModel.Role" Width="1.5" PointX="3.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventModel.Status" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventModel.Trainers" Width="1.5" PointX="8.25" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventModel.User" Width="1.5" PointX="6" PointY="4.875" IsExpanded="true" />
         <AssociationConnector Association="EventModel.FK_Events_Locations" ManuallyRouted="false" />
+        <AssociationConnector Association="EventModel.FK_Events_Status" ManuallyRouted="false" />
         <AssociationConnector Association="EventModel.FK_EventTrainers_Events" ManuallyRouted="false" />
         <AssociationConnector Association="EventModel.FK_EventTrainers_Events1" ManuallyRouted="false" />
         <AssociationConnector Association="EventModel.FK_Participants_Events" ManuallyRouted="false" />

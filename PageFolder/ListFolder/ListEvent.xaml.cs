@@ -2,6 +2,7 @@
 using EventApp.DataFolder;
 using EventApp.PageFolder.AddFolder;
 using EventApp.WindowFolder;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -25,10 +26,27 @@ namespace EventApp.PageFolder.ListFolder
         public void LoadEvents()
         {
             var context = EventEntities.GetContext();
+            var currentDate = DateTime.Now;
+
+            var eventsToUpdate = context.Events
+                .Where(ev => ev.EndDate != null && ev.EndDate < currentDate && ev.StatusId != (int)EventStatuses.Passed)
+                .ToList();
+
+            // Обновляем статус мероприятий, если они завершились
+            if (eventsToUpdate.Any())
+            {
+                foreach (var ev in eventsToUpdate)
+                {
+                    ev.StatusId = (int)EventStatuses.Passed;
+                }
+                context.SaveChanges(); // Сохраняем изменения в базе данных
+            }
+
             var eventData = (from ev in context.Events
                              join loc in context.Locations
-                                  on ev.LocationId equals loc.IdLocation into locGroup
+                             on ev.LocationId equals loc.IdLocation into locGroup
                              from loc in locGroup.DefaultIfEmpty()
+                             let participantCount = context.Participants.Count(p => p.IdEvent == ev.IdEvent)
                              select new
                              {
                                  ev.IdEvent,
@@ -41,12 +59,14 @@ namespace EventApp.PageFolder.ListFolder
                                  address = loc != null ? loc.Address : null,
                                  loc.NumberCab,
                                  capacity = loc != null ? loc.Capacity : (int?)null,
-                                 ev.OrganizerId
-                             })
-                            .OrderBy(e => e.IdEvent)
-                            .ToList();
+                                 ev.OrganizerId,
+                                 participantCount,
+                                 ev.StatusId
+                             }).OrderBy(e => e.IdEvent)
+                             .ToList();
 
             _events.Clear();
+
             foreach (var item in eventData)
             {
                 _events.Add(new ClassEvent
@@ -61,9 +81,12 @@ namespace EventApp.PageFolder.ListFolder
                     Address = item.address,
                     NumberCab = item.NumberCab,
                     Capacity = item.capacity,
-                    OrganizerId = item.OrganizerId
+                    OrganizerId = item.OrganizerId,
+                    CurrentParticipants = item.participantCount,
+                    StatusId = item.StatusId
                 });
             }
+
             EventsListBox.ItemsSource = _events;
         }
 
@@ -103,6 +126,19 @@ namespace EventApp.PageFolder.ListFolder
             {
                 mainWindow.OpenEditEventModal(selectedEvent.IdEvent);
             }
+        }
+        private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string searchText = SearchTextBox.Text.ToLower();
+
+            var filteredEvents = _events.Where(ev =>
+                ev.Title.ToLower().Contains(searchText) ||
+                ev.Description.ToLower().Contains(searchText) ||
+                (ev.LocationName != null && ev.LocationName.ToLower().Contains(searchText)) ||
+                ev.DateStart?.ToString("dd.MM.yyyy").Contains(searchText) == true // Проверяем на null
+            ).ToList();
+
+            EventsListBox.ItemsSource = new ObservableCollection<ClassEvent>(filteredEvents);
         }
 
     }
