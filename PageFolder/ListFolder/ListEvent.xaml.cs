@@ -140,7 +140,67 @@ namespace EventApp.PageFolder.ListFolder
 
             EventsListBox.ItemsSource = new ObservableCollection<ClassEvent>(filteredEvents);
         }
+        private void MenuItemEdit_Click(object sender, RoutedEventArgs e)
+        {
+            var menuItem = sender as MenuItem;
+            var contextMenu = menuItem?.Parent as ContextMenu;
+            var border = contextMenu?.PlacementTarget as Border;
+            var selectedEvent = border?.DataContext as ClassEvent;
 
+            if (selectedEvent == null) return;
+
+            if (selectedEvent.StatusId == (int)EventStatuses.Passed)
+            {
+                MessageBox.Show("Нельзя изменить прошедшее мероприятие.", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            WindowMain mainWindow = Window.GetWindow(this) as WindowMain;
+            if (mainWindow != null)
+            {
+                mainWindow.OpenEditEventModal(selectedEvent.IdEvent);
+            }
+        }
+
+        private void MenuItemDelete_Click(object sender, RoutedEventArgs e)
+        {
+            var menuItem = sender as MenuItem;
+            var contextMenu = menuItem?.Parent as ContextMenu;
+            var border = contextMenu?.PlacementTarget as Border;
+            var selectedEvent = border?.DataContext as ClassEvent;
+
+            if (selectedEvent == null) return;
+
+            if (selectedEvent.StatusId == (int)EventStatuses.Passed)
+            {
+                MessageBox.Show("Нельзя удалить прошедшее мероприятие.", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // Добавьте код для удаления мероприятия
+            using (var context = new EventEntities())
+            {
+                var eventToDelete = context.Events.Find(selectedEvent.IdEvent);
+
+                if (eventToDelete != null)
+                {
+                    context.Events.Remove(eventToDelete);
+                    context.SaveChanges();
+                    LoadEvents(); // Перезагрузите список мероприятий
+                }
+            }
+        }
+        private void MenuItemParticipants_Click(object sender, RoutedEventArgs e)
+        {
+            var menuItem = sender as MenuItem;
+            var contextMenu = menuItem?.Parent as ContextMenu;
+            var border = contextMenu?.PlacementTarget as Border;
+            var selectedEvent = border?.DataContext as ClassEvent;
+
+            if (selectedEvent == null) return;
+
+            this.NavigationService?.Navigate(new PageParticipants(selectedEvent.IdEvent));
+        }
     }
 }
 

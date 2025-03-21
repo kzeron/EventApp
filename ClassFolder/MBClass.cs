@@ -15,6 +15,11 @@ namespace EventApp.ClassFolder
             MessageBox.Show(text, "Ошибка",
                 MessageBoxButton.OK, MessageBoxImage.Error);
         }
+        public static void WarningMB(string text)
+        {
+            MessageBox.Show(text, "Предупреждение",
+                MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
         public static void InformationMB(string text)
         {
             MessageBox.Show(text, "Информация",
