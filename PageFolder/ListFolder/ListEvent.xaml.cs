@@ -4,6 +4,7 @@ using EventApp.PageFolder.AddFolder;
 using EventApp.WindowFolder;
 using System;
 using System.Collections.ObjectModel;
+using System.Data.Entity;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,69 +26,93 @@ namespace EventApp.PageFolder.ListFolder
         }
         public void LoadEvents()
         {
-            var context = EventEntities.GetContext();
-            var currentDate = DateTime.Now;
-
-            var eventsToUpdate = context.Events
-                .Where(ev => ev.EndDate != null && ev.EndDate < currentDate && ev.StatusId != (int)EventStatuses.Passed)
-                .ToList();
-
-            // Обновляем статус мероприятий, если они завершились
-            if (eventsToUpdate.Any())
+            try
             {
-                foreach (var ev in eventsToUpdate)
+                var context = EventEntities.GetContext();
+                var currentDate = DateTime.Now;
+
+                // Обновляем статус мероприятий, если они завершились
+                var eventsToUpdate = context.Events
+                    .Where(ev => ev.EndDate != null && ev.EndDate < currentDate && ev.StatusId != (int)EventStatuses.Ended)
+                    .ToList();
+
+                if (eventsToUpdate.Any())
                 {
-                    ev.StatusId = (int)EventStatuses.Passed;
+                    foreach (var ev in eventsToUpdate)
+                    {
+                        ev.StatusId = (int)EventStatuses.Ended;
+                    }
+                    context.SaveChanges(); 
                 }
-                context.SaveChanges(); // Сохраняем изменения в базе данных
-            }
-
-            var eventData = (from ev in context.Events
-                             join loc in context.Locations
-                             on ev.LocationId equals loc.IdLocation into locGroup
-                             from loc in locGroup.DefaultIfEmpty()
-                             let participantCount = context.Participants.Count(p => p.IdEvent == ev.IdEvent)
-                             select new
-                             {
-                                 ev.IdEvent,
-                                 ev.Title,
-                                 ev.Description,
-                                 ev.DateStart,
-                                 ev.EndDate,
-                                 locId = loc != null ? loc.IdLocation : (int?)null,
-                                 locName = loc != null ? loc.LocationName : null,
-                                 address = loc != null ? loc.Address : null,
-                                 loc.NumberCab,
-                                 capacity = loc != null ? loc.Capacity : (int?)null,
-                                 ev.OrganizerId,
-                                 participantCount,
-                                 ev.StatusId
-                             }).OrderBy(e => e.IdEvent)
-                             .ToList();
-
-            _events.Clear();
-
-            foreach (var item in eventData)
-            {
-                _events.Add(new ClassEvent
+                var eventsToStart =  context.Events
+                    .Where(ev => ev.DateStart != null && ev.DateStart == currentDate && ev.StatusId != (int)EventStatuses.Start && ev.StatusId != (int)EventStatuses.OnGoing)
+                    .ToList();
+                if (eventsToStart.Any())
                 {
-                    IdEvent = item.IdEvent,
-                    Title = item.Title,
-                    Description = item.Description,
-                    DateStart = item.DateStart,
-                    EndDate = item.EndDate,
-                    LocationId = item.locId,
-                    LocationName = item.locName,
-                    Address = item.address,
-                    NumberCab = item.NumberCab,
-                    Capacity = item.capacity,
-                    OrganizerId = item.OrganizerId,
-                    CurrentParticipants = item.participantCount,
-                    StatusId = item.StatusId
-                });
-            }
+                    foreach (var ev in eventsToStart)
+                    {
+                        ev.StatusId = (int)EventStatuses.Start;
+                    }
+                     context.SaveChanges();
+                }
+                // Получаем данные мероприятий
+                var eventData = (from ev in context.Events
+                                 join loc in context.Locations
+                                 on ev.LocationId equals loc.IdLocation into locGroup
+                                 from loc in locGroup.DefaultIfEmpty()
+                                 let participantCount = context.Participants.Count(p => p.IdEvent == ev.IdEvent)
+                                 join st in context.Status
+                                 on ev.StatusId equals st.IdStatus into statGroup
+                                 from stat in statGroup.DefaultIfEmpty()
+                                 select new
+                                 {
+                                     ev.IdEvent,
+                                     ev.Title,
+                                     ev.Description,
+                                     ev.DateStart,
+                                     ev.EndDate,
+                                     locId = loc != null ? loc.IdLocation : (int?)null,
+                                     locName = loc != null ? loc.LocationName : null,
+                                     address = loc != null ? loc.Address : null,
+                                     loc.NumberCab,
+                                     capacity = loc != null ? loc.Capacity : null,
+                                     ev.OrganizerId,
+                                     participantCount,
+                                     ev.StatusId,
+                                     stat.NameStatus
+                                 }).OrderBy(e => e.IdEvent)
+                                 .ToList();
 
-            EventsListBox.ItemsSource = _events;
+                _events.Clear();
+
+                foreach (var item in eventData)
+                {
+                    _events.Add(new ClassEvent
+                    {
+                        IdEvent = item.IdEvent,
+                        Title = item.Title,
+                        Description = item.Description,
+                        DateStart = item.DateStart,
+                        EndDate = item.EndDate,
+                        LocationId = item.locId,
+                        LocationName = item.locName,
+                        Address = item.address,
+                        NumberCab = item.NumberCab,
+                        Capacity = item.capacity,
+                        OrganizerId = item.OrganizerId,
+                        CurrentParticipants = item.participantCount,
+                        StatusId = item.StatusId,
+                        StatusName = item.NameStatus
+                    });
+                }
+
+                EventsListBox.ItemsSource = _events;
+            }
+            catch (Exception ex)
+            {
+                // Обработка ошибок, например, запись в лог
+                MBClass.ErrorMB(ex.Message);
+            }
         }
 
         private void ViewParticipants_Click(object sender, RoutedEventArgs e)
@@ -149,9 +174,9 @@ namespace EventApp.PageFolder.ListFolder
 
             if (selectedEvent == null) return;
 
-            if (selectedEvent.StatusId == (int)EventStatuses.Passed)
+            if (selectedEvent.StatusId == (int)EventStatuses.Ended)
             {
-                MessageBox.Show("Нельзя изменить прошедшее мероприятие.", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MBClass.WarningMB("Нельзя изменить прошедшее мероприятие.");
                 return;
             }
 
@@ -162,34 +187,6 @@ namespace EventApp.PageFolder.ListFolder
             }
         }
 
-        private void MenuItemDelete_Click(object sender, RoutedEventArgs e)
-        {
-            var menuItem = sender as MenuItem;
-            var contextMenu = menuItem?.Parent as ContextMenu;
-            var border = contextMenu?.PlacementTarget as Border;
-            var selectedEvent = border?.DataContext as ClassEvent;
-
-            if (selectedEvent == null) return;
-
-            if (selectedEvent.StatusId == (int)EventStatuses.Passed)
-            {
-                MessageBox.Show("Нельзя удалить прошедшее мероприятие.", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
-            // Добавьте код для удаления мероприятия
-            using (var context = new EventEntities())
-            {
-                var eventToDelete = context.Events.Find(selectedEvent.IdEvent);
-
-                if (eventToDelete != null)
-                {
-                    context.Events.Remove(eventToDelete);
-                    context.SaveChanges();
-                    LoadEvents(); // Перезагрузите список мероприятий
-                }
-            }
-        }
         private void MenuItemParticipants_Click(object sender, RoutedEventArgs e)
         {
             var menuItem = sender as MenuItem;
@@ -200,6 +197,34 @@ namespace EventApp.PageFolder.ListFolder
             if (selectedEvent == null) return;
 
             this.NavigationService?.Navigate(new PageParticipants(selectedEvent.IdEvent));
+        }
+        private void MenuItemDelete_Click(object sender, RoutedEventArgs e)
+        {
+            var menuItem = sender as MenuItem;
+            var contextMenu = menuItem?.Parent as ContextMenu;
+            var border = contextMenu?.PlacementTarget as Border;
+            var selectedEvent = border?.DataContext as ClassEvent;
+
+            if (selectedEvent == null) return;
+
+            if (selectedEvent.StatusId == (int)EventStatuses.Ended)
+            {
+                MBClass.WarningMB("Нельзя отменить прошедшее мероприятие.");
+                return;
+            }
+
+            // Изменяем статус на "Отменено"
+            using (var context = new EventEntities())
+            {
+                var eventToCancel = context.Events.Find(selectedEvent.IdEvent);
+
+                if (eventToCancel != null)
+                {
+                    eventToCancel.StatusId = (int)EventStatuses.Canceled;
+                    context.SaveChanges();
+                    LoadEvents(); 
+                }
+            }
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Threading.Tasks;
+using System.Linq;
 using EventApp.DataFolder;
 using MailKit.Net.Smtp;
 using MimeKit;
@@ -8,68 +8,76 @@ namespace EventApp.ClassFolder
 {
     internal class EmailService
     {
-        //private readonly EventEntities _context;
-        //private readonly EmailService _emailService;
+        public static void SendRemindersForTomorrowEvents()
+        {
+            var tomorrow = DateTime.Today.AddDays(1);
 
-        //public NotificationService(EventEntities context, EmailService emailService)
-        //{
-        //    _context = context;
-        //    _emailService = emailService;
-        //}
+            using (var context = EventEntities.GetContext())
+            {
+                var tomorrowEvents = context.Events
+                    .Where(ev =>
+                        ev.DateStart.HasValue &&
+                        ev.DateStart.Value.Date == tomorrow &&
+                        ev.StatusId != (int)EventStatuses.Canceled &&
+                        ev.StatusId != (int)EventStatuses.Ended &&
+                        ev.StatusId != (int)EventStatuses.OnGoing)
+                    .ToList();
 
-        //public async Task SendEventRemindersAsync()
-        //{
-        //    DateTime now = DateTime.Now;
-        //    DateTime threshold = now.AddMinutes(30); // За 30 минут до начала
+                foreach (var ev in tomorrowEvents)
+                {
+                    var participants = context.Participants
+                        .Where(p => p.IdEvent == ev.IdEvent)
+                        .Select(p => p.User)
+                        .ToList();
 
-        //    // Найти мероприятия, начинающиеся в ближайшие 30 минут
-        //    var upcomingEvents = await _context.Events
-        //        .Where(e => e.StartTime >= now && e.StartTime <= threshold)
-        //        .ToListAsync();
+                    foreach (var user in participants)
+                    {
+                        if (!string.IsNullOrWhiteSpace(user.Email))
+                        {
+                            SendReminderEmail(user.Email, ev);
+                        }
+                    }
+                }
+            }
+        }
 
-        //    foreach (var eventItem in upcomingEvents)
-        //    {
-        //        // Найти организатора мероприятия
-        //        var organizer = await _context.User.FindAsync(eventItem.OrganizerId);
-        //        if (organizer != null)
-        //        {
-        //            await SendReminder(eventItem, organizer);
-        //        }
+        private static void SendReminderEmail(string recipientEmail, Events ev)
+        {
+            try
+            {
+                var message = new MimeMessage();
+                message.From.Add(new MailboxAddress("EventApp", "from@example.com")); // Измените на реальный email отправителя
+                message.To.Add(new MailboxAddress("", recipientEmail));
+                message.Subject = "Напоминание о мероприятии";
 
-        //        // Найти всех участников мероприятия
-        //        var participants = await _context.EventParticipants
-        //            .Where(ep => ep.EventId == eventItem.Id)
-        //            .Select(ep => ep.User)
-        //            .ToListAsync();
+                var bodyBuilder = new BodyBuilder
+                {
+                    TextBody = $@"
+Здравствуйте!
 
-        //        foreach (var participant in participants)
-        //        {
-        //            await SendReminder(eventItem, participant);
-        //        }
-        //    }
-        //}
+Напоминаем, что завтра ({ev.DateStart:dd.MM.yyyy}) начинается мероприятие '{ev.Title}'.
+Описание: {ev.Description}
+Место проведения (ID): {ev.LocationId}.
 
-        //private async Task SendReminder(Events eventItem, User user)
-        //{
-        //    string subject = $"Скоро начнется мероприятие: {eventItem.Title}";
-        //    string body = $"Привет, {user.Name}! Напоминаем, что мероприятие \"{eventItem.Title}\" начнется {eventItem.StartTime:G}.";
+С уважением,
+EventMaster"
+                };
 
-        //    bool isSent = await _emailService.SendEmailAsync(user.Email, subject, body);
+                message.Body = bodyBuilder.ToMessageBody();
 
-        //    if (isSent)
-        //    {
-        //        var notification = new Notification
-        //        {
-        //            IdUser = user.Id,
-        //            EventId = eventItem.Id,
-        //            MessageType = "EventReminder",
-        //            Message = body,
-        //            SentDate = DateTime.Now
-        //        };
+                using (var client = new SmtpClient())
+                {
+                    client.Connect("smtp.mailtrap.io", 2525, false);
+                    client.Authenticate("a044ebbb37efaa", "c237ad173c8e64"); // Данные из MailTrap
 
-        //        _context.Notifications.Add(notification);
-        //        await _context.SaveChangesAsync();
-        //    }
-        //}
+                    client.Send(message);
+                    client.Disconnect(true);
+                }
+            }
+            catch (Exception ex)
+            {
+                MBClass.ErrorMB($"Ошибка при отправке письма на {recipientEmail}: {ex.Message}");
+            }
+        }
     }
 }

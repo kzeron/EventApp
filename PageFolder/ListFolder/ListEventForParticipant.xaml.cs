@@ -30,7 +30,7 @@ namespace EventApp.PageFolder.ListFolder
             var currentDate = DateTime.Now;
 
             var eventsToUpdate = context.Events
-                .Where(ev => ev.EndDate != null && ev.EndDate < currentDate && ev.StatusId != (int)EventStatuses.Passed)
+                .Where(ev => ev.EndDate != null && ev.EndDate < currentDate && ev.StatusId != (int)EventStatuses.Ended)
                 .ToList();
 
             // Обновляем статус мероприятий, если они завершились
@@ -38,7 +38,7 @@ namespace EventApp.PageFolder.ListFolder
             {
                 foreach (var ev in eventsToUpdate)
                 {
-                    ev.StatusId = (int)EventStatuses.Passed;
+                    ev.StatusId = (int)EventStatuses.Ended;
                 }
                 context.SaveChanges(); // Сохраняем изменения в базе данных
             }

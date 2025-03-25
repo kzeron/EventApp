@@ -16,6 +16,7 @@ namespace EventApp.ClassFolder
         public int EventID { get; set; }
         public int TrainerID { get; set; }
         public int? StatusId { get; set; }
+        public string StatusName { get; set; }
         public int UserId { get; set; }
         public int IdEvent { get; set; }
         public string LocationName { get; set; }
@@ -28,7 +29,7 @@ namespace EventApp.ClassFolder
     {
         Collecting = 6,
         Start = 7,
-        Passed = 8,
+        OnGoing = 8,
         Ended = 9,
         Canceled = 10
     }

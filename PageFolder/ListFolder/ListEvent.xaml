@@ -45,13 +45,15 @@
                             <TextBlock Text="Описание:" FontWeight="Bold" Style="{StaticResource StandartText}"/>
                             <TextBlock Text="{Binding Description}" Margin="0,2,0,5" Style="{StaticResource StandartText}"/>
                             <TextBlock Text="Локация:" FontWeight="Bold" Style="{StaticResource StandartText}"/>
-                            <TextBlock Text="{Binding LocationName}" Foreground="Gray" Margin="0,2,0,5" Style="{StaticResource StandartText}"/>
+                            <TextBlock Text="{Binding LocationName}" Margin="0,2,0,5" Style="{StaticResource StandartText}"/>
                             <TextBlock Text="Дата начала:" FontWeight="Bold" Style="{StaticResource StandartText}"/>
                             <TextBlock Text="{Binding DateStart, StringFormat={}{0:dd.MM.yyyy}}" Margin="0,2,0,5" Style="{StaticResource StandartText}"/>
                             <TextBlock Text="Участников:" FontWeight="Bold" Style="{StaticResource StandartText}"/>
                             <TextBlock Text="{Binding CurrentParticipants}" Margin="0,2,0,5" Style="{StaticResource StandartText}"/>
                             <TextBlock Text="Максимальная вместимость:" FontWeight="Bold" Style="{StaticResource StandartText}"/>
                             <TextBlock Text="{Binding Capacity}" Margin="0,2,0,5" Style="{StaticResource StandartText}"/>
+                            <TextBlock Text="Стастус мероприятия" FontWeight="Bold" Style="{StaticResource StandartText}"/>
+                            <TextBlock Text="{Binding StatusName}" Margin="0,2,0,5" Style="{StaticResource StandartText}"/>
                             <Button Content="Список участников" Click="ViewParticipants_Click" Margin="0,5,0,0"/>
                             <Button x:Name="EditEvent" Content="Изменить мероприятие" Click="EditEvent_Click"
                             Background="Transparent" Foreground="White" BorderBrush="White" Padding="10,5"/>

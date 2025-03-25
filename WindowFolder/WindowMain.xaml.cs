@@ -148,5 +148,10 @@ namespace EventApp.WindowFolder
         {
             MainFrame.Content = new ListEventForParticipant();
         }
+        private void WindowMain_Loaded(object sender, RoutedEventArgs e)
+        {
+            EmailService.SendRemindersForTomorrowEvents();
+        }
+
     }
 }

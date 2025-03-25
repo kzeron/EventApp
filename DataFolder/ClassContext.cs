@@ -17,7 +17,7 @@ namespace EventApp.DataFolder
             {
                 context = new EventEntities();
             }
-            return context;
+            return new EventEntities();
         }
     }
 }

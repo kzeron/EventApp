@@ -8,7 +8,8 @@
         mc:Ignorable="d"
         Title="WindowMain" Height="900" Width="1440"
         WindowStyle="None" AllowsTransparency="True" Background="Transparent"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        Loaded="WindowMain_Loaded">
 
     <Border BorderThickness="2" CornerRadius="10" Background="#4A4A4A">
         <Grid x:Name="RootGrid">

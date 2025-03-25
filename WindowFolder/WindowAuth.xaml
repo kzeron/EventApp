@@ -51,7 +51,7 @@
                              materialDesign:HintAssist.Hint="Логин"
                              Height="50"
                              Padding="5, 0"
-                             Style="{StaticResource CustomOutlinedTextBox}"
+                             Style="{StaticResource CustomUnderlinedTextBox}"
                              Margin="0 10"/>
                 
                 <PasswordBox x:Name="PasswordPb"
@@ -59,7 +59,7 @@
                              materialDesign:HintAssist.Hint="Пароль"
                              materialDesign:HintAssist.Foreground="LightGray"
                              Height="50"
-                             Style="{StaticResource CustomOutlinedPasswordBox}"
+                             Style="{StaticResource CustomUnderlinedPasswordBox}"
                              Margin="0 10"/>
                 
                 <Button x:Name="AuthButton"
