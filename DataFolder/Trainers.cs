@@ -17,14 +17,14 @@ namespace EventApp.DataFolder
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Trainers()
         {
-            this.EventTrainers = new HashSet<EventTrainers>();
+            this.Events = new HashSet<Events>();
         }
     
         public int IdTrainer { get; set; }
-        public Nullable<int> UserId { get; set; }
+        public Nullable<int> EmployeeId { get; set; }
     
+        public virtual Employee Employee { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EventTrainers> EventTrainers { get; set; }
-        public virtual User User { get; set; }
+        public virtual ICollection<Events> Events { get; set; }
     }
 }

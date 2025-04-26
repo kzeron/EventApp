@@ -1,9 +1,13 @@
 ﻿using EventApp.ClassFolder;
 using EventApp.DataFolder;
 using EventApp.WindowFolder;
+using Microsoft.Win32;
+using System;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace EventApp.PageFolder.EditFolder
 {
@@ -12,31 +16,75 @@ namespace EventApp.PageFolder.EditFolder
     /// </summary>
     public partial class EditUser : Page
     {
-        private User _user;
+        private EventEntities _context = EventEntities.GetContext();
+        private Users _user;
+        private Employee _employee;
         public EditUser(int userId)
         {
             InitializeComponent();
             LoadUser(userId);
         }
+        private BitmapImage LoadImage(byte[] imageData)
+        {
+            using (var stream = new MemoryStream(imageData))
+            {
+                var image = new BitmapImage();
+                image.BeginInit();
+                image.CacheOption = BitmapCacheOption.OnLoad;
+                image.StreamSource = stream;
+                image.EndInit();
+                return image;
+            }
+        }
+        private void ChangePhoto_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Изображения|*.jpg;*.jpeg;*.png;*.bmp"
+            };
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string filePath = openFileDialog.FileName;
+                byte[] imageBytes = File.ReadAllBytes(filePath);
+
+                _employee.Photo = imageBytes; // Запись в объект пользователя
+                UserPhoto.Source = LoadImage(imageBytes); // Отображение в UI
+            }
+        }
+
         private void LoadUser(int userId)
         {
-            var context = EventEntities.GetContext();
-            _user = context.User.FirstOrDefault(u => u.IdUser == userId);
-            if(_user == null)
+            _user = _context.Users.FirstOrDefault(u => u.IdUser == userId);
+            if (_user == null)
             {
-                MBClass.ErrorMB("Пользователь не найдет");
+                MBClass.ErrorMB("Пользователь не найден");
                 return;
             }
+            _employee = _context.Employee.FirstOrDefault(emp => emp.UserId == _user.IdUser);
+            if (_employee == null)
+            {
+                MBClass.ErrorMB("Сотрудник, связанный с пользователем, не найден.");
+                return;
+            }
+
             DataContext = _user;
-            RoleCb.ItemsSource = context.Role.ToList();
-            RoleCb.SelectedItem = _user.IdRole;
+            RoleCb.ItemsSource = _context.Role.ToList();
+            RoleCb.SelectedValue = _user.IdRole;
             LoginTb.Text = _user.Login;
-            EmailTb.Text = _user.Email;
-            PhoneTb.Text = _user.Phone;
-            FirstNameTb.Text = _user.Name;
-            LastNameTb.Text = _user.Surname;
-            MiddleNameTb.Text = _user.Patronymic;
+            EmailTb.Text = _employee.Email;
+            PhoneTb.Text = _employee.Phone;
+            FirstNameTb.Text = _employee.Name;
+            LastNameTb.Text = _employee.Surname;
+            MiddleNameTb.Text = _employee.Patronymic;
+
+            if (_employee.Photo != null && _employee.Photo.Length > 0)
+            {
+                UserPhoto.Source = LoadImage(_employee.Photo);
+            }
         }
+
+
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             if (_user == null)
@@ -46,11 +94,11 @@ namespace EventApp.PageFolder.EditFolder
             }
 
             _user.Login = LoginTb.Text.Trim();
-            _user.Email = EmailTb.Text.Trim();
-            _user.Phone = PhoneTb.Text.Trim();
-            _user.Name = FirstNameTb.Text.Trim();
-            _user.Surname = LastNameTb.Text.Trim();
-            _user.Patronymic = MiddleNameTb.Text.Trim();
+            _employee.Email = EmailTb.Text.Trim();
+            _employee.Phone = PhoneTb.Text.Trim();
+            _employee.Name = FirstNameTb.Text.Trim();
+            _employee.Surname = LastNameTb.Text.Trim();
+            _employee.Patronymic = MiddleNameTb.Text.Trim();
             _user.IdRole = RoleCb.SelectedValue != null ? (int)RoleCb.SelectedValue : _user.IdRole;
 
             if (string.IsNullOrWhiteSpace(_user.Login))
@@ -58,24 +106,32 @@ namespace EventApp.PageFolder.EditFolder
                 MBClass.ErrorMB("Введите логин.");
                 return;
             }
-            if (string.IsNullOrWhiteSpace(_user.Email) || !ClassDataValidator.IsEmailValid(_user.Email))
+            if (string.IsNullOrWhiteSpace(_employee.Email) || !ClassDataValidator.IsEmailValid(_employee.Email))
             {
                 MBClass.ErrorMB("Некорректный email.");
                 return;
             }
-            if (string.IsNullOrWhiteSpace(_user.Phone) || !ClassDataValidator.IsPhoneNumberValid(_user.Phone))
+            if (string.IsNullOrWhiteSpace(_employee.Phone) || !ClassDataValidator.IsPhoneNumberValid(_employee.Phone))
             {
                 MBClass.ErrorMB("Некорректный номер телефона.");
                 return;
             }
 
-            var context = EventEntities.GetContext();
-            context.SaveChanges();
+            try
+            {
+                _context.SaveChanges();
+                MBClass.InformationMB("Изменения сохранены!");
 
-            MBClass.InformationMB("Изменения сохранены!");
-            WindowMain mainWindow = Window.GetWindow(this) as WindowMain;
-            mainWindow?.CloseModal();
+                WindowMain mainWindow = Window.GetWindow(this) as WindowMain;
+                mainWindow?.CloseModal();
+            }
+            catch (Exception ex)
+            {
+                MBClass.ErrorMB($"Ошибка сохранения: {ex.Message}");
+            }
         }
+
+
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {

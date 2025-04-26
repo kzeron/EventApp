@@ -10,15 +10,17 @@ namespace EventApp.ClassFolder
         public UserRole Role { get; set; }
         public int IDRole { get; set; }
         public Statuses Statuses { get; set; }
-        public string StatusName { get; set; } // Добавляем это свойство
+        public string StatusName { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        public int IdTrainer { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Patronymic { get; set; }
-        public BitmapImage Photo {  get; set; } 
+        public BitmapImage Photo { get; set; }
+
+        public string FullName => $"{Surname} {Name} {Patronymic}".Trim();
     }
+
     public enum UserRole
     {
         Admin = 1,

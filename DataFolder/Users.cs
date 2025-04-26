@@ -12,35 +12,23 @@ namespace EventApp.DataFolder
     using System;
     using System.Collections.Generic;
     
-    public partial class User
+    public partial class Users
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public User()
+        public Users()
         {
-            this.Notifications = new HashSet<Notifications>();
-            this.Participants = new HashSet<Participants>();
-            this.Trainers = new HashSet<Trainers>();
+            this.Employee = new HashSet<Employee>();
         }
     
         public int IdUser { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
         public int IdRole { get; set; }
-        public string Email { get; set; }
-        public string Phone { get; set; }
         public int StatusID { get; set; }
-        public string Name { get; set; }
-        public string Surname { get; set; }
-        public string Patronymic { get; set; }
-        public byte[] Photo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Notifications> Notifications { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Participants> Participants { get; set; }
+        public virtual ICollection<Employee> Employee { get; set; }
         public virtual Role Role { get; set; }
         public virtual Status Status { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Trainers> Trainers { get; set; }
     }
 }

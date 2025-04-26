@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using EventApp.PageFolder.EditFolder;
 using EventApp.DataFolder;
+using System.Linq;
 
 namespace EventApp.WindowFolder
 {
@@ -15,10 +16,42 @@ namespace EventApp.WindowFolder
     public partial class WindowMain : Window
     {
         private UserRole _userRole;
+        private Employee _currentUser;
 
         public WindowMain(Page thisPage)
         {
             InitializeComponent();
+            
+            var sessionUser = ClassSaveSassion.LoadSession();
+            if(sessionUser == null )
+            {
+                MBClass.ErrorMB("Аккаунт не найден");
+                new WindowAuth().Show();
+                Close();
+                return;
+            }
+
+            using (var ctx = EventEntities.GetContext())
+            {
+                _currentUser = ctx.Employee.FirstOrDefault(emp => emp.UserId == sessionUser.IdUser);
+            }
+            if (_currentUser != null)
+            {
+                string surname = _currentUser.Surname ?? "";
+                string name = _currentUser.Name ?? "";
+                string patronymic = _currentUser.Patronymic ?? "";
+
+                string initials = "";
+                if (!string.IsNullOrEmpty(name)) initials += name[0] + ".";
+                if (!string.IsNullOrEmpty(patronymic)) initials += " " + patronymic[0] + ".";
+
+                UserFullName.Text = $"{surname} {initials}";
+            }
+            else
+            {
+                UserFullName.Text = "Данные не найдены";
+            }
+
             MainFrame.Content = thisPage;
             _userRole =(UserRole)ClassSaveSassion.LoadSession().IdRole;
             SetupNavigation();
@@ -153,5 +186,9 @@ namespace EventApp.WindowFolder
             EmailService.SendRemindersForTomorrowEvents();
         }
 
+        private void ListSpekersButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

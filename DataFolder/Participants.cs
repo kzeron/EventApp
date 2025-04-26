@@ -16,12 +16,12 @@ namespace EventApp.DataFolder
     {
         public int IdParticipants { get; set; }
         public Nullable<int> IdEvent { get; set; }
-        public Nullable<int> IdUser { get; set; }
+        public Nullable<int> IdEmploee { get; set; }
         public Nullable<int> IdStatus { get; set; }
         public Nullable<System.DateTime> RegistrationDate { get; set; }
     
+        public virtual Employee Employee { get; set; }
         public virtual Events Events { get; set; }
         public virtual Status Status { get; set; }
-        public virtual User User { get; set; }
     }
 }

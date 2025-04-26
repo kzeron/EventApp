@@ -54,61 +54,112 @@
             <DockPanel Grid.Row="1" LastChildFill="True">
                 <!-- Левая боковая панель -->
                 <DockPanel DockPanel.Dock="Left" Width="300" Background="#363636">
-                    <Image Source="/AssetFolder/logo.png"
-                           DockPanel.Dock="Top"
-                           VerticalAlignment="Top"
-                           Margin="10, 10, 10, 90"
-                           Height="40"
-                           Width="40"
-                           HorizontalAlignment="Left"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                    </Grid>
+                    <!--Логотип и Профиль-->
+                    <StackPanel DockPanel.Dock="Top"
+                                Margin="0 5 0 70" Grid.Row="0">
+                        <Image Source="/AssetFolder/logo.png"
+                               DockPanel.Dock="Top"
+                               VerticalAlignment="Top"
+                               Margin="10, 10, 10, 90"
+                               Height="40"
+                               Width="40"
+                               HorizontalAlignment="Left"/>
+                        <TextBlock Text="{Binding FullName}" 
+                                   Foreground="White" 
+                                   x:Name="UserFullName"
+                                   FontSize="20" 
+                                   TextAlignment="Left" 
+                                   Margin="5"
+                                   TextWrapping="Wrap"/>
+                        <Separator Margin="0 10" Background="White" Height="1"/>
+                    </StackPanel>
+                     
+                    <!--Переключение фреймов-->
+                    <StackPanel DockPanel.Dock="Top"
+                                Grid.Row="1">
+                        <!-- Кнопка «Пользователи» -->
+                        <Button x:Name="UsersButton"
+                                Style="{StaticResource MenuButtonStyle}"
+                                ToolTip="Пользователи"
+        
+                                DockPanel.Dock="Top"
+                                Background="Transparent"
+                                BorderBrush="Transparent"
+                                HorizontalAlignment="Left"
+                                Foreground="White"
+                                FontSize="16"
+                                Margin="40,10"
+                                Click="ShowUsersPage">
+                            <Image Source="/AssetFolder/ButtonContent/users.png"
+                                   Width="30"
+                                   Height="30"/>
+                        </Button>
 
-                    <!-- Кнопка «Пользователи» -->
-                    <Button x:Name="UsersButton"
-                            Content="Пользователи"
-                            DockPanel.Dock="Top"
-                            Background="Transparent"
-                            BorderBrush="Transparent"
-                            Foreground="White"
-                            FontSize="16"
-                            Margin="0,10"
-                            Click="ShowUsersPage"/>
+                        <!-- Кнопка «Мероприятия» (список) -->
+                        <Button x:Name="EventsButtonManage"
+                                Style="{StaticResource MenuButtonStyle}"
+                                ToolTip="Список мероприятий"
+                                DockPanel.Dock="Top"
+                                HorizontalAlignment="Left"
+                                Margin="40,10"
+                                Click="ShowEventsPage">
+                            <Image Source="/AssetFolder/ButtonContent/ListEvent.png"
+                                   Width="30"
+                                   Height="30"/>
+                        </Button>
 
-                    <!-- Кнопка «Мероприятия» (список) -->
-                    <Button x:Name="EventsButtonManage"
-                            Content="Список мероприятий"
-                            DockPanel.Dock="Top"
-                            Background="Transparent"
-                            BorderBrush="Transparent"
-                            Foreground="White"
-                            FontSize="16"
-                            Margin="0,10"
-                            Click="ShowEventsPage"/>
+                        <!-- Кнопка «Добавить мероприятие» -->
+                        <Button x:Name="ListEventButton"
+                                ToolTip="Мероприятия"
+                                Style="{StaticResource MenuButtonStyle}"
+                                HorizontalAlignment="Left"
+                                FontSize="16"
+                                Margin="40,10"
+                                Click="EventButtonList_Click">
+                            <Image Source="/AssetFolder/ButtonContent/EventMaster.png"
+                                   Height="30"
+                                   Width="30"/>
+                        </Button>
+                        
+                        <!--Кнопка-->
+                        <Button x:Name="ListSpekersButton"
+                                ToolTip="Организаторы"
+                                Style="{StaticResource MenuButtonStyle}"
+                                HorizontalAlignment="Left"
+                                FontSize="16"
+                                Margin="40,10"
+                                Click="ListSpekersButton_Click">
+                            <Image Source="/AssetFolder/ButtonContent/Speakers.png"
+                                   Height="30"
+                                   Width="30"/>
+                        </Button>
+                    </StackPanel>
 
-                    <!-- Кнопка «Добавить мероприятие» -->
-                    <Button x:Name="ListEventButton"
-                            Content="Мероприятия"
-                            DockPanel.Dock="Top"
-                            Background="Transparent"
-                            BorderBrush="Transparent"
-                            Foreground="White"
-                            FontSize="16"
-                            Margin="0,10"
-                            Click="EventButtonList_Click"/>
-
-                    <!-- Кнопка выхода -->
-                    <Button x:Name="LogoutButton"
-                            DockPanel.Dock="Bottom"
-                            Background="Transparent"
-                            BorderBrush="Transparent"
-                            Foreground="White"
-                            FontSize="16"
-                            HorizontalAlignment="Left"
-                            Margin="10,10"
-                            Click="LogoutButton_Click"
-                            ToolTip="Выйти из аккаунта"
-                            VerticalAlignment="Bottom">
-                        <materialDesign:PackIcon Kind="DoorOpen" Width="20" Height="20" Foreground="White"/>
-                    </Button>
+                    <StackPanel DockPanel.Dock="Bottom"
+                                Grid.Row="2"
+                                VerticalAlignment="Bottom">
+                        <Separator Height="1" Background="White"/>
+                        <!-- Кнопка выхода -->
+                        <Button x:Name="LogoutButton"
+                                Background="Transparent"
+                                BorderBrush="Transparent"
+                                Foreground="White"
+                                FontSize="16"
+                                HorizontalAlignment="Left"
+                                Margin="10,10"
+                                Click="LogoutButton_Click"
+                                ToolTip="Выйти из аккаунта"
+                                VerticalAlignment="Bottom">
+                            <materialDesign:PackIcon Kind="DoorOpen" Width="20" Height="20" Foreground="White"/>
+                        </Button>
+                    </StackPanel>
                 </DockPanel>
 
                 <!-- Область для отображения страниц -->
@@ -130,7 +181,7 @@
             VerticalAlignment="Center"
             Padding="10"
             MinWidth="400" MinHeight="300"
-            MaxWidth="860" MaxHeight="600">
+            MaxWidth="1200" MaxHeight="600">
                     <!-- Внутри Border – Frame для загрузки Page -->
                     <Frame x:Name="AddEventFrame" 
                NavigationUIVisibility="Hidden"

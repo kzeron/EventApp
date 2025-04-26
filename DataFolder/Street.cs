@@ -12,24 +12,20 @@ namespace EventApp.DataFolder
     using System;
     using System.Collections.Generic;
     
-    public partial class Status
+    public partial class Street
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Status()
+        public Street()
         {
-            this.Events = new HashSet<Events>();
-            this.Participants = new HashSet<Participants>();
-            this.Users = new HashSet<Users>();
+            this.Address = new HashSet<Address>();
         }
     
-        public int IdStatus { get; set; }
-        public string NameStatus { get; set; }
+        public int IdStreet { get; set; }
+        public string StreetName { get; set; }
+        public int IdCity { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Events> Events { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Participants> Participants { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Users> Users { get; set; }
+        public virtual ICollection<Address> Address { get; set; }
+        public virtual City City { get; set; }
     }
 }

@@ -22,13 +22,13 @@ namespace EventApp.WindowFolder
             {
                 try
                 {
-                    var user = EventEntities.GetContext().User.FirstOrDefault(u => u.IdUser == currentUser.IdUser);
+                    var user = EventEntities.GetContext().Users.FirstOrDefault(u => u.IdUser == currentUser.IdUser);
                     if (user == null)
                     {
                         MBClass.ErrorMB("Связанный сотрудник не найден.");
                         return;
                     }
-                    if (user.StatusID == (int)EventApp.ClassFolder.Statuses.Fired)
+                    if (user.StatusID == (int)Statuses.Fired)
                     {
                         MBClass.ErrorMB("Ваша учетная запись не действительна");
                         ClassSaveSassion.ClearSession();
@@ -95,7 +95,7 @@ namespace EventApp.WindowFolder
                 try
                 {
                     var context = EventEntities.GetContext();
-                    var user = context.User
+                    var user = context.Users
                         .FirstOrDefault(u => u.Login == LoginTb.Text);
                     if (user == null)
                     {

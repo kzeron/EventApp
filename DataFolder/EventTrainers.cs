@@ -16,10 +16,7 @@ namespace EventApp.DataFolder
     {
         public int EventTrainerID { get; set; }
         public Nullable<int> EventID { get; set; }
-        public Nullable<int> TrainerID { get; set; }
     
         public virtual Events Events { get; set; }
-        public virtual Events Events1 { get; set; }
-        public virtual Trainers Trainers { get; set; }
     }
 }

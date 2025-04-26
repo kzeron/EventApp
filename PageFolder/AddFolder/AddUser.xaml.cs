@@ -1,20 +1,47 @@
 ﻿using EventApp.ClassFolder;
 using EventApp.DataFolder;
 using EventApp.WindowFolder;
+using Microsoft.Win32;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace EventApp.PageFolder.AddFolder
 {
     public partial class AddUser : Page
     {
+        private byte[] userPhotoBytes;
+
         public AddUser()
         {
             InitializeComponent();
             RoleCb.ItemsSource = EventEntities.GetContext().Role.ToList();
         }
 
+        private void ChoosePhoto_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Изображения (*.jpg;*.jpeg;*.png)|*.jpg;*.jpeg;*.png",
+                Title = "Выберите фото пользователя"
+            };
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                userPhotoBytes = File.ReadAllBytes(openFileDialog.FileName);
+                BitmapImage bitmap = new BitmapImage();
+                using (MemoryStream stream = new MemoryStream(userPhotoBytes))
+                {
+                    bitmap.BeginInit();
+                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmap.StreamSource = stream;
+                    bitmap.EndInit();
+                }
+                UserPhoto.Source = bitmap;
+            }
+        }
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             string login = LoginTb.Text.Trim();
@@ -66,32 +93,41 @@ namespace EventApp.PageFolder.AddFolder
             {
                 var context = EventEntities.GetContext();
 
-                var user = new User
+                var user = new Users
                 {
                     Login = login,
                     Password = password,
+                    IdRole = roleId.Value,
+                    StatusID = (int)Statuses.Working,
+                };
+
+                context.Users.Add(user);
+                context.SaveChanges();
+
+                var employee = new Employee
+                {
                     Email = email,
                     Phone = phone,
                     Name = firstName,
                     Surname = lastName,
                     Patronymic = middleName,
-                    IdRole = roleId.Value,
-                    StatusID = (int)Statuses.Working
+                    UserId = user.IdUser,
+                    Photo = userPhotoBytes
                 };
 
-                context.User.Add(user);
-                context.SaveChanges();
+                context.Employee.Add(employee);
+                context.SaveChanges();               
 
                 switch ((UserRole)user.IdRole)
                 {
                     case UserRole.Teacher:
-                        context.Trainers.Add(new Trainers { UserId = user.IdUser });
+                        context.Trainers.Add(new Trainers { EmployeeId = employee.EmployeeId });
 
                         break;
                     case UserRole.Participant:
                         context.Participants.Add(new Participants 
                         {
-                            IdUser = user.IdUser,
+                           IdEmploee = employee.EmployeeId,
                         });
                         break;
                 }

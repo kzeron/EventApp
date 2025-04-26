@@ -117,57 +117,69 @@
     <Compile Include="ClassFolder\EmailService.cs" />
     <Compile Include="ClassFolder\MBClass.cs" />
     <Compile Include="ClassFolder\NavigationHandler.cs" />
+    <Compile Include="DataFolder\Address.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataFolder\City.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataFolder\ClassContext.cs" />
+    <Compile Include="DataFolder\Employee.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataFolder\Events.cs">
-      <DependentUpon>ModelEntity.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="DataFolder\EventTrainers.cs">
-      <DependentUpon>ModelEntity.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="DataFolder\Locations.cs">
-      <DependentUpon>ModelEntity.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataFolder\ModelEntity.Context.cs">
+    <Compile Include="DataFolder\Model.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ModelEntity.Context.tt</DependentUpon>
+      <DependentUpon>Model.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataFolder\ModelEntity.cs">
+    <Compile Include="DataFolder\Model.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ModelEntity.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataFolder\ModelEntity.Designer.cs">
+    <Compile Include="DataFolder\Model.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ModelEntity.edmx</DependentUpon>
+      <DependentUpon>Model.edmx</DependentUpon>
     </Compile>
     <Compile Include="DataFolder\Notifications.cs">
-      <DependentUpon>ModelEntity.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="DataFolder\Participants.cs">
-      <DependentUpon>ModelEntity.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="DataFolder\Role.cs">
-      <DependentUpon>ModelEntity.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="DataFolder\sp_helpdiagramdefinition_Result.cs">
-      <DependentUpon>ModelEntity.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="DataFolder\sp_helpdiagrams_Result.cs">
-      <DependentUpon>ModelEntity.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="DataFolder\Status.cs">
-      <DependentUpon>ModelEntity.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataFolder\Street.cs">
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="DataFolder\sysdiagrams.cs">
-      <DependentUpon>ModelEntity.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="DataFolder\Trainers.cs">
-      <DependentUpon>ModelEntity.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataFolder\User.cs">
-      <DependentUpon>ModelEntity.tt</DependentUpon>
+    <Compile Include="DataFolder\Users.cs">
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="PageFolder\AddFolder\AddEvent.xaml.cs">
       <DependentUpon>AddEvent.xaml</DependentUpon>
@@ -221,12 +233,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="DataFolder\ModelEntity.edmx">
+    <EntityDeploy Include="DataFolder\Model.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ModelEntity.Designer.cs</LastGenOutput>
+      <LastGenOutput>Model.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="DataFolder\ModelEntity.edmx.diagram">
-      <DependentUpon>ModelEntity.edmx</DependentUpon>
+    <None Include="DataFolder\Model.edmx.diagram">
+      <DependentUpon>Model.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -238,6 +250,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="AssetFolder\ButtonContent\DictionaryPanelButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="AssetFolder\DictionaryStyleApp.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -289,16 +305,21 @@
   <ItemGroup>
     <Resource Include="AssetFolder\logo.png" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Content Include="DataFolder\ModelEntity.Context.tt">
+    <Resource Include="AssetFolder\ButtonContent\users.png" />
+    <Resource Include="AssetFolder\ButtonContent\ListEvent.png" />
+    <Resource Include="AssetFolder\ButtonContent\EventMaster.png" />
+    <Resource Include="AssetFolder\ButtonContent\Speakers.png" />
+    <Content Include="DataFolder\Model.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ModelEntity.edmx</DependentUpon>
-      <LastGenOutput>ModelEntity.Context.cs</LastGenOutput>
+      <DependentUpon>Model.edmx</DependentUpon>
+      <LastGenOutput>Model.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="DataFolder\ModelEntity.tt">
+    <Content Include="DataFolder\Model.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ModelEntity.edmx</DependentUpon>
-      <LastGenOutput>ModelEntity.cs</LastGenOutput>
+      <DependentUpon>Model.edmx</DependentUpon>
+      <LastGenOutput>Model.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

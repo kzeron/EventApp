@@ -18,7 +18,6 @@ namespace EventApp.DataFolder
         public Events()
         {
             this.EventTrainers = new HashSet<EventTrainers>();
-            this.EventTrainers1 = new HashSet<EventTrainers>();
             this.Participants = new HashSet<Participants>();
         }
     
@@ -33,10 +32,9 @@ namespace EventApp.DataFolder
     
         public virtual Locations Locations { get; set; }
         public virtual Status Status { get; set; }
+        public virtual Trainers Trainers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EventTrainers> EventTrainers { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EventTrainers> EventTrainers1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Participants> Participants { get; set; }
     }

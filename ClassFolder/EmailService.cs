@@ -12,34 +12,35 @@ namespace EventApp.ClassFolder
         {
             var tomorrow = DateTime.Today.AddDays(1);
 
-            using (var context = EventEntities.GetContext())
+            var context = EventEntities.GetContext();
+
+            var tomorrowEvents = context.Events
+                .Where(ev =>
+                    ev.DateStart.HasValue &&
+                    ev.StatusId != (int)EventStatuses.Canceled &&
+                    ev.StatusId != (int)EventStatuses.Ended &&
+                    ev.StatusId != (int)EventStatuses.OnGoing)
+                .AsEnumerable() // Перенос обработки в память
+                .Where(ev => ev.DateStart.Value.Date == tomorrow) // Теперь можно использовать Date
+                .ToList();
+
+            foreach (var ev in tomorrowEvents)
             {
-                var tomorrowEvents = context.Events
-                    .Where(ev =>
-                        ev.DateStart.HasValue &&
-                        ev.DateStart.Value.Date == tomorrow &&
-                        ev.StatusId != (int)EventStatuses.Canceled &&
-                        ev.StatusId != (int)EventStatuses.Ended &&
-                        ev.StatusId != (int)EventStatuses.OnGoing)
+                var participants = context.Participants
+                    .Where(p => p.IdEvent == ev.IdEvent)
+                    .Select(p => p.Employee)
                     .ToList();
 
-                foreach (var ev in tomorrowEvents)
+                foreach (var user in participants)
                 {
-                    var participants = context.Participants
-                        .Where(p => p.IdEvent == ev.IdEvent)
-                        .Select(p => p.User)
-                        .ToList();
-
-                    foreach (var user in participants)
+                    if (!string.IsNullOrWhiteSpace(user.Email))
                     {
-                        if (!string.IsNullOrWhiteSpace(user.Email))
-                        {
-                            SendReminderEmail(user.Email, ev);
-                        }
+                        SendReminderEmail(user.Email, ev);
                     }
                 }
             }
         }
+
 
         private static void SendReminderEmail(string recipientEmail, Events ev)
         {

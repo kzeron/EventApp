@@ -15,12 +15,12 @@ namespace EventApp.DataFolder
     public partial class Notifications
     {
         public int IdNotification { get; set; }
-        public Nullable<int> IdUser { get; set; }
+        public Nullable<int> IdEmployee { get; set; }
         public Nullable<int> EventId { get; set; }
         public Nullable<int> MessageType { get; set; }
         public string Message { get; set; }
         public Nullable<System.DateTime> SentDate { get; set; }
     
-        public virtual User User { get; set; }
+        public virtual Employee Employee { get; set; }
     }
 }

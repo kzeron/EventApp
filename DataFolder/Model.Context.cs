@@ -27,6 +27,9 @@ namespace EventApp.DataFolder
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Address> Address { get; set; }
+        public virtual DbSet<City> City { get; set; }
+        public virtual DbSet<Employee> Employee { get; set; }
         public virtual DbSet<Events> Events { get; set; }
         public virtual DbSet<EventTrainers> EventTrainers { get; set; }
         public virtual DbSet<Locations> Locations { get; set; }
@@ -34,9 +37,10 @@ namespace EventApp.DataFolder
         public virtual DbSet<Participants> Participants { get; set; }
         public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<Status> Status { get; set; }
+        public virtual DbSet<Street> Street { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Trainers> Trainers { get; set; }
-        public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<Users> Users { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {

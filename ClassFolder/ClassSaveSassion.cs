@@ -7,7 +7,7 @@ namespace EventApp.ClassFolder
 {
     internal class ClassSaveSassion
     {
-        public static void SaveSassion(User user)
+        public static void SaveSassion(Users user)
         {
             string filePath = "session.txt";
             StreamWriter writer = new StreamWriter(filePath, false);
@@ -23,7 +23,7 @@ namespace EventApp.ClassFolder
                 writer.Close(); // Явное закрытие
             }
         }
-        public static User LoadSession()
+        public static Users LoadSession()
         {
             string filePath = "session.txt";
             if (!File.Exists(filePath))
@@ -37,7 +37,7 @@ namespace EventApp.ClassFolder
                 string login = lines.FirstOrDefault(line => line.StartsWith("Login="))?.Split('=')[1];
                 int idRole = int.Parse(lines.FirstOrDefault(line => line.StartsWith("Role="))?.Split('=')[1] ?? "0");
 
-                var user = EventEntities.GetContext().User.FirstOrDefault(u => u.IdUser == idLogin && u.Login == login);
+                var user = EventEntities.GetContext().Users.FirstOrDefault(u => u.IdUser == idLogin && u.Login == login);
                 return user;
             }
             catch (Exception ex)

@@ -22,13 +22,14 @@ namespace EventApp.PageFolder.ListFolder
             
             // Получаем список пользователей, записанных на мероприятие
             var participantsData = (from p in context.Participants
-                                    join u in context.User on p.IdUser equals u.IdUser
+                                    join emp in context.Employee on p.IdEmploee equals emp.EmployeeId
+                                    join u in context.Users on emp.UserId equals u.IdUser
                                     where p.IdEvent == _eventId
                                     select new
                                     {
                                         u.Login,
-                                        u.Email,
-                                        u.Phone,
+                                        emp.Email,
+                                        emp.Phone,
                                         p.RegistrationDate
                                         }).ToList();
 

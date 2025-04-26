@@ -4,9 +4,11 @@ using EventApp.WindowFolder;
 using System;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace EventApp.PageFolder.ListFolder
 {
@@ -27,7 +29,8 @@ namespace EventApp.PageFolder.ListFolder
         public void LoadUsers()
         {
             var context = EventEntities.GetContext();
-            var staffData = (from user in context.User
+            var staffData = (from user in context.Users
+                             join employee in context.Employee on user.IdUser equals employee.UserId
                              join role in context.Role on user.IdRole equals role.IdRole into roleGroup
                              from role in roleGroup.DefaultIfEmpty()
                              join status in context.Status on user.StatusID equals status.IdStatus into statusGroup
@@ -37,15 +40,16 @@ namespace EventApp.PageFolder.ListFolder
                                  user.IdUser,
                                  user.Login,
                                  user.Password,
-                                 user.Name,
-                                 user.Surname,
-                                 user.Patronymic,
+                                 employee.Name,
+                                 employee.Surname,
+                                 employee.Patronymic,
                                  RoleId = role != null ? role.IdRole : 0,
                                  RoleName = role != null ? role.NameRole : null,
                                  StatusId = status != null ? status.IdStatus : 0,
                                  StatusName = status != null ? status.NameStatus : null,
-                                 user.Email,
-                                 user.Phone,
+                                 employee.Email,
+                                 employee.Phone,
+                                 employee.Photo
                              }).OrderBy(u => u.IdUser).ToList();
 
             _users.Clear();
@@ -64,13 +68,33 @@ namespace EventApp.PageFolder.ListFolder
                     Statuses = (Statuses)user.StatusId,
                     StatusName = user.StatusName,
                     Email = user.Email,
-                    Phone = user.Phone
+                    Phone = user.Phone,
+                    Photo = LoadImage(user.Photo)
                 });
             }
 
             _filteredUsers = new ObservableCollection<ClassUser>(_users);
             UsersListBox.ItemsSource = _filteredUsers;
         }
+
+
+        // Метод для конвертации байтового массива в BitmapImage
+        private BitmapImage LoadImage(byte[] imageData)
+        {
+            if (imageData == null || imageData.Length == 0)
+                return null;
+
+            BitmapImage image = new BitmapImage();
+            using (var stream = new MemoryStream(imageData))
+            {
+                image.BeginInit();
+                image.CacheOption = BitmapCacheOption.OnLoad;
+                image.StreamSource = stream;
+                image.EndInit();
+            }
+            return image;
+        }
+
 
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -129,7 +153,7 @@ namespace EventApp.PageFolder.ListFolder
             {
                 var context = EventEntities.GetContext(); // Используйте новый контекст
                 
-                    var user = context.User.FirstOrDefault(u => u.IdUser == selectedUser.IdUser);
+                    var user = context.Users.FirstOrDefault(u => u.IdUser == selectedUser.IdUser);
                     if (user != null)
                     {
                         user.StatusID = (int)newStatus;

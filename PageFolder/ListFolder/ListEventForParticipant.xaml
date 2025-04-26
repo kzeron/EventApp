@@ -14,81 +14,40 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <TextBox x:Name="SearchTextBox" Width="200" Height="30" Padding="5"
-         Style="{StaticResource CustomUnderlinedTextBox}"
-         materialDesign:HintAssist.Hint="Поиск" 
-         TextChanged="SearchTextBox_TextChanged"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Center" Margin="10">
+            <TextBox x:Name="SearchTextBox" Width="200" Height="30" Padding="5"
+                 Style="{StaticResource CustomUnderlinedTextBox}"
+                 materialDesign:HintAssist.Hint="Поиск" 
+                 TextChanged="SearchTextBox_TextChanged"/>
+            <Button Style="{StaticResource MaterialDesignFlatButton}"
+                Height="30" Width="30" Margin="5">
+                <materialDesign:PackIcon Kind="Magnify"/>
+            </Button>
+        </StackPanel>
 
-        <ListBox x:Name="EventsListBox" Background="Transparent"
-             HorizontalAlignment="Stretch" Grid.Row="1"
-                 Padding="20"
-             Margin="10">
-
-
+        <ListBox x:Name="EventsListBox" Margin="10" Grid.Row="1">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Border BorderBrush="Gray" BorderThickness="1" Padding="10" Margin="5">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-
-                            <!-- Название события -->
-                            <TextBlock Text="{Binding Title}" 
-                                               FontSize="18" FontWeight="Bold"
-                                               Style="{StaticResource StandartText}" 
-                                               Margin="0,0,0,5"/>
-
-                            <!-- Описание -->
-                            <TextBlock Text="{Binding Description}" 
-                                               Grid.Row="1" TextWrapping="Wrap"
-                                               Style="{StaticResource StandartText}" 
-                                               Margin="0,0,0,5"/>
-
-                            <!-- Локация -->
-                            <TextBlock Text="Локация:" 
-                                               Grid.Row="2" FontWeight="Bold"
-                                               Style="{StaticResource StandartText}"/>
-                            <TextBlock Text="{Binding LocationName}" 
-                                               Grid.Row="2" Margin="80,0,0,0"
-                                               Style="{StaticResource StandartText}"/>
-
-                            <!-- Дата начала -->
-                            <TextBlock Text="Дата начала:" 
-                                               Grid.Row="3" FontWeight="Bold"
-                                               Style="{StaticResource StandartText}"/>
-                            <TextBlock Text="{Binding DateStart, StringFormat={}{0:dd.MM.yyyy}}" 
-                                               Grid.Row="3" Margin="100,0,0,0"
-                                               Style="{StaticResource StandartText}"/>
-
-                            <!-- Количество участников -->
-                            <TextBlock Text="Участников:" 
-                                               Grid.Row="4" FontWeight="Bold"
-                                               Style="{StaticResource StandartText}"/>
-                            <TextBlock Text="{Binding CurrentParticipants}" 
-                                               Grid.Row="4" Margin="90,0,0,0"
-                                               Style="{StaticResource StandartText}"/>
-
-                            <!-- Вместимость -->
-                            <TextBlock Text="Вместимость:" 
-                                               Grid.Row="5" FontWeight="Bold"
-                                               Style="{StaticResource StandartText}"/>
-                            <TextBlock Text="{Binding Capacity}" 
-                                               Grid.Row="5" Margin="100,0,0,0"
-                                               Style="{StaticResource StandartText}"/>
-
-                            <!-- Кнопка "Записаться" -->
+                    <Border BorderBrush="Gray" BorderThickness="1" Padding="10" Margin="5" Width="400">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="{Binding Title}" FontWeight="Bold" Style="{StaticResource TitleText}"/>
+                            <TextBlock Text="Описание:" FontWeight="Bold" Style="{StaticResource StandartText}"/>
+                            <TextBlock Text="{Binding Description}" Margin="0,2,0,5" Style="{StaticResource StandartText}"/>
+                            <TextBlock Text="Локация:" FontWeight="Bold" Style="{StaticResource StandartText}"/>
+                            <TextBlock Text="{Binding LocationName}" Margin="0,2,0,5" Style="{StaticResource StandartText}"/>
+                            <TextBlock Text="Дата начала:" FontWeight="Bold" Style="{StaticResource StandartText}"/>
+                            <TextBlock Text="{Binding DateStart, StringFormat={}{0:dd.MM.yyyy}}" Margin="0,2,0,5" Style="{StaticResource StandartText}"/>
+                            <TextBlock Text="Участников:" FontWeight="Bold" Style="{StaticResource StandartText}"/>
+                            <TextBlock Text="{Binding CurrentParticipants}" Margin="0,2,0,5" Style="{StaticResource StandartText}"/>
+                            <TextBlock Text="Максимальная вместимость:" FontWeight="Bold" Style="{StaticResource StandartText}"/>
+                            <TextBlock Text="{Binding Capacity}" Margin="0,2,0,5" Style="{StaticResource StandartText}"/>
+                            <TextBlock Text="Стастус мероприятия" FontWeight="Bold" Style="{StaticResource StandartText}"/>
+                            <TextBlock Text="{Binding StatusName}" Margin="0,2,0,5" Style="{StaticResource StandartText}"/>
                             <Button Content="Записаться" 
-                                            Grid.Row="6" 
-                                            Margin="0,10,0,0"
-                                            Click="SignUpButton_Click"/>
-                        </Grid>
+                                    Grid.Row="6" 
+                                    Margin="0,10,0,0"
+                                    Click="SignUpButton_Click"/>
+                        </StackPanel>
                     </Border>
                 </DataTemplate>
             </ListBox.ItemTemplate>

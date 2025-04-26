@@ -96,7 +96,7 @@ namespace EventApp.PageFolder.ListFolder
                         EndDate = item.EndDate,
                         LocationId = item.locId,
                         LocationName = item.locName,
-                        Address = item.address,
+                        //Address = item.address,
                         NumberCab = item.NumberCab,
                         Capacity = item.capacity,
                         OrganizerId = item.OrganizerId,

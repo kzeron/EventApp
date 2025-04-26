@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="149b3b9ebf0f4d8babe5d3e8a34374fe" Name="Diagram1">
+        <EntityTypeShape EntityType="EventModel.Address" Width="1.5" PointX="1.5" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventModel.City" Width="1.5" PointX="1.5" PointY="13.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventModel.Employee" Width="1.5" PointX="8.25" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventModel.Events" Width="1.5" PointX="3" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventModel.EventTrainers" Width="1.5" PointX="5.25" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventModel.Locations" Width="1.5" PointX="0.75" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventModel.Notifications" Width="1.5" PointX="10.5" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventModel.Participants" Width="1.5" PointX="13.5" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventModel.Role" Width="1.5" PointX="3.75" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventModel.Status" Width="1.5" PointX="0.75" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventModel.Street" Width="1.5" PointX="1.5" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventModel.Trainers" Width="1.5" PointX="10.5" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventModel.Users" Width="1.5" PointX="6" PointY="6.625" IsExpanded="true" />
+        <AssociationConnector Association="EventModel.FK__Address__IdStree__51300E55" ManuallyRouted="false" />
+        <AssociationConnector Association="EventModel.FK_Locations_Address" ManuallyRouted="false" />
+        <AssociationConnector Association="EventModel.FK__Street__IdCity__4E53A1AA" ManuallyRouted="false" />
+        <AssociationConnector Association="EventModel.FK__Employee__UserId__1DB06A4F" ManuallyRouted="false" />
+        <AssociationConnector Association="EventModel.FK_Notifications_Employee" ManuallyRouted="false" />
+        <AssociationConnector Association="EventModel.FK_Participants_Employee" ManuallyRouted="false" />
+        <AssociationConnector Association="EventModel.FK_Trainers_Employee" ManuallyRouted="false" />
+        <AssociationConnector Association="EventModel.FK_Events_Locations" ManuallyRouted="false" />
+        <AssociationConnector Association="EventModel.FK_Events_Status" ManuallyRouted="false" />
+        <AssociationConnector Association="EventModel.FK_Events_Trainers" ManuallyRouted="false" />
+        <AssociationConnector Association="EventModel.FK_EventTrainers_Events" ManuallyRouted="false" />
+        <AssociationConnector Association="EventModel.FK_Participants_Events" ManuallyRouted="false" />
+        <AssociationConnector Association="EventModel.FK_Participants_Statuses" ManuallyRouted="false" />
+        <AssociationConnector Association="EventModel.FK_User_Role" ManuallyRouted="false" />
+        <AssociationConnector Association="EventModel.FK_User_Statuses" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

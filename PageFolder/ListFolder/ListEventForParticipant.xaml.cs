@@ -15,7 +15,7 @@ namespace EventApp.PageFolder.ListFolder
     public partial class ListEventForParticipant : Page
     {
         private ObservableCollection<ClassEvent> _events;
-        private User _currentUser;
+        private Users _currentUser;
         public ListEventForParticipant()
         {
             InitializeComponent();
@@ -79,7 +79,7 @@ namespace EventApp.PageFolder.ListFolder
                     EndDate = item.EndDate,
                     LocationId = item.locId,
                     LocationName = item.locName,
-                    Address = item.address,
+                    //Address = item.address,
                     NumberCab = item.NumberCab,
                     Capacity = item.capacity,
                     OrganizerId = item.OrganizerId,
@@ -108,9 +108,17 @@ namespace EventApp.PageFolder.ListFolder
                 return;
             }
 
+            // Получаем текущего сотрудника
+            var employee = context.Employee.FirstOrDefault(emp => emp.UserId == _currentUser.IdUser);
+            if (employee == null)
+            {
+                MBClass.ErrorMB("Не удалось определить профиль пользователя.");
+                return;
+            }
+
             // 1) Проверяем, не записан ли уже пользователь
             bool alreadyRegistered = context.Participants
-                .Any(p => p.IdEvent == selectedItem.IdEvent && p.IdUser == _currentUser.IdUser);
+                .Any(p => p.IdEvent == selectedItem.IdEvent && p.IdEmploee == employee.EmployeeId);
             if (alreadyRegistered)
             {
                 MBClass.ErrorMB("Вы уже записаны на данное мероприятие.");
@@ -125,11 +133,22 @@ namespace EventApp.PageFolder.ListFolder
                 return;
             }
 
-            // 3) Проверяем, нет ли у пользователя мероприятия в ближайшие 7 дней
+            // 3) Проверяем, нет ли у пользователя мероприятий в ближайшие 7 дней
             var userEvents = from part in context.Participants
                              join ev in context.Events on part.IdEvent equals ev.IdEvent
-                             where part.IdUser == _currentUser.IdUser
+                             where part.IdEmploee == employee.EmployeeId
                              select ev;
+
+            DateTime today = DateTime.Today;
+            DateTime nextWeek = today.AddDays(7);
+
+            bool hasConflict = userEvents.Any(ev => ev.DateStart >= today && ev.EndDate <= nextWeek);
+            if (hasConflict)
+            {
+                MBClass.ErrorMB("У вас уже запланировано мероприятие в ближайшие 7 дней.");
+                return;
+            }
+
             foreach (var ev in userEvents)
             {
                 if (ev.DateStart.HasValue && selectedItem.DateStart.HasValue)
@@ -143,15 +162,25 @@ namespace EventApp.PageFolder.ListFolder
                 }
             }
 
+            // Получаем текущего сотрудника по Id пользователя
+            var currentEmployee = context.Employee.FirstOrDefault(emp => emp.UserId == _currentUser.IdUser);
+            if (currentEmployee == null)
+            {
+                MBClass.ErrorMB("Не удалось определить профиль пользователя.");
+                return;
+            }
+
             // Запись пользователя на мероприятие
             var newParticipant = new Participants
             {
                 IdEvent = selectedItem.IdEvent,
-                IdUser = _currentUser.IdUser,
+                IdEmploee = currentEmployee.EmployeeId,
                 IdStatus = (int)ParticipantsStatuses.SignedUp, // ID=3
                 RegistrationDate = DateTime.Now
             };
             context.Participants.Add(newParticipant);
+
+
 
             // Обновляем статус мероприятия, если он не установлен в "Собирается"
             var eventToUpdate = context.Events.FirstOrDefault(ev => ev.IdEvent == selectedItem.IdEvent);
