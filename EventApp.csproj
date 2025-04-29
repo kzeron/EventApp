@@ -114,6 +114,7 @@
     <Compile Include="ClassFolder\ClassMessage.cs" />
     <Compile Include="ClassFolder\ClassParticipants.cs" />
     <Compile Include="ClassFolder\ClassSaveSassion.cs" />
+    <Compile Include="ClassFolder\ClassSpeaker.cs" />
     <Compile Include="ClassFolder\EmailService.cs" />
     <Compile Include="ClassFolder\MBClass.cs" />
     <Compile Include="ClassFolder\NavigationHandler.cs" />
@@ -199,11 +200,17 @@
     <Compile Include="PageFolder\ListFolder\ListEventForParticipant.xaml.cs">
       <DependentUpon>ListEventForParticipant.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PageFolder\ListFolder\ListSpeaker.xaml.cs">
+      <DependentUpon>ListSpeaker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PageFolder\ListFolder\ListUser.xaml.cs">
       <DependentUpon>ListUser.xaml</DependentUpon>
     </Compile>
     <Compile Include="PageFolder\ListFolder\PageParticipants.xaml.cs">
       <DependentUpon>PageParticipants.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PageFolder\ProfilePage.xaml.cs">
+      <DependentUpon>ProfilePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="WindowFolder\WindowAuth.xaml.cs">
       <DependentUpon>WindowAuth.xaml</DependentUpon>
@@ -282,11 +289,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="PageFolder\ListFolder\ListSpeaker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PageFolder\ListFolder\ListUser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PageFolder\ListFolder\PageParticipants.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PageFolder\ProfilePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

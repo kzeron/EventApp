@@ -7,6 +7,7 @@ using System.Windows.Input;
 using EventApp.PageFolder.EditFolder;
 using EventApp.DataFolder;
 using System.Linq;
+using EventApp.PageFolder;
 
 namespace EventApp.WindowFolder
 {
@@ -54,7 +55,7 @@ namespace EventApp.WindowFolder
 
             MainFrame.Content = thisPage;
             _userRole =(UserRole)ClassSaveSassion.LoadSession().IdRole;
-            SetupNavigation();
+            //SetupNavigation();
         }
         public void OpenAddEventModal()
         {
@@ -101,6 +102,12 @@ namespace EventApp.WindowFolder
 
             AddEventFrame.Navigate(new EditUser(userId));
         }
+        public void OpenProfileModal()
+        {
+            OverlayGrid.Visibility = Visibility.Visible;
+            UsersButton.IsEnabled = EventsButtonManage.IsEnabled = ListEventButton.IsEnabled = false;
+            AddEventFrame.Navigate(new ProfilePage());
+        }
 
 
         private void SetupNavigation()
@@ -140,6 +147,7 @@ namespace EventApp.WindowFolder
             {
                 listUserPage.LoadUsers();
             }
+            
         }
 
         private void ShowUsersPage(object sender, RoutedEventArgs e)
@@ -188,7 +196,12 @@ namespace EventApp.WindowFolder
 
         private void ListSpekersButton_Click(object sender, RoutedEventArgs e)
         {
+            MainFrame.Content = new ListSpeaker();
+        }
 
+        private void UserFullName_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            OpenProfileModal();
         }
     }
 }
