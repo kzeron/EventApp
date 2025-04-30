@@ -209,6 +209,9 @@
     <Compile Include="PageFolder\ListFolder\PageParticipants.xaml.cs">
       <DependentUpon>PageParticipants.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PageFolder\LoginPage.xaml.cs">
+      <DependentUpon>LoginPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PageFolder\ProfilePage.xaml.cs">
       <DependentUpon>ProfilePage.xaml</DependentUpon>
     </Compile>
@@ -301,6 +304,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="PageFolder\LoginPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PageFolder\ProfilePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -326,6 +333,9 @@
     <Resource Include="AssetFolder\ButtonContent\ListEvent.png" />
     <Resource Include="AssetFolder\ButtonContent\EventMaster.png" />
     <Resource Include="AssetFolder\ButtonContent\Speakers.png" />
+    <Resource Include="AssetFolder\MenuItemContent\Info.png" />
+    <Resource Include="AssetFolder\MenuItemContent\Edit.png" />
+    <Resource Include="AssetFolder\MenuItemContent\Delete.png" />
     <Content Include="DataFolder\Model.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model.edmx</DependentUpon>

@@ -23,6 +23,12 @@ namespace EventApp.WindowFolder
         {
             InitializeComponent();
             
+            SidePanel.Visibility = Visibility.Collapsed;
+            MainFrame.Visibility = Visibility.Collapsed;
+
+            OverlayGrid.Visibility = Visibility.Visible;
+            AddEventFrame.Navigate(new LoginPage());
+
             var sessionUser = ClassSaveSassion.LoadSession();
             if(sessionUser == null )
             {
@@ -152,12 +158,14 @@ namespace EventApp.WindowFolder
 
         private void ShowUsersPage(object sender, RoutedEventArgs e)
         {
-            MainFrame.Content = new ListUser(); // Или ваша страница UsersPage
+            MainFrame.Content = new ListUser();
+            SetPageTitle("Список пользователей");
         }
 
         private void ShowEventsPage(object sender, RoutedEventArgs e)
         {
-            MainFrame.Content = new ListEvent(); // Или ваша страница EventsPage
+            MainFrame.Content = new ListEvent();
+            SetPageTitle("Список Мероприятий");
         }
         private void TopBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -197,11 +205,31 @@ namespace EventApp.WindowFolder
         private void ListSpekersButton_Click(object sender, RoutedEventArgs e)
         {
             MainFrame.Content = new ListSpeaker();
+            SetPageTitle("Список организаторов");
         }
 
         private void UserFullName_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             OpenProfileModal();
+        }
+        public void SetPageTitle(string title)
+        {
+            PageTitleTB.Text = title;
+        }
+
+        private void AddUsers_Click(object sender, RoutedEventArgs e)
+        {
+            WindowMain mainWindow = GetWindow(this) as WindowMain;
+            mainWindow?.OpenAddUserModal();
+        }
+
+        private void AddEvent_Click(object sender, RoutedEventArgs e)
+        {
+            WindowMain mainWindow = GetWindow(this) as WindowMain;
+            if (mainWindow != null)
+            {
+                mainWindow.OpenAddEventModal();
+            }
         }
     }
 }
