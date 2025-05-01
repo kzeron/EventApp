@@ -6,8 +6,11 @@ namespace EventApp.ClassFolder
     {
         public int IdParticipants { get; set; }
         public int IdEvent {  get; set; }
+        public string Title { get; set; }
+        public DateTime StartEvent { get; set; }    
         public int IdUser { get; set; }
         public int IdStatus { get; set; }
+        public string NameStatus { get; set; }
         public DateTime RegistrationDate { get; set; }
 
         public enum ParticipantsStatuses

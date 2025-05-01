@@ -8,6 +8,7 @@ using EventApp.PageFolder.EditFolder;
 using EventApp.DataFolder;
 using System.Linq;
 using EventApp.PageFolder;
+using System.Text;
 
 namespace EventApp.WindowFolder
 {
@@ -18,50 +19,91 @@ namespace EventApp.WindowFolder
     {
         private UserRole _userRole;
         private Employee _currentUser;
+        private EventEntities _ctx;
 
-        public WindowMain(Page thisPage)
+
+        public WindowMain()
         {
             InitializeComponent();
-            
-            SidePanel.Visibility = Visibility.Collapsed;
-            MainFrame.Visibility = Visibility.Collapsed;
 
-            OverlayGrid.Visibility = Visibility.Visible;
+            // Сначала скрываем основное и боковую панель
+            SidePanel.Visibility =   Visibility.Collapsed;
+            MainFrame.Visibility =   Visibility.Collapsed; 
+            OverlayGrid.Visibility =   Visibility.Visible;
+            AddEventFrame.Visibility = Visibility.Visible;
+
             AddEventFrame.Navigate(new LoginPage());
 
+            _ctx =  EventEntities.GetContext();
+            this.Loaded += WindowMain_Loaded;
+            
+            //SetupNavigation();
+        }
+        private void WindowMain_Loaded(object sender, RoutedEventArgs e)
+        {
+            // После того, как окно отображено, проверяем сессию
             var sessionUser = ClassSaveSassion.LoadSession();
-            if(sessionUser == null )
+            if (sessionUser == null)
             {
-                MBClass.ErrorMB("Аккаунт не найден");
-                new WindowAuth().Show();
-                Close();
+                // Остаёмся на странице логина
                 return;
             }
 
-            using (var ctx = EventEntities.GetContext())
+            // Проверяем, валидна ли эта сессия
+            var user = _ctx.Users.FirstOrDefault(u => u.IdUser == sessionUser.IdUser);
+            if (user == null || user.StatusID == (int)Statuses.Fired)
             {
-                _currentUser = ctx.Employee.FirstOrDefault(emp => emp.UserId == sessionUser.IdUser);
+                ClassSaveSassion.ClearSession();
+                return;
             }
+
+            // Всё хорошо — прячем логин и показываем основное меню
+            OverlayGrid.Visibility = Visibility.Collapsed;
+            AddEventFrame.Visibility = Visibility.Collapsed;
+            SidePanel.Visibility = Visibility.Visible;
+            MainFrame.Visibility = Visibility.Visible;
+
+            // Сохраняем роль и профиль
+            _userRole = (UserRole)user.IdRole;
+            _currentUser = _ctx.Employee.FirstOrDefault(e2 => e2.UserId == user.IdUser);
+            InitUserInfo();
+
+            // Навигация на стартовую страницу для этой роли
+            switch (_userRole)
+            {
+                case UserRole.Admin:
+                    MainFrame.Navigate(new ListUser());
+                    SetPageTitle("Список пользователей");
+                    break;
+                case UserRole.Teacher:
+                    MainFrame.Navigate(new ListEvent());
+                    SetPageTitle("Список мероприятий");
+                    break;
+                case UserRole.Participant:
+                    MainFrame.Navigate(new ListEventForParticipant());
+                    SetPageTitle("Мои мероприятия");
+                    break;
+            }
+            EmailService.SendRemindersForTomorrowEvents();
+        }
+        private void InitUserInfo()
+        {
             if (_currentUser != null)
             {
-                string surname = _currentUser.Surname ?? "";
-                string name = _currentUser.Name ?? "";
-                string patronymic = _currentUser.Patronymic ?? "";
+                var s = _currentUser.Surname ?? "";
+                var n = _currentUser.Name ?? "";
+                var p = _currentUser.Patronymic ?? "";
 
-                string initials = "";
-                if (!string.IsNullOrEmpty(name)) initials += name[0] + ".";
-                if (!string.IsNullOrEmpty(patronymic)) initials += " " + patronymic[0] + ".";
+                var initials = new StringBuilder();
+                if (n.Length > 0) initials.Append(n[0]).Append('.');
+                if (p.Length > 0) initials.Append(' ').Append(p[0]).Append('.');
 
-                UserFullName.Text = $"{surname} {initials}";
+                UserFullName.Text = $"{s} {initials}";
             }
             else
             {
                 UserFullName.Text = "Данные не найдены";
             }
-
-            MainFrame.Content = thisPage;
-            _userRole =(UserRole)ClassSaveSassion.LoadSession().IdRole;
-            //SetupNavigation();
         }
         public void OpenAddEventModal()
         {
@@ -77,7 +119,10 @@ namespace EventApp.WindowFolder
         public void OpenAddUserModal()
         {
             OverlayGrid.Visibility = Visibility.Visible;
+            AddEventFrame.Visibility = Visibility.Visible;
 
+            AddEventFrame.NavigationService.RemoveBackEntry();
+            AddEventFrame.Content = null;
             // Блокируем кнопки
             UsersButton.IsEnabled = false;
             EventsButtonManage.IsEnabled = false;
@@ -88,7 +133,10 @@ namespace EventApp.WindowFolder
         public void OpenEditEventModal(int eventId)
         {
             OverlayGrid.Visibility = Visibility.Visible;
+            AddEventFrame.Visibility = Visibility.Visible;
 
+            AddEventFrame.NavigationService.RemoveBackEntry();
+            AddEventFrame.Content = null;
             // Блокируем кнопки
             UsersButton.IsEnabled = false;
             EventsButtonManage.IsEnabled = false;
@@ -100,6 +148,10 @@ namespace EventApp.WindowFolder
         public void OpenEditUserModal(int userId)
         {
             OverlayGrid.Visibility = Visibility.Visible;
+            AddEventFrame.Visibility = Visibility.Visible;
+
+            AddEventFrame.NavigationService.RemoveBackEntry();
+            AddEventFrame.Content = null;
 
             // Блокируем кнопки
             UsersButton.IsEnabled = false;
@@ -111,6 +163,11 @@ namespace EventApp.WindowFolder
         public void OpenProfileModal()
         {
             OverlayGrid.Visibility = Visibility.Visible;
+            AddEventFrame.Visibility = Visibility.Visible;
+            
+            AddEventFrame.NavigationService.RemoveBackEntry();
+            AddEventFrame.Content = null;
+
             UsersButton.IsEnabled = EventsButtonManage.IsEnabled = ListEventButton.IsEnabled = false;
             AddEventFrame.Navigate(new ProfilePage());
         }
@@ -196,10 +253,6 @@ namespace EventApp.WindowFolder
         private void EventButtonList_Click(object sender, RoutedEventArgs e)
         {
             MainFrame.Content = new ListEventForParticipant();
-        }
-        private void WindowMain_Loaded(object sender, RoutedEventArgs e)
-        {
-            EmailService.SendRemindersForTomorrowEvents();
         }
 
         private void ListSpekersButton_Click(object sender, RoutedEventArgs e)

@@ -194,6 +194,9 @@
     <Compile Include="PageFolder\EditFolder\EditUser.xaml.cs">
       <DependentUpon>EditUser.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PageFolder\ListFolder\HistoryEventParticant.xaml.cs">
+      <DependentUpon>HistoryEventParticant.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PageFolder\ListFolder\ListEvent.xaml.cs">
       <DependentUpon>ListEvent.xaml</DependentUpon>
     </Compile>
@@ -281,6 +284,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PageFolder\EditFolder\EditUser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PageFolder\ListFolder\HistoryEventParticant.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
