@@ -21,6 +21,12 @@ namespace EventApp.ClassFolder
         public int IdEvent { get; set; }
         public string LocationName { get; set; }
         public string Address { get; set; }
+        public int IdCity { get; set; }
+        public string City { get; set; }
+        public int IdStreet { get; set; }
+        public string Street { get; set; }
+        public int HomeId { get; set; }
+        public string HomeNumber { get; set; }
         public int? NumberCab { get; set; }
         public int? Capacity { get; set; }
         public int CurrentParticipants { get; set; }

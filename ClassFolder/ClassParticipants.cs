@@ -22,7 +22,7 @@ namespace EventApp.ClassFolder
             Started = 7,       // Началось
             InProgress = 8,    // Проходит
             Completed = 9,     // Завершилось
-            Cancelled = 10     // Отменено
+            Canceled = 10     // Отменено
         }
     }
 }

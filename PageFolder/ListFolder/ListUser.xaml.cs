@@ -172,6 +172,26 @@ namespace EventApp.PageFolder.ListFolder
                 MBClass.ErrorMB($"Ошибка: {ex.Message}");
             }
         }
+        private void MenuItemHistory_Click(object sender, RoutedEventArgs e)
+        {
+            var mi = sender as MenuItem;
+            var cm = mi?.Parent as ContextMenu;
+            var border = cm?.PlacementTarget as Border;
+            var selectedUser = border?.DataContext as ClassUser;
+            if (selectedUser == null) return;
+
+            // Находим EmployeeId по выбранному пользователю
+            var ctx = EventEntities.GetContext();
+            var employee = ctx.Employee.FirstOrDefault(emp => emp.UserId == selectedUser.IdUser);
+            if (employee == null)
+            {
+                MBClass.WarningMB("У данного пользователя нет профиля сотрудника/участника.");
+                return;
+            }
+
+            // Навигация на страницу истории
+            this.NavigationService?.Navigate(new HistoryEventParticant(employee.EmployeeId));
+        }
 
         private void EditUserButton_Click(object sender, RoutedEventArgs e)
         {

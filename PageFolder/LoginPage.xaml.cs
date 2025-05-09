@@ -47,26 +47,9 @@ namespace EventApp.PageFolder
 
             ClassSaveSassion.SaveSassion(user);
 
-            // всё ок — закрываем оверлей и открываем основное содержимое
-            var win = (WindowMain)Application.Current.MainWindow;
-            win.OverlayGrid.Visibility = Visibility.Collapsed;
-            win.SidePanel.Visibility = Visibility.Visible;
-
-            // выбираем стартовую страницу
-            switch ((UserRole)user.IdRole)
+            if (Application.Current.MainWindow is WindowMain win)
             {
-                case UserRole.Admin:
-                    win.MainFrame.Navigate(new ListUser());
-                    win.SetPageTitle("Список пользователей");
-                    break;
-                case UserRole.Teacher:
-                    win.MainFrame.Navigate(new ListEvent());
-                    win.SetPageTitle("Список мероприятий");
-                    break;
-                case UserRole.Participant:
-                    win.MainFrame.Navigate(new ListEventForParticipant());
-                    win.SetPageTitle("Мои мероприятия");
-                    break;
+                win.InitializeForCurrentSession();
             }
         }
     }

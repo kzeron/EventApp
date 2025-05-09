@@ -209,6 +209,9 @@
     <Compile Include="PageFolder\ListFolder\ListUser.xaml.cs">
       <DependentUpon>ListUser.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PageFolder\ListFolder\MyEventHistor.xaml.cs">
+      <DependentUpon>MyEventHistor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PageFolder\ListFolder\PageParticipants.xaml.cs">
       <DependentUpon>PageParticipants.xaml</DependentUpon>
     </Compile>
@@ -217,9 +220,6 @@
     </Compile>
     <Compile Include="PageFolder\ProfilePage.xaml.cs">
       <DependentUpon>ProfilePage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="WindowFolder\WindowAuth.xaml.cs">
-      <DependentUpon>WindowAuth.xaml</DependentUpon>
     </Compile>
     <Compile Include="WindowFolder\WindowMain.xaml.cs">
       <DependentUpon>WindowMain.xaml</DependentUpon>
@@ -307,6 +307,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="PageFolder\ListFolder\MyEventHistor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PageFolder\ListFolder\PageParticipants.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -316,10 +320,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PageFolder\ProfilePage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="WindowFolder\WindowAuth.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -13,34 +13,25 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal"
-                    Grid.Row="0"
-                    VerticalAlignment="Center">
-            <Button x:Name="BackButton"
-                    Content="← Назад" 
-                    Background="Transparent"
-                    BorderBrush="White"
-                    Margin="0 0 10 0"/>
-            <TextBlock Text="Список мероприятияй"
-                       Style="{StaticResource TitleText}"
-                       HorizontalAlignment="Center"
-                       Margin="120 0 0 0"/>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="0" VerticalAlignment="Center">
+            <Button Content="← Назад" Click="BackButton_Click"
+              Background="Transparent" BorderBrush="White"/>
+            <TextBlock Text="История мероприятий" Style="{StaticResource TitleText}"
+                 Margin="20,0,0,0"/>
         </StackPanel>
-        <DataGrid x:Name="ParticipantEventsList"
-                  Grid.Row="1"
-                  AutoGenerateColumns="False"
-                  CanUserAddRows="False"
-                  IsReadOnly="True"
+
+        <DataGrid x:Name="ParticipantEventsList" Grid.Row="1"
+              AutoGenerateColumns="False" IsReadOnly="True"
                   Style="{StaticResource CustomDataGridStyle}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Название"
-                                    Binding="{Binding Title}"/>
+                <DataGridTextColumn Header="Название" Binding="{Binding Title}"/>
                 <DataGridTextColumn Header="Дата начала"
-                                    Binding="{Binding DateStart, StringFormat={}{0:dd.MM.yyyy}}"/>
-                <DataGridTextColumn Header="Статус"       
-                                    Binding="{Binding StatusName}"/>
-                <DataGridTextColumn Header="Дата регистрации" 
-                                    Binding="{Binding RegistrationDate, StringFormat={}{0:dd.MM.yyyy}}"/>
+                            Binding="{Binding DateStart, StringFormat={}{0:dd.MM.yyyy}}"/>
+                <DataGridTextColumn Header="Статус участника"
+                            Binding="{Binding ParticipantStatus}"/>
+                <DataGridTextColumn Header="Дата регистрации"
+                            Binding="{Binding RegistrationDate, StringFormat={}{0:dd.MM.yyyy}}"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

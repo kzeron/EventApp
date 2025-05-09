@@ -138,64 +138,20 @@
     
     <!-- Изменение скрола -->
     <!-- Кнопка со стрелкой вверх -->
-<Style x:Key="RepeatButtonBaseStyle" TargetType="RepeatButton">
-    <Setter Property="OverridesDefaultStyle" Value="True"/>
-    <Setter Property="Focusable" Value="False"/>
-    <Setter Property="Background" Value="Gray"/>
-    <Setter Property="BorderBrush" Value="Transparent"/>
-    <Setter Property="BorderThickness" Value="0"/>
-    <Setter Property="Padding" Value="2"/>  </Style>
-
-<Style x:Key="RepeatButtonUpStyle" TargetType="RepeatButton" BasedOn="{StaticResource RepeatButtonBaseStyle}">
-    <Setter Property="Template">
-        <Setter.Value>
-            <ControlTemplate TargetType="RepeatButton">
-                <Path Data="M 0,8 L 4,0 L 8,8 Z" Fill="White" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            </ControlTemplate>
-        </Setter.Value>
-    </Setter>
-</Style>
-
-<Style x:Key="RepeatButtonDownStyle" TargetType="RepeatButton" BasedOn="{StaticResource RepeatButtonBaseStyle}">
-    <Setter Property="Template">
-        <Setter.Value>
-            <ControlTemplate TargetType="RepeatButton">
-                <Path Data="M 0,0 L 4,8 L 8,0 Z" Fill="White" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            </ControlTemplate>
-        </Setter.Value>
-    </Setter>
-</Style>
-
-<Style x:Key="RepeatButtonLeftStyle" TargetType="RepeatButton" BasedOn="{StaticResource RepeatButtonBaseStyle}">
-    <Setter Property="Template">
-        <Setter.Value>
-            <ControlTemplate TargetType="RepeatButton">
-                <Path Data="M 8,0 L 0,4 L 8,8 Z" Fill="White" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            </ControlTemplate>
-        </Setter.Value>
-    </Setter>
-</Style>
-
-<Style x:Key="RepeatButtonRightStyle" TargetType="RepeatButton" BasedOn="{StaticResource RepeatButtonBaseStyle}">
-    <Setter Property="Template">
-        <Setter.Value>
-            <ControlTemplate TargetType="RepeatButton">
-                <Path Data="M 0,0 L 8,4 L 0,8 Z" Fill="White" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            </ControlTemplate>
-        </Setter.Value>
-    </Setter>
-</Style>
-
     <Style x:Key="RoundedScrollBarStyle" TargetType="ScrollBar">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ScrollBar">
                     <Grid>
-                        <Track x:Name="PART_Track" Orientation="{Binding Orientation, RelativeSource={RelativeSource AncestorType=ScrollBar}}">
+                        <Track x:Name="PART_Track"
+                           Orientation="{Binding Orientation, RelativeSource={RelativeSource AncestorType=ScrollBar}}"
+                           >
                             <Track.DecreaseRepeatButton>
-                                <RepeatButton x:Name="PART_DecreaseButton" Style="{StaticResource RepeatButtonUpStyle}" />
+                                <!-- Устанавливаем пустой элемент, чтобы скрыть -->
+                                <RepeatButton Visibility="Collapsed" IsHitTestVisible="False" Focusable="False" />
                             </Track.DecreaseRepeatButton>
+
                             <Track.Thumb>
                                 <Thumb Background="DarkGray" Margin="2">
                                     <Thumb.Template>
@@ -205,60 +161,19 @@
                                     </Thumb.Template>
                                 </Thumb>
                             </Track.Thumb>
+
                             <Track.IncreaseRepeatButton>
-                                <RepeatButton x:Name="PART_IncreaseButton" Style="{StaticResource RepeatButtonDownStyle}" />
+                                <!-- Устанавливаем пустой элемент, чтобы скрыть -->
+                                <RepeatButton Visibility="Collapsed" IsHitTestVisible="False" Focusable="False" />
                             </Track.IncreaseRepeatButton>
                         </Track>
                     </Grid>
-                    <ControlTemplate.Triggers>
-                        <!-- Если ориентация горизонтальная, меняем стили кнопок -->
-                        <Trigger Property="Orientation" Value="Horizontal">
-                            <Setter TargetName="PART_DecreaseButton" Property="Style" Value="{StaticResource RepeatButtonLeftStyle}"/>
-                            <Setter TargetName="PART_IncreaseButton" Property="Style" Value="{StaticResource RepeatButtonRightStyle}"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
 
-    <Style x:Key="RoundedScrollViewerStyle" TargetType="ScrollViewer">
-    <Setter Property="Template">
-        <Setter.Value>
-            <ControlTemplate TargetType="ScrollViewer">
-                <Border CornerRadius="10"
-                        BorderBrush="Gray"
-                        BorderThickness="1"
-                        Background="{Binding Background, RelativeSource={RelativeSource AncestorType=ScrollViewer}}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <ScrollContentPresenter Grid.Column="0" Grid.Row="0"/>
-                        <ScrollBar x:Name="PART_VerticalScrollBar"
-                                   Grid.Column="1"
-                                   Grid.Row="0"
-                                   Orientation="Vertical"
-                                   Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
-                                   Style="{StaticResource RoundedScrollBarStyle}"/>
-                        <ScrollBar x:Name="PART_HorizontalScrollBar"
-                                   Grid.Column="0"
-                                   Grid.Row="1"
-                                   Orientation="Horizontal"
-                                   Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
-                                   Style="{StaticResource RoundedScrollBarStyle}"/>
-                    </Grid>
-                </Border>
-            </ControlTemplate>
-        </Setter.Value>
-    </Setter>
-</Style>
 
     <!-- Стиль для DataGrid -->
     <Style x:Key="CustomDataGridStyle" 

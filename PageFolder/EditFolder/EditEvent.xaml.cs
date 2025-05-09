@@ -13,11 +13,13 @@ namespace EventApp.PageFolder.EditFolder
     public partial class EditEvent : Page
     {
         private Events _event;
+
         public EditEvent(int eventId)
         {
             InitializeComponent();
             LoadEvent(eventId);
         }
+
         private void LoadEvent(int eventId)
         {
             var context = EventEntities.GetContext();
@@ -29,14 +31,16 @@ namespace EventApp.PageFolder.EditFolder
                 return;
             }
 
-            DataContext = _event;
-            LocationCb.ItemsSource = context.Locations.ToList();
-            LocationCb.SelectedValue = _event.LocationId;
+            // Заполняем поля
             TitleTb.Text = _event.Title;
             DescriptionTb.Text = _event.Description;
             StartDatePicker.SelectedDate = _event.DateStart;
             EndDatePicker.SelectedDate = _event.EndDate;
+
+            LocationCb.ItemsSource = context.Locations.ToList();
+            LocationCb.SelectedValue = _event.LocationId;
         }
+
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             if (_event == null)
@@ -49,7 +53,9 @@ namespace EventApp.PageFolder.EditFolder
             _event.Description = DescriptionTb.Text;
             _event.DateStart = StartDatePicker.SelectedDate;
             _event.EndDate = EndDatePicker.SelectedDate;
-            _event.LocationId = LocationCb.SelectedValue != null ? int.Parse(LocationCb.SelectedValue.ToString()) : (int?)null;
+            _event.LocationId = LocationCb.SelectedValue != null
+                ? int.Parse(LocationCb.SelectedValue.ToString())
+                : (int?)null;
 
             if (string.IsNullOrWhiteSpace(_event.Title))
             {
@@ -57,8 +63,7 @@ namespace EventApp.PageFolder.EditFolder
                 return;
             }
 
-            var context = EventEntities.GetContext();
-            context.SaveChanges();
+            EventEntities.GetContext().SaveChanges();
 
             MBClass.InformationMB("Изменения сохранены!");
             CloseModal();
@@ -72,10 +77,8 @@ namespace EventApp.PageFolder.EditFolder
         private void CloseModal()
         {
             WindowMain mainWindow = Window.GetWindow(this) as WindowMain;
-            if (mainWindow != null)
-            {
-                mainWindow.CloseModal();
-            }
+            mainWindow?.CloseModal();
         }
     }
+
 }

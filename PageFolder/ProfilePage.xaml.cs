@@ -51,6 +51,12 @@ namespace EventApp.PageFolder
                 UserPhoto.Source = bmp;
             }
         }
+        // ProfilePage.xaml.cs
+        private void ShowHistory_Click(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService?.Navigate(new ListFolder.MyEventHistor());
+        }
+
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             // Вернуться назад: убрать оверлей и очистить фрейм

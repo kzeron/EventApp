@@ -39,36 +39,40 @@ namespace EventApp.WindowFolder
             
             //SetupNavigation();
         }
-        private void WindowMain_Loaded(object sender, RoutedEventArgs e)
+        public void InitializeForCurrentSession()
         {
-            // После того, как окно отображено, проверяем сессию
             var sessionUser = ClassSaveSassion.LoadSession();
             if (sessionUser == null)
             {
-                // Остаёмся на странице логина
+                // Если нет сессии — показываем только логин
+                SidePanel.Visibility = Visibility.Collapsed;
+                MainFrame.Visibility = Visibility.Collapsed;
+                OverlayGrid.Visibility = Visibility.Visible;
+                AddEventFrame.Visibility = Visibility.Visible;
+                AddEventFrame.Navigate(new LoginPage());
                 return;
             }
 
-            // Проверяем, валидна ли эта сессия
+            // Есть сессия — проверяем валидность
             var user = _ctx.Users.FirstOrDefault(u => u.IdUser == sessionUser.IdUser);
             if (user == null || user.StatusID == (int)Statuses.Fired)
             {
                 ClassSaveSassion.ClearSession();
+                InitializeForCurrentSession(); // рекурсивно перезапустим
                 return;
             }
 
-            // Всё хорошо — прячем логин и показываем основное меню
+            // Убираем логин, показываем меню
             OverlayGrid.Visibility = Visibility.Collapsed;
             AddEventFrame.Visibility = Visibility.Collapsed;
             SidePanel.Visibility = Visibility.Visible;
             MainFrame.Visibility = Visibility.Visible;
 
-            // Сохраняем роль и профиль
+            // Заполняем профиль и стартовую страницу
             _userRole = (UserRole)user.IdRole;
-            _currentUser = _ctx.Employee.FirstOrDefault(e2 => e2.UserId == user.IdUser);
+            _currentUser = _ctx.Employee.FirstOrDefault(e => e.UserId == user.IdUser);
             InitUserInfo();
 
-            // Навигация на стартовую страницу для этой роли
             switch (_userRole)
             {
                 case UserRole.Admin:
@@ -84,7 +88,12 @@ namespace EventApp.WindowFolder
                     SetPageTitle("Мои мероприятия");
                     break;
             }
+
             EmailService.SendRemindersForTomorrowEvents();
+        }
+        private void WindowMain_Loaded(object sender, RoutedEventArgs e)
+        {
+            InitializeForCurrentSession();
         }
         private void InitUserInfo()
         {
@@ -108,12 +117,15 @@ namespace EventApp.WindowFolder
         public void OpenAddEventModal()
         {
             OverlayGrid.Visibility = Visibility.Visible;
+            AddEventFrame.Visibility = Visibility.Visible;
+
+            AddEventFrame.NavigationService.RemoveBackEntry();
+            AddEventFrame.Content = null;
 
             // Блокируем кнопки
             UsersButton.IsEnabled = false;
             EventsButtonManage.IsEnabled = false;
             ListEventButton.IsEnabled = false;
-
             AddEventFrame.Navigate(new AddEvent());
         }
         public void OpenAddUserModal()
@@ -246,8 +258,7 @@ namespace EventApp.WindowFolder
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
             ClassSaveSassion.ClearSession();
-            new WindowAuth().Show();
-            Close();
+            InitializeForCurrentSession();
         }
 
         private void EventButtonList_Click(object sender, RoutedEventArgs e)

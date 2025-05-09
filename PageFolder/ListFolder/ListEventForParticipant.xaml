@@ -14,7 +14,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Center" Margin="10">
+        <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Left" Margin="10">
             <TextBox x:Name="SearchTextBox" Width="200" Height="30" Padding="5"
                  Style="{StaticResource CustomUnderlinedTextBox}"
                  materialDesign:HintAssist.Hint="Поиск" 

@@ -63,7 +63,7 @@ namespace EventApp.PageFolder.ListFolder
                                  ev.OrganizerId,
                                  participantCount,
                                  ev.StatusId
-                             }).OrderBy(e => e.IdEvent)
+                             }).OrderByDescending(e => e.DateStart)
                              .ToList();
 
             _events.Clear();

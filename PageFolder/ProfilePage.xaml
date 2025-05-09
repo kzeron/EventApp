@@ -27,6 +27,11 @@
 
         <!-- Информация -->
         <StackPanel Grid.Column="2">
+            <Button Content="Мои мероприятия"
+                    Click="ShowHistory_Click"
+                              Padding="10,5"
+                              HorizontalAlignment="Right"
+                    Margin="0,20,0,0"/>
             <TextBlock Text="Личный кабинет" 
                        Style="{StaticResource TitleText}"                       
                        Margin="0,0,0,20"/>
@@ -49,6 +54,7 @@
             <StackPanel Orientation="Horizontal" Margin="0,5">
                 <TextBlock Text="Телефон: " Style="{StaticResource HoverText}"/>
                 <TextBlock x:Name="PhoneTb" Style="{StaticResource HoverText}"/>
+
             </StackPanel>
             <Button Content="Назад"
                     Click="BackButton_Click"
@@ -58,7 +64,7 @@
                     HorizontalAlignment="Center"
                     Padding="10,5"
                     VerticalAlignment="Bottom"
-                    Margin="0,190,0,10"/>
+                    Margin="0,140,0,10"/>
         </StackPanel>
     </Grid>
 </Page>

@@ -1,4 +1,5 @@
-﻿using EventApp.DataFolder;
+﻿using EventApp.ClassFolder;
+using EventApp.DataFolder;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,21 +32,33 @@ namespace EventApp.PageFolder.ListFolder
         private void LoadParticipantEvents()
         {
             var ctx = EventEntities.GetContext();
+
+            // Проверяем, есть ли у этого сотрудника записи в Participants
+            bool any = ctx.Participants.Any(p => p.IdEmploee == _employeeId);
+            if (!any)
+            {
+                MBClass.InformationMB("У данного сотрудника еще нет ни одной записи на мероприятие.");
+                ParticipantEventsList.ItemsSource = null;
+                return;
+            }
+
             var list = (from p in ctx.Participants
                         where p.IdEmploee == _employeeId
                         join ev in ctx.Events on p.IdEvent equals ev.IdEvent
                         join ps in ctx.Status on p.IdStatus equals ps.IdStatus
+                        orderby p.RegistrationDate descending
                         select new
                         {
-                            EventId = ev.IdEvent,
-                            Title = ev.Title,
-                            DateStart = ev.DateStart,
-                            StatusName = ps.NameStatus,
+                            ev.Title,  // если есть
+                            ev.DateStart,
+                            ParticipantStatus = ps.NameStatus,
                             RegistrationDate = p.RegistrationDate
-                        }).OrderBy(x =>x.DateStart)
-                        .ToList();
+                        })
+                       .ToList();
+
             ParticipantEventsList.ItemsSource = list;
         }
+
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             // Если вы храните NavigationService

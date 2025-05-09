@@ -15,7 +15,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Right" Margin="10">
+        <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Left" Margin="10">
             <TextBox x:Name="SearchTextBox" Width="200" Height="30" Padding="5"
                          Style="{StaticResource CustomUnderlinedTextBox}"
                          materialDesign:HintAssist.Hint="Поиск" 
@@ -24,20 +24,36 @@
                         Height="30" Width="30" Margin="5">
                 <materialDesign:PackIcon Kind="Magnify"/>
             </Button>
-            <Button Content="Добавить мероприятие" Click="AddEventButton_Click"
-                        Background="Transparent" Foreground="White"
-                        BorderBrush="White" Padding="10,5"/>
         </StackPanel>
 
         <ListBox x:Name="EventsListBox" Margin="10" Grid.Row="1">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Border BorderBrush="Gray" BorderThickness="1" Padding="10" Margin="5" Width="400">
+                    <Border BorderBrush="Gray" BorderThickness="1" Padding="5" Margin="5" Width="400">
                         <Border.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Изменить" Click="MenuItemEdit_Click" />
-                                <MenuItem Header="Удалить" Click="MenuItemDelete_Click"/>
-                                <MenuItem Header="Список участников" Click="MenuItemParticipants_Click"/>
+                            <ContextMenu Background="#4A4A4A" Foreground="White">
+                                <MenuItem Header="Список участников" Click="MenuItemParticipants_Click">
+                                    <MenuItem.Icon>
+                                        <Image Source="/EventApp;component/AssetFolder/ButtonContent/ListEvent.png"
+                                               Stretch="Uniform"
+                                               Width="15" Height="15"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Изменить" Click="MenuItemEdit_Click" >
+                                    <MenuItem.Icon>
+                                        <Image Source="/EventApp;component/AssetFolder/MenuItemContent/Edit.png"
+                                               Stretch="Uniform"
+                                               Width="15" Height="15"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <Separator Background="Gray"/>
+                                <MenuItem Header="Отменить" Click="MenuItemDelete_Click">
+                                    <MenuItem.Icon>
+                                        <Image Source="/EventApp;component/AssetFolder/MenuItemContent/Delete.png"
+                                               Stretch="Uniform"
+                                               Width="15" Height="15"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
                             </ContextMenu>
                         </Border.ContextMenu>
                         <StackPanel Orientation="Vertical">
@@ -54,9 +70,6 @@
                             <TextBlock Text="{Binding Capacity}" Margin="0,2,0,5" Style="{StaticResource StandartText}"/>
                             <TextBlock Text="Стастус мероприятия" FontWeight="Bold" Style="{StaticResource StandartText}"/>
                             <TextBlock Text="{Binding StatusName}" Margin="0,2,0,5" Style="{StaticResource StandartText}"/>
-                            <Button Content="Список участников" Click="ViewParticipants_Click" Margin="0,5,0,0"/>
-                            <Button x:Name="EditEvent" Content="Изменить мероприятие" Click="EditEvent_Click"
-                            Background="Transparent" Foreground="White" BorderBrush="White" Padding="10,5"/>
                         </StackPanel>
                     </Border>
                 </DataTemplate>
