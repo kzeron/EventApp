@@ -6,6 +6,11 @@ namespace EventApp.ClassFolder
     {
         public int IdParticipants { get; set; }
         public int IdEvent {  get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public string Patronymic { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
         public string Title { get; set; }
         public DateTime StartEvent { get; set; }    
         public int IdUser { get; set; }
@@ -22,7 +27,8 @@ namespace EventApp.ClassFolder
             Started = 7,       // Началось
             InProgress = 8,    // Проходит
             Completed = 9,     // Завершилось
-            Canceled = 10     // Отменено
+            Canceled = 10,     // Отменено
+            Attended = 11
         }
     }
 }

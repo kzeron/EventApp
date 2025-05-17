@@ -85,7 +85,7 @@ namespace EventApp.PageFolder.AddFolder
             if (string.IsNullOrWhiteSpace(NumberCabTb.Text) ||
                 !int.TryParse(NumberCabTb.Text, out int numberCab))
             {
-                MessageBox.Show("Введите корректный номер кабинета.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MBClass.WarningMB("Введите корректный номер кабинета.");
                 return;
             }
 
@@ -94,7 +94,7 @@ namespace EventApp.PageFolder.AddFolder
                 !int.TryParse(CapacityTb.Text, out int capacity) ||
                 capacity <= 0)
             {
-                MessageBox.Show("Введите положительную вместимость.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MBClass.WarningMB("Введите положительную вместимость.");
                 return;
             }
             // Создаём новую локацию, привязываем к address
@@ -115,7 +115,7 @@ namespace EventApp.PageFolder.AddFolder
                 Description = DescriptionTb.Text,
                 DateStart = StartDatePicker.SelectedDate,
                 EndDate = EndDatePicker.SelectedDate,
-                LocationId = newLocation.IdLocation
+                StatusId = (int)EventStatuses.Collecting
             };
             _ctx.Events.Add(newEvent);
             _ctx.SaveChanges();

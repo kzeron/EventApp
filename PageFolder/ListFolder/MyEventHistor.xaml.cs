@@ -53,25 +53,30 @@ namespace EventApp.PageFolder.ListFolder
                             ev.DateStart,
                             RegistrationDate = p.RegistrationDate,
                             RegistrationStatusName = ps.NameStatus,
-                            CanUnregister = p.IdStatus != (int)ParticipantsStatuses.Canceled
-                                                        && p.IdStatus != (int)ParticipantsStatuses.InProgress
+                            CanUnregister = ev.DateStart > DateTime.Now
                         })
                        .ToList();
 
             HistoryGrid.ItemsSource = new ObservableCollection<dynamic>(list);
         }
 
+
         private void Unregister_Click(object sender, RoutedEventArgs e)
         {
+            // Получаем кнопку и привязанный к ней анонимный объект
             var btn = (Button)sender;
             dynamic item = btn.DataContext;
             int partId = item.IdParticipants;
 
+            // Находим запись в базе
             var p = _ctx.Participants.Find(partId);
             if (p == null) return;
 
-            p.IdStatus = (int)ParticipantsStatuses.Canceled;
+            // Удаляем запись — это освободит место в списке участников
+            _ctx.Participants.Remove(p);
             _ctx.SaveChanges();
+
+            // Перезагружаем грид
             LoadHistory();
         }
 

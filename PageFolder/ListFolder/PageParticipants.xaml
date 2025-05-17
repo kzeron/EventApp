@@ -14,11 +14,41 @@
                   AutoGenerateColumns="False" 
                   IsReadOnly="True"
                   Style="{StaticResource CustomDataGridStyle}">
+            <DataGrid.Resources>
+                <!-- Чтобы контекстное меню передавало всю строку как DataContext -->
+                <ContextMenu x:Key="RowContextMenu" Background="#4A4A4A" Foreground="White">
+                    <MenuItem Header="Отметить «Присутствует»"
+            Click="MarkPresent_Click"/>
+                    <MenuItem Header="Отметить «Болеет»"
+            Click="MarkSick_Click"/>
+                </ContextMenu>
+
+            </DataGrid.Resources>
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="ContextMenu" Value="{StaticResource RowContextMenu}"/>
+                </Style>
+            </DataGrid.RowStyle>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Логин" Binding="{Binding Login}" Width="*" />
+                <DataGridTemplateColumn Header="ФИО" Width="*" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}{0} {1} {2}">
+                                        <Binding Path="Surname"/>
+                                        <Binding Path="Name"/>
+                                        <Binding Path="Patronymic"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*" />
                 <DataGridTextColumn Header="Телефон" Binding="{Binding Phone}" Width="*" />
-                <DataGridTextColumn Header="Дата регистрации" Binding="{Binding RegistrationDate, StringFormat={}{0:dd.MM.yyyy HH:mm}}" Width="Auto" />
+                <DataGridTextColumn Header="Дата регистрации" Binding="{Binding RegistrationDate, StringFormat={}{0:dd.MM.yyyy}}" Width="Auto" />
+                <DataGridTextColumn Header="Статус" Binding="{Binding  NameStatus}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

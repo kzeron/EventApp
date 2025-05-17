@@ -174,12 +174,19 @@
     </Style>
 
 
+    <Style x:Key="CustomDataGridColumnHeaderStyle"
+       TargetType="DataGridColumnHeader"
+       BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+        <Setter Property="Foreground" Value="White"/>
+    </Style>
 
     <!-- Стиль для DataGrid -->
     <Style x:Key="CustomDataGridStyle" 
            TargetType="DataGrid" 
            BasedOn="{StaticResource MaterialDesignDataGrid}">
+        
         <!-- Общие настройки -->
+        <Setter Property="ColumnHeaderStyle" Value="{StaticResource CustomDataGridColumnHeaderStyle}" />
         <Setter Property="Background" Value="#4A4A4A"/>
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="FontFamily" Value="Bahnschrift SemiLight"/>
@@ -302,27 +309,49 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-
-    <Style x:Key="CustomUnderlinedComboBox" BasedOn="{StaticResource MaterialDesignFloatingHintComboBox}" TargetType="ComboBox">
+     
+    <Style TargetType="ComboBoxItem" x:Key="DarkComboBoxItemStyle">
         <Setter Property="Background" Value="#4A4A4A"/>
-        <!-- Темно-серый фон -->
         <Setter Property="Foreground" Value="White"/>
-        <!-- Белый текст -->
+        <Setter Property="Padding" Value="8,4"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBoxItem">
+                    <Border x:Name="Bd" Background="{TemplateBinding Background}">
+                        <ContentPresenter
+                    Margin="{TemplateBinding Padding}"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsHighlighted" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="#575757"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="CustomUnderlinedComboBox"
+       BasedOn="{StaticResource MaterialDesignFloatingHintComboBox}"
+       TargetType="ComboBox">
+        <Setter Property="Background" Value="#4A4A4A"/>
+        <Setter Property="Foreground" Value="White"/>
         <Setter Property="BorderBrush" Value="LightGray"/>
-        <!-- Светло-серый подчеркивающий цвет -->
         <Setter Property="materialDesign:HintAssist.Foreground" Value="LightGray"/>
         <Setter Property="materialDesign:HintAssist.Background" Value="#4A4A4A"/>
-        <!-- Светло-серый хинт -->
         <Setter Property="FontSize" Value="16"/>
+        <Setter Property="ItemContainerStyle" Value="{StaticResource DarkComboBoxItemStyle}"/>
 
         <Style.Triggers>
             <Trigger Property="IsKeyboardFocusWithin" Value="True">
                 <Setter Property="BorderBrush" Value="White"/>
-                <!-- Белая линия при фокусе -->
                 <Setter Property="materialDesign:HintAssist.Foreground" Value="White"/>
-                <!-- Белый хинт при фокусе -->
             </Trigger>
         </Style.Triggers>
     </Style>
+
+
 
 </ResourceDictionary>

@@ -61,18 +61,25 @@
 
             <!-- Фото -->
             <StackPanel Grid.Column="2" HorizontalAlignment="Center">
-                <Image x:Name="UserPhoto" Width="150" Height="150" Stretch="UniformToFill" Margin="0,0,0,10"/>
-                <Button Content="Выбрать фото" Click="ChoosePhoto_Click" Width="160" Height="40" FontSize="16"/>
+                <TextBlock Text="Фото пользователя" Style="{StaticResource StandartText}" FontSize="16" HorizontalAlignment="Center"/>
+                <Border BorderThickness="2" BorderBrush="Gray"  Margin="0,5">
+                    <Image x:Name="UserPhoto" Width="150" Height="150" Stretch="UniformToFill"/>
+                </Border>
+                <Button Content="Выбрать фото" Click="ChoosePhoto_Click" Width="160" Height="40" FontSize="16"
+                        Background="Transparent"
+                        BorderBrush="White"/>
             </StackPanel>
         </Grid>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
-            <Button Content="Сохранить" Margin="0,0,15,0" Click="SaveButton_Click" Width="160" Height="50" FontSize="18"/>
+            
             <Button Content="Отмена"
                     Click="CancelButton_Click"
                     Width="160" Height="50" FontSize="18"
                     Background="Transparent"
-                    BorderBrush="White"/>
+                    BorderBrush="White"
+                    HorizontalAlignment="Left"/>
+            <Button Content="Сохранить" Margin="455,-0,15,0" Click="SaveButton_Click" Width="160" Height="50" FontSize="18"/>
         </StackPanel>
     </Grid>
 </Page>

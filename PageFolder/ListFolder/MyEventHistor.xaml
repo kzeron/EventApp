@@ -17,6 +17,8 @@
         <!-- Заголовок и кнопка назад -->
         <StackPanel Orientation="Horizontal" Grid.Row="0">
             <Button Content="← Назад"
+                    Background="Transparent"
+                    BorderBrush="White"
               Click="BackButton_Click"
               Margin="0,0,10,0"/>
             <TextBlock Text="Мои мероприятия" Style="{StaticResource StandartText}" FontSize="20" VerticalAlignment="Center"
@@ -40,8 +42,10 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Content="Отменить"
-                      Click="Unregister_Click"
-                      IsEnabled="{Binding CanUnregister}"/>
+                                    Background="Transparent"
+                                    BorderBrush="White"
+                                    Click="Unregister_Click"
+                                    IsEnabled="{Binding CanUnregister,Converter={StaticResource BoolToVisibilityConverter}}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
