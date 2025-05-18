@@ -200,14 +200,19 @@ namespace EventApp.WindowFolder
             }
             else if(_userRole == UserRole.Admin)
             {
+                UsersButton.Visibility = Visibility.Visible;
                 EventsButtonManage.Visibility = Visibility.Collapsed;
+                AddUsers.Visibility = Visibility.Visible;
                 ListEventButton.Visibility = Visibility.Collapsed;
                 AddEvent.Visibility = Visibility.Collapsed;
+                ListSpekersButton.Visibility = Visibility.Visible;
             }
             else if(_userRole == UserRole.Teacher)
             {
                 UsersButton.Visibility= Visibility.Collapsed;
                 AddUsers.Visibility = Visibility.Collapsed;
+                EventsButtonManage.Visibility = Visibility.Visible;
+                AddEvent.Visibility = Visibility.Visible;
                 ListSpekersButton.Visibility= Visibility.Collapsed;
             }
         }
