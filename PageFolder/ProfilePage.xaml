@@ -37,23 +37,23 @@
                        Margin="0,0,0,20"/>
 
             <StackPanel Orientation="Horizontal" Margin="0,5">
-                <TextBlock Text="ФИО: " FontWeight="Bold" Style="{StaticResource HoverText}"/>
-                <TextBlock x:Name="FullNameTb" Style="{StaticResource HoverText}"/>
+                <TextBlock Text="ФИО: " FontWeight="Bold" Style="{StaticResource StandartText}"/>
+                <TextBlock x:Name="FullNameTb" Style="{StaticResource StandartText}"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0,5">
-                <TextBlock Text="Логин: " Style="{StaticResource HoverText}"/>
-                <TextBlock x:Name="LoginTb" Style="{StaticResource HoverText}"/>
+                <TextBlock Text="Логин: " Style="{StaticResource StandartText}"/>
+                <TextBlock x:Name="LoginTb" Style="{StaticResource StandartText}"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0,5">
-                <TextBlock Text="Email: " Style="{StaticResource HoverText}"/>
-                <TextBlock x:Name="EmailTb" Style="{StaticResource HoverText}"/>
+                <TextBlock Text="Email: " Style="{StaticResource StandartText}"/>
+                <TextBlock x:Name="EmailTb" Style="{StaticResource StandartText}"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0,5">
-                <TextBlock Text="Телефон: " Style="{StaticResource HoverText}"/>
-                <TextBlock x:Name="PhoneTb" Style="{StaticResource HoverText}"/>
+                <TextBlock Text="Телефон: " Style="{StaticResource StandartText}"/>
+                <TextBlock x:Name="PhoneTb" Style="{StaticResource StandartText}"/>
 
             </StackPanel>
             <Button Content="Назад"

@@ -101,7 +101,7 @@
                                Width="40"
                                HorizontalAlignment="Left"/>
                         <TextBlock Text="{Binding FullName}" 
-                                   Foreground="White" 
+                                   Style="{StaticResource HoverText}"
                                    x:Name="UserFullName"
                                    MouseLeftButtonDown="UserFullName_MouseLeftButtonDown"
                                    FontSize="16" 

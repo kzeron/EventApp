@@ -45,7 +45,7 @@
                                     Background="Transparent"
                                     BorderBrush="White"
                                     Click="Unregister_Click"
-                                    IsEnabled="{Binding CanUnregister,Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                    IsEnabled="{Binding CanUnregister}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

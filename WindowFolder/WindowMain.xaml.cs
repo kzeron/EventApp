@@ -36,8 +36,6 @@ namespace EventApp.WindowFolder
 
             _ctx =  EventEntities.GetContext();
             this.Loaded += WindowMain_Loaded;
-            
-            //SetupNavigation();
         }
         public void InitializeForCurrentSession()
         {
@@ -61,6 +59,8 @@ namespace EventApp.WindowFolder
                 InitializeForCurrentSession(); // рекурсивно перезапустим
                 return;
             }
+            _userRole = (UserRole)user.IdRole;
+            _currentUser = _ctx.Employee.FirstOrDefault(e => e.UserId == user.IdUser);
 
             // Убираем логин, показываем меню
             OverlayGrid.Visibility = Visibility.Collapsed;
@@ -88,6 +88,8 @@ namespace EventApp.WindowFolder
                     SetPageTitle("Мои мероприятия");
                     break;
             }
+
+            SetupNavigation();
 
             EmailService.SendRemindersForTomorrowEvents();
         }
@@ -191,17 +193,23 @@ namespace EventApp.WindowFolder
             {
                 UsersButton.Visibility = Visibility.Collapsed;
                 EventsButtonManage.Visibility = Visibility.Collapsed;
+                ListEventButton.Visibility = Visibility.Visible;
+                AddUsers.Visibility = Visibility.Collapsed;
+                AddEvent.Visibility = Visibility.Collapsed;
+                ListSpekersButton.Visibility = Visibility.Collapsed;
             }
             else if(_userRole == UserRole.Admin)
             {
                 EventsButtonManage.Visibility = Visibility.Collapsed;
                 ListEventButton.Visibility = Visibility.Collapsed;
+                AddEvent.Visibility = Visibility.Collapsed;
             }
             else if(_userRole == UserRole.Teacher)
             {
                 UsersButton.Visibility= Visibility.Collapsed;
+                AddUsers.Visibility = Visibility.Collapsed;
+                ListSpekersButton.Visibility= Visibility.Collapsed;
             }
-            // Добавьте проверки для других ролей
         }
 
 
