@@ -99,7 +99,7 @@
                                Margin="10, 10, 10, 90"
                                Height="40"
                                Width="40"
-                               HorizontalAlignment="Left"/>
+                               HorizontalAlignment="Center"/>
                         <TextBlock Text="{Binding FullName}" 
                                    Style="{StaticResource HoverText}"
                                    x:Name="UserFullName"

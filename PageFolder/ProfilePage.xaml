@@ -5,66 +5,96 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:EventApp.PageFolder"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      mc:Ignorable="d"
       Title="ProfilePage">
 
     <Grid Margin="20" MinWidth="500" MinHeight="300">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+        <Border HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Margin="0,0,0,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    
+                    <TextBlock Text="Личный кабинет"
+                               Grid.Column="0"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Style="{StaticResource TitleText}"/>
+                    <Button Content="Мои мероприятия"
+                            Click="ShowHistory_Click"
+                            Grid.Column="1"
+                            Padding="10,5"
+                            HorizontalAlignment="Right"
+                            Margin="30,0,0,0"/>
+                </Grid>
 
-        <!-- Аватар -->
-        <Border Grid.Column="0" Width="120" Height="120" CornerRadius="60" 
-                ClipToBounds="True"
-                BorderBrush="Gray" BorderThickness="1" VerticalAlignment="Top">
-            <Image x:Name="UserPhoto" Stretch="UniformToFill" ClipToBounds="True"/>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="230"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <!-- Аватар -->
+                    <Border Grid.Column="0" Width="230" Height="230"
+                            ClipToBounds="True"         
+                            BorderBrush="Gray"
+                            BorderThickness="1"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top">
+                    </Border>
+                    <Image x:Name="UserPhoto" Stretch="UniformToFill" Width="230" Height="230" ClipToBounds="True"/>
+                    <StackPanel Grid.Column="2">
+
+
+                        <StackPanel Orientation="Horizontal" Margin="0,5"
+                HorizontalAlignment="Left">
+                            <TextBlock Text="ФИО: " FontWeight="Bold" Style="{StaticResource StandartText}"/>
+                            <TextBlock x:Name="FullNameTb" Style="{StaticResource StandartText}"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,5"
+                HorizontalAlignment="Left">
+                            <TextBlock Text="Логин: " Style="{StaticResource StandartText}"/>
+                            <TextBlock x:Name="LoginTb" Style="{StaticResource StandartText}"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,5"
+                                    HorizontalAlignment="Left">
+                            <TextBlock Text="Email: " Style="{StaticResource StandartText}"/>
+                            <TextBlock x:Name="EmailTb" Style="{StaticResource StandartText}"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,5"
+                                    HorizontalAlignment="Left">
+                            <TextBlock Text="Телефон: " Style="{StaticResource StandartText}"/>
+                            <TextBlock x:Name="PhoneTb" Style="{StaticResource StandartText}"/>
+
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+
+                <Button Content="Назад"
+                        Click="BackButton_Click"
+                        Background="Transparent" 
+                        Foreground="White"
+                        BorderBrush="White"
+                        Grid.Row="3"
+                        FontSize="14"
+                        HorizontalAlignment="Center"
+                        Padding="10,5"
+                        Margin="15"
+                        VerticalAlignment="Bottom"/>
+
+            </Grid>
         </Border>
-
-        <GridSplitter Grid.Column="1" Width="10"/>
-
-        <!-- Информация -->
-        <StackPanel Grid.Column="2">
-            <Button Content="Мои мероприятия"
-                    Click="ShowHistory_Click"
-                              Padding="10,5"
-                              HorizontalAlignment="Right"
-                    Margin="0,20,0,0"/>
-            <TextBlock Text="Личный кабинет" 
-                       Style="{StaticResource TitleText}"                       
-                       Margin="0,0,0,20"/>
-
-            <StackPanel Orientation="Horizontal" Margin="0,5">
-                <TextBlock Text="ФИО: " FontWeight="Bold" Style="{StaticResource StandartText}"/>
-                <TextBlock x:Name="FullNameTb" Style="{StaticResource StandartText}"/>
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal" Margin="0,5">
-                <TextBlock Text="Логин: " Style="{StaticResource StandartText}"/>
-                <TextBlock x:Name="LoginTb" Style="{StaticResource StandartText}"/>
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal" Margin="0,5">
-                <TextBlock Text="Email: " Style="{StaticResource StandartText}"/>
-                <TextBlock x:Name="EmailTb" Style="{StaticResource StandartText}"/>
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal" Margin="0,5">
-                <TextBlock Text="Телефон: " Style="{StaticResource StandartText}"/>
-                <TextBlock x:Name="PhoneTb" Style="{StaticResource StandartText}"/>
-
-            </StackPanel>
-            <Button Content="Назад"
-                    Click="BackButton_Click"
-                    Background="Transparent" 
-                    Foreground="White"
-                    FontSize="14"
-                    HorizontalAlignment="Center"
-                    Padding="10,5"
-                    VerticalAlignment="Bottom"
-                    Margin="0,140,0,10"/>
-        </StackPanel>
     </Grid>
 </Page>

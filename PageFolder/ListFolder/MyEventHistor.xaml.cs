@@ -71,13 +71,21 @@ namespace EventApp.PageFolder.ListFolder
             // Находим запись в базе
             var p = _ctx.Participants.Find(partId);
             if (p == null) return;
+            bool result = MBClass.QuestionMB("Вы уверенны что хотите отменить запись?");
+            if (result)
+            {
+                // Удаляем запись — это освободит место в списке участников
+                _ctx.Participants.Remove(p);
+                _ctx.SaveChanges();
 
-            // Удаляем запись — это освободит место в списке участников
-            _ctx.Participants.Remove(p);
-            _ctx.SaveChanges();
-
-            // Перезагружаем грид
-            LoadHistory();
+                // Перезагружаем грид
+                LoadHistory();
+            }
+            else
+            {
+                return;
+            }
+            
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)

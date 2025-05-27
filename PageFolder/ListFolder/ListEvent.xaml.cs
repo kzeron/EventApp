@@ -18,13 +18,66 @@
         public partial class ListEvent : Page
         {
             private ObservableCollection<ClassEvent> _events;
-            public ListEvent()
+        public ObservableCollection<StatusFilter> StatusFilters { get; set; } = new ObservableCollection<StatusFilter>();
+
+        public ListEvent()
             {
                 InitializeComponent();
                 _events = new ObservableCollection<ClassEvent>();
-                LoadEvents();
+            InitializeFilters();
+            LoadEvents();
             }
-            public void LoadEvents()
+        private void InitializeFilters()
+        {
+            StatusFilters.Add(new StatusFilter { Id = 6, Name = "Сбор на мероприятие" });
+            StatusFilters.Add(new StatusFilter { Id = 7, Name = "Началось" });
+            StatusFilters.Add(new StatusFilter { Id = 8, Name = "Проходит" });
+            StatusFilters.Add(new StatusFilter { Id = 9, Name = "Завершилось" });
+            StatusFilters.Add(new StatusFilter { Id = 10, Name = "Отменено" });
+        }
+        private void FilterCheckBox_Changed(object sender, RoutedEventArgs e)
+        {
+            var selectedIds = StatusFilters
+                .Where(f => f.IsChecked)
+                .Select(f => f.Id)
+                .ToList();
+
+            if (!selectedIds.Any())
+            {
+                EventsListBox.ItemsSource = _events;
+            }
+            else
+            {
+                EventsListBox.ItemsSource = _events
+                    .Where(ev => selectedIds.Contains(ev.StatusId))
+                    .ToList();
+            }
+        }
+        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            UpdateItemWidth();
+        }
+
+        private void UpdateItemWidth()
+        {
+            // Отнимаем от ширины ListBox отступы, скроллбар и прочее (например, 40 пикселей)
+            double availableWidth = EventsListBox.ActualWidth - 40;
+            if (availableWidth <= 0) return;
+
+            // Желаемая минимальная ширина одного элемента
+            double minItemWidth = 300;
+
+            // Сколько элементов влезает?
+            int itemsPerRow = Math.Max(1, (int)(availableWidth / minItemWidth));
+
+            // Новая ширина для каждого элемента
+            double newItemWidth = (availableWidth / itemsPerRow) - 10; // учёт отступов
+
+            // Сохраняем в Tag, чтобы привязка могла использовать
+            EventsListBox.Tag = newItemWidth;
+        }
+
+        public void LoadEvents()
             {
                 try
                 {
@@ -165,7 +218,47 @@
 
                 EventsListBox.ItemsSource = new ObservableCollection<ClassEvent>(filteredEvents);
             }
-            private void MenuItemEdit_Click(object sender, RoutedEventArgs e)
+        private void FilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            FilterPopup.IsOpen = !FilterPopup.IsOpen;
+        }
+
+        private void StatusListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // Ensure the sender is a ListBox
+            if (sender is ListBox listBox)
+            {
+                // Get the selected ListBoxItem
+                if (listBox.SelectedItem is ListBoxItem selectedItem)
+                {
+                    // Get the Tag value from the selected ListBoxItem
+                    string tagValue = selectedItem.Tag as string;
+
+                    if (tagValue == null) // "Все" (All)
+                    {
+                        // If "Все" is selected, show all events
+                        EventsListBox.ItemsSource = _events;
+                    }
+                    else
+                    {
+                        // Parse the tagValue to an integer (StatusId)
+                        if (int.TryParse(tagValue, out int statusId))
+                        {
+                            // Filter events by StatusId
+                            EventsListBox.ItemsSource = new ObservableCollection<ClassEvent>(
+                                _events.Where(ev => ev.StatusId == statusId).ToList()
+                            );
+                        }
+                        else
+                        {
+                            MBClass.WarningMB("Неверное значение фильтра статуса.");
+                        }
+                    }
+                }
+            }
+        }
+
+        private void MenuItemEdit_Click(object sender, RoutedEventArgs e)
             {
                 var menuItem = sender as MenuItem;
                 var contextMenu = menuItem?.Parent as ContextMenu;

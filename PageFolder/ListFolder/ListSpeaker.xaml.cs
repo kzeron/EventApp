@@ -29,6 +29,30 @@ namespace EventApp.PageFolder.ListFolder
             SpeakersListBox.ItemsSource = _speakers;
         }
 
+        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            UpdateItemWidth();
+        }
+
+        private void UpdateItemWidth()
+        {
+            // Отнимаем от ширины ListBox отступы, скроллбар и прочее (например, 40 пикселей)
+            double availableWidth = SpeakersListBox.ActualWidth - 40;
+            if (availableWidth <= 0) return;
+
+            // Желаемая минимальная ширина одного элемента
+            double minItemWidth = 300;
+
+            // Сколько элементов влезает?
+            int itemsPerRow = Math.Max(1, (int)(availableWidth / minItemWidth));
+
+            // Новая ширина для каждого элемента
+            double newItemWidth = (availableWidth / itemsPerRow) - 10; // учёт отступов
+
+            // Сохраняем в Tag, чтобы привязка могла использовать
+            SpeakersListBox.Tag = newItemWidth;
+        }
+
         public void LoadSpeakers()
         {
             var context = EventEntities.GetContext();

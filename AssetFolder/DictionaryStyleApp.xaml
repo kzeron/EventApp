@@ -189,6 +189,7 @@
         <Setter Property="ColumnHeaderStyle" Value="{StaticResource CustomDataGridColumnHeaderStyle}" />
         <Setter Property="Background" Value="#4A4A4A"/>
         <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontSize" Value="22"/>
         <Setter Property="FontFamily" Value="Bahnschrift SemiLight"/>
         <Setter Property="RowBackground" Value="#5A5A5A"/>
         <Setter Property="AlternatingRowBackground" Value="#575757"/>
@@ -352,6 +353,60 @@
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="CustomCheckBoxStyle" TargetType="CheckBox">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontFamily" Value="Bahnschrift SemiLight"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="CheckBox">
+                    <Grid>
+                        <!-- Основной контейнер -->
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
 
+                        <!-- Элемент галочки -->
+                        <Border x:Name="border" 
+                            Grid.Column="0"
+                            Background="Transparent"
+                            BorderBrush="White"
+                            BorderThickness="2"
+                            Width="20" 
+                            Height="20"
+                            CornerRadius="4"
+                            Margin="0,0,5,0">
+
+                            <TextBlock x:Name="checkMark"
+                                   Text="✓"
+                                   Foreground="Transparent"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="16"/>
+                        </Border>
+
+                        <!-- Текст -->
+                        <ContentPresenter Grid.Column="1"
+                                      Content="{TemplateBinding Content}"
+                                      VerticalAlignment="Center"
+                                      Margin="5,0,0,0"/>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <!-- Активное состояние (галочка) -->
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#2196F3"/>
+                            <Setter TargetName="checkMark" Property="Foreground" Value="White"/>
+                        </Trigger>
+
+                        <!-- Неактивное состояние -->
+                        <Trigger Property="IsChecked" Value="False">
+                            <Setter TargetName="border" Property="BorderBrush" Value="White"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 </ResourceDictionary>

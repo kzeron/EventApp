@@ -11,7 +11,7 @@
           </Key>
           <Property Name="IdAddress" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdStreet" Type="int" Nullable="false" />
-          <Property Name="HouseNumber" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="HouseNumber" Type="nvarchar" MaxLength="40" Nullable="false" />
         </EntityType>
         <EntityType Name="City">
           <Key>
@@ -44,7 +44,7 @@
           <Property Name="EndDate" Type="date" />
           <Property Name="LocationId" Type="int" />
           <Property Name="OrganizerId" Type="int" />
-          <Property Name="StatusId" Type="int" />
+          <Property Name="StatusId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="EventTrainers">
           <Key>
@@ -182,7 +182,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Events_Status">
-          <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
           <End Role="Events" Type="Self.Events" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Status">
@@ -202,18 +202,6 @@
             </Principal>
             <Dependent Role="Events">
               <PropertyRef Name="OrganizerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_EventTrainers_Events">
-          <End Role="Events" Type="Self.Events" Multiplicity="0..1" />
-          <End Role="EventTrainers" Type="Self.EventTrainers" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Events">
-              <PropertyRef Name="IdEvent" />
-            </Principal>
-            <Dependent Role="EventTrainers">
-              <PropertyRef Name="EventID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -383,10 +371,6 @@
             <End Role="Trainers" EntitySet="Trainers" />
             <End Role="Events" EntitySet="Events" />
           </AssociationSet>
-          <AssociationSet Name="FK_EventTrainers_Events" Association="Self.FK_EventTrainers_Events">
-            <End Role="Events" EntitySet="Events" />
-            <End Role="EventTrainers" EntitySet="EventTrainers" />
-          </AssociationSet>
           <AssociationSet Name="FK_Locations_Address" Association="Self.FK_Locations_Address">
             <End Role="Address" EntitySet="Address" />
             <End Role="Locations" EntitySet="Locations" />
@@ -431,7 +415,7 @@
           </Key>
           <Property Name="IdAddress" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdStreet" Type="Int32" Nullable="false" />
-          <Property Name="HouseNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="HouseNumber" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Street" Relationship="Self.FK__Address__IdStree__51300E55" FromRole="Address" ToRole="Street" />
           <NavigationProperty Name="Locations" Relationship="Self.FK_Locations_Address" FromRole="Address" ToRole="Locations" />
         </EntityType>
@@ -471,11 +455,10 @@
           <Property Name="EndDate" Type="DateTime" Precision="0" />
           <Property Name="LocationId" Type="Int32" />
           <Property Name="OrganizerId" Type="Int32" />
-          <Property Name="StatusId" Type="Int32" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Locations" Relationship="Self.FK_Events_Locations" FromRole="Events" ToRole="Locations" />
           <NavigationProperty Name="Status" Relationship="Self.FK_Events_Status" FromRole="Events" ToRole="Status" />
           <NavigationProperty Name="Trainers" Relationship="Self.FK_Events_Trainers" FromRole="Events" ToRole="Trainers" />
-          <NavigationProperty Name="EventTrainers" Relationship="Self.FK_EventTrainers_Events" FromRole="Events" ToRole="EventTrainers" />
           <NavigationProperty Name="Participants" Relationship="Self.FK_Participants_Events" FromRole="Events" ToRole="Participants" />
         </EntityType>
         <EntityType Name="EventTrainers">
@@ -484,7 +467,6 @@
           </Key>
           <Property Name="EventTrainerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="EventID" Type="Int32" />
-          <NavigationProperty Name="Events" Relationship="Self.FK_EventTrainers_Events" FromRole="EventTrainers" ToRole="Events" />
         </EntityType>
         <EntityType Name="Locations">
           <Key>
@@ -680,7 +662,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Events_Status">
-          <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
           <End Role="Events" Type="Self.Events" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Status">
@@ -700,18 +682,6 @@
             </Principal>
             <Dependent Role="Events">
               <PropertyRef Name="OrganizerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_EventTrainers_Events">
-          <End Role="Events" Type="Self.Events" Multiplicity="0..1" />
-          <End Role="EventTrainers" Type="Self.EventTrainers" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Events">
-              <PropertyRef Name="IdEvent" />
-            </Principal>
-            <Dependent Role="EventTrainers">
-              <PropertyRef Name="EventID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -817,10 +787,6 @@
           <AssociationSet Name="FK_Events_Trainers" Association="Self.FK_Events_Trainers">
             <End Role="Trainers" EntitySet="Trainers" />
             <End Role="Events" EntitySet="Events" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EventTrainers_Events" Association="Self.FK_EventTrainers_Events">
-            <End Role="Events" EntitySet="Events" />
-            <End Role="EventTrainers" EntitySet="EventTrainers" />
           </AssociationSet>
           <AssociationSet Name="FK_Participants_Events" Association="Self.FK_Participants_Events">
             <End Role="Events" EntitySet="Events" />

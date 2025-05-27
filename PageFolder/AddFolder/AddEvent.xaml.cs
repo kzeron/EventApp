@@ -55,6 +55,12 @@ namespace EventApp.PageFolder.AddFolder
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             // Валидация
+            if (string.IsNullOrWhiteSpace(TitleTb.Text))
+            {
+                MBClass.WarningMB("Введите название мероприятия.");
+                return;
+            }
+
             if (CityCb.SelectedValue == null ||
                 StreetCb.SelectedValue == null ||
                 HouseCb.SelectedValue == null)
@@ -115,6 +121,7 @@ namespace EventApp.PageFolder.AddFolder
                 Description = DescriptionTb.Text,
                 DateStart = StartDatePicker.SelectedDate,
                 EndDate = EndDatePicker.SelectedDate,
+                LocationId = newLocation.IdLocation,
                 StatusId = (int)EventStatuses.Collecting
             };
             _ctx.Events.Add(newEvent);

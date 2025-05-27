@@ -24,6 +24,30 @@ namespace EventApp.PageFolder.ListFolder
             LoadEvents();
         }
 
+        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            UpdateItemWidth();
+        }
+
+        private void UpdateItemWidth()
+        {
+            // Отнимаем от ширины ListBox отступы, скроллбар и прочее (например, 40 пикселей)
+            double availableWidth = EventsListBox.ActualWidth - 40;
+            if (availableWidth <= 0) return;
+
+            // Желаемая минимальная ширина одного элемента
+            double minItemWidth = 300;
+
+            // Сколько элементов влезает?
+            int itemsPerRow = Math.Max(1, (int)(availableWidth / minItemWidth));
+
+            // Новая ширина для каждого элемента
+            double newItemWidth = (availableWidth / itemsPerRow) - 10; // учёт отступов
+
+            // Сохраняем в Tag, чтобы привязка могла использовать
+            EventsListBox.Tag = newItemWidth;
+        }
+
         private void LoadEvents()
         {
             var context = EventEntities.GetContext();
@@ -140,12 +164,12 @@ namespace EventApp.PageFolder.ListFolder
                              select ev;
 
             DateTime today = DateTime.Today;
-            DateTime nextWeek = today.AddDays(7);
+            DateTime nextWeek = today.AddDays(3);
 
             bool hasConflict = userEvents.Any(ev => ev.DateStart >= today && ev.EndDate <= nextWeek);
             if (hasConflict)
             {
-                MBClass.ErrorMB("У вас уже запланировано мероприятие в ближайшие 7 дней.");
+                MBClass.ErrorMB("У вас уже запланировано мероприятие в ближайшие 3 дня.");
                 return;
             }
 
@@ -154,9 +178,9 @@ namespace EventApp.PageFolder.ListFolder
                 if (ev.DateStart.HasValue && selectedItem.DateStart.HasValue)
                 {
                     var diff = (ev.DateStart.Value - selectedItem.DateStart.Value).Duration();
-                    if (diff.TotalDays <= 7)
+                    if (diff.TotalDays <= 3)
                     {
-                        MBClass.ErrorMB("Нельзя записаться на мероприятия, идущие с разницей менее 7 дней.");
+                        MBClass.ErrorMB("Нельзя записаться на мероприятия, идущие с разницей менее 3 дней.");
                         return;
                     }
                 }

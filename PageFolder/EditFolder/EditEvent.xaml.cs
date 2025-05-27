@@ -102,6 +102,12 @@ namespace EventApp.PageFolder.EditFolder
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(TitleTb.Text))
+            {
+                MBClass.WarningMB("Введите название мероприятия.");
+                return;
+            }
+
             // --- валидация ---
             if (string.IsNullOrWhiteSpace(TitleTb.Text))
             {
