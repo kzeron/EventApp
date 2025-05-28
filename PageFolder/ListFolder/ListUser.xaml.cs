@@ -16,6 +16,7 @@ namespace EventApp.PageFolder.ListFolder
     {
         private ObservableCollection<ClassUser> _users;
         private ObservableCollection<ClassUser> _filteredUsers;
+        public ObservableCollection<StatusFilter> StatusFilters { get; set; } = new ObservableCollection<StatusFilter>();
 
         public ListUser()
         {
@@ -23,7 +24,36 @@ namespace EventApp.PageFolder.ListFolder
             _users = new ObservableCollection<ClassUser>();
             _filteredUsers = new ObservableCollection<ClassUser>();
             LoadUsers();
+            InitializeFilters();
             UsersListBox.ItemsSource = _filteredUsers;
+        }
+        private void FilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            FilterPopup.IsOpen = !FilterPopup.IsOpen;
+        }
+        private void InitializeFilters()
+        {
+            StatusFilters.Add(new StatusFilter { Id = (int)Statuses.Working, Name = "Работает" });
+            StatusFilters.Add(new StatusFilter { Id = (int)Statuses.Fired, Name = "Уволен" });
+        }
+
+        private void FilterCheckBox_Changed(object sender, RoutedEventArgs e)
+        {
+            var selectedIds = StatusFilters
+                .Where(f => f.IsChecked)
+                .Select(f => f.Id)
+                .ToList();
+
+            if (!selectedIds.Any())
+            {
+                UsersListBox.ItemsSource = _users;
+            }
+            else
+            {
+                UsersListBox.ItemsSource = _users
+                    .Where(u => selectedIds.Contains((int)u.Statuses))
+                    .ToList();
+            }
         }
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)

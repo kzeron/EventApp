@@ -89,7 +89,7 @@ namespace EventApp.WindowFolder
                     break;
             }
 
-            SetupNavigation();
+            //SetupNavigation();
 
             EmailService.SendRemindersForTomorrowEvents();
         }

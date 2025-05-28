@@ -78,7 +78,7 @@
         }
 
         public void LoadEvents()
-            {
+        {
                 try
                 {
                     var context = EventEntities.GetContext();

@@ -15,6 +15,7 @@ namespace EventApp.PageFolder.ListFolder
     public partial class ListEventForParticipant : Page
     {
         private ObservableCollection<ClassEvent> _events;
+        public ObservableCollection<StatusFilter> StatusFilters { get; set; } = new ObservableCollection<StatusFilter>();
         private Users _currentUser;
         public ListEventForParticipant()
         {
@@ -22,6 +23,39 @@ namespace EventApp.PageFolder.ListFolder
             _events = new ObservableCollection<ClassEvent>();
             _currentUser = ClassSaveSassion.LoadSession();
             LoadEvents();
+            InitializeFilters();
+        }
+
+        private void InitializeFilters()
+        {
+            StatusFilters.Add(new StatusFilter { Id = 6, Name = "Сбор на мероприятие" });
+            StatusFilters.Add(new StatusFilter { Id = 7, Name = "Началось" });
+            StatusFilters.Add(new StatusFilter { Id = 8, Name = "Проходит" });
+            StatusFilters.Add(new StatusFilter { Id = 9, Name = "Завершилось" });
+            StatusFilters.Add(new StatusFilter { Id = 10, Name = "Отменено" });
+        }
+        private void FilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            FilterPopup.IsOpen = !FilterPopup.IsOpen;
+        }
+
+        private void FilterCheckBox_Changed(object sender, RoutedEventArgs e)
+        {
+            var selectedIds = StatusFilters
+                .Where(f => f.IsChecked)
+                .Select(f => f.Id)
+                .ToList();
+
+            if (!selectedIds.Any())
+            {
+                EventsListBox.ItemsSource = _events;
+            }
+            else
+            {
+                EventsListBox.ItemsSource = _events
+                    .Where(ev => selectedIds.Contains(ev.StatusId))
+                    .ToList();
+            }
         }
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)

@@ -26,6 +26,45 @@
                      TextChanged="SearchTextBox_TextChanged"
                      Style="{StaticResource CustomUnderlinedTextBox}">
             </TextBox>
+            <!-- Кнопка фильтра -->
+            <Button x:Name="FilterButton"
+                    Width="40" Margin="5"
+                    Click="FilterButton_Click">
+                <materialDesign:PackIcon Kind="Filter"/>
+            </Button>
+            <!-- Popup с фильтрами -->
+            <Popup x:Name="FilterPopup"
+                   PlacementTarget="{Binding ElementName=FilterButton}"
+                   Placement="Bottom"
+                   StaysOpen="False"
+                   AllowsTransparency="True"
+                   PopupAnimation="Fade">
+                <Border Background="{DynamicResource MaterialDesignPaper}" 
+                        BorderBrush="{DynamicResource MaterialDesignDivider}" 
+                        BorderThickness="1" 
+                        Padding="10"
+                        CornerRadius="4">
+                    <StackPanel>
+                        <TextBlock Text="Фильтр по статусу" 
+                                   Foreground="White"
+                                   FontWeight="Bold"/>
+                        <ListBox ItemsSource="{Binding StatusFilters, RelativeSource={RelativeSource AncestorType=Page}}"
+                                 SelectionMode="Multiple"
+                                 Background="#4A4A4A"
+                                 BorderThickness="0">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox Content="{Binding Name}" 
+                                              Style="{StaticResource CustomCheckBoxStyle}"
+                                              IsChecked="{Binding IsChecked, Mode=TwoWay}"
+                                              Checked="FilterCheckBox_Changed"
+                                              Unchecked="FilterCheckBox_Changed"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </Border>
+            </Popup>
         </StackPanel>
         <ListBox x:Name="UsersListBox"
                  Margin="0" Padding="30"
