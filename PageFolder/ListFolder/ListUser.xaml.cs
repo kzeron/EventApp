@@ -36,24 +36,39 @@ namespace EventApp.PageFolder.ListFolder
             StatusFilters.Add(new StatusFilter { Id = (int)Statuses.Working, Name = "Работает" });
             StatusFilters.Add(new StatusFilter { Id = (int)Statuses.Fired, Name = "Уволен" });
         }
-
-        private void FilterCheckBox_Changed(object sender, RoutedEventArgs e)
+        private void ApplyFiltersAndSearch()
         {
-            var selectedIds = StatusFilters
+            var selectedStatuses = StatusFilters
                 .Where(f => f.IsChecked)
                 .Select(f => f.Id)
                 .ToList();
 
-            if (!selectedIds.Any())
+            var searchText = SearchTextBox.Text.ToLower();
+
+            var filtered = _users.Where(u =>
+                (selectedStatuses.Count == 0 || selectedStatuses.Contains((int)u.Statuses)) &&
+                (
+                    (u.Login?.ToLower().Contains(searchText) ?? false) ||
+                    (u.Email?.ToLower().Contains(searchText) ?? false) ||
+                    (u.Phone?.Contains(searchText) ?? false) ||
+                    (u.Name?.ToLower().Contains(searchText) ?? false) ||
+                    (u.Surname?.ToLower().Contains(searchText) ?? false) ||
+                    (u.Patronymic?.ToLower().Contains(searchText) ?? false) ||
+                    (u.StatusName?.ToLower().Contains(searchText) ?? false)
+                )
+            ).ToList();
+
+            _filteredUsers.Clear();
+            foreach (var user in filtered)
             {
-                UsersListBox.ItemsSource = _users;
+                _filteredUsers.Add(user);
             }
-            else
-            {
-                UsersListBox.ItemsSource = _users
-                    .Where(u => selectedIds.Contains((int)u.Statuses))
-                    .ToList();
-            }
+        }
+
+
+        private void FilterCheckBox_Changed(object sender, RoutedEventArgs e)
+        {
+            ApplyFiltersAndSearch();
         }
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -152,22 +167,7 @@ namespace EventApp.PageFolder.ListFolder
 
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var searchText = SearchTextBox.Text.ToLower();
-
-            _filteredUsers.Clear();
-
-            foreach (var user in _users.Where(u =>
-                (u.Login?.ToLower().Contains(searchText) ?? false) ||
-                (u.Email?.ToLower().Contains(searchText) ?? false) ||
-                (u.Phone?.Contains(searchText) ?? false) ||
-                (u.Name?.ToLower().Contains(searchText) ?? false) ||
-                (u.Surname?.ToLower().Contains(searchText) ?? false) ||
-                (u.Patronymic?.ToLower().Contains(searchText) ?? false) ||
-                (u.StatusName?.ToLower().Contains(searchText) ?? false)
-            ))
-            {
-                _filteredUsers.Add(user);
-            }
+            ApplyFiltersAndSearch();
         }
 
         private void AddUserButton_Click(object sender, RoutedEventArgs e)

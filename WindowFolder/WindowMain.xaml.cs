@@ -89,7 +89,7 @@ namespace EventApp.WindowFolder
                     break;
             }
 
-            //SetupNavigation();
+            SetupNavigation();
 
             EmailService.SendRemindersForTomorrowEvents();
         }
@@ -210,6 +210,7 @@ namespace EventApp.WindowFolder
             else if(_userRole == UserRole.Teacher)
             {
                 UsersButton.Visibility= Visibility.Collapsed;
+                ListEventButton.Visibility= Visibility.Visible;
                 AddUsers.Visibility = Visibility.Collapsed;
                 EventsButtonManage.Visibility = Visibility.Visible;
                 AddEvent.Visibility = Visibility.Visible;

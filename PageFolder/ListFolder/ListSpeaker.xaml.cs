@@ -26,10 +26,11 @@ namespace EventApp.PageFolder.ListFolder
             InitializeComponent();
             _speakers = new ObservableCollection<ClassSpeaker>();
             _filtersSpeakers = new ObservableCollection<ClassSpeaker>();
-            LoadSpeakers();
-            SpeakersListBox.ItemsSource = _speakers;
             InitializeFilters();
+            LoadSpeakers();
+            SpeakersListBox.ItemsSource = _filtersSpeakers;
         }
+
 
         private void FilterButton_Click(object sender, RoutedEventArgs e)
         {
@@ -43,21 +44,7 @@ namespace EventApp.PageFolder.ListFolder
 
         private void FilterCheckBox_Changed(object sender, RoutedEventArgs e)
         {
-            var selectedIds = StatusFilters
-                .Where(f => f.IsChecked)
-                .Select(f => f.Id)
-                .ToList();
-
-            if (!selectedIds.Any())
-            {
-                SpeakersListBox.ItemsSource = _speakers;
-            }
-            else
-            {
-                SpeakersListBox.ItemsSource = _speakers
-                    .Where(u => selectedIds.Contains((int)u.Statuses))
-                    .ToList();
-            }
+            ApplyFilters();
         }
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -154,20 +141,35 @@ namespace EventApp.PageFolder.ListFolder
 
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var searchText = SearchTextBox.Text.ToLower();
-            _filtersSpeakers.Clear();
+            ApplyFilters();
+        }
+        private void ApplyFilters()
+        {
+            string searchText = (SearchTextBox.Text ?? "").ToLower();
 
-            foreach (var speaker in _speakers.Where(s => (s.Login?.ToLower().Contains(searchText) ?? false) ||
+            var selectedStatusIds = StatusFilters
+                .Where(f => f.IsChecked)
+                .Select(f => f.Id)
+                .ToList();
+
+            var filtered = _speakers.Where(s =>
+                (selectedStatusIds.Count == 0 || selectedStatusIds.Contains((int)s.Statuses)) && (
+                (s.Login?.ToLower().Contains(searchText) ?? false) ||
                 (s.Email?.ToLower().Contains(searchText) ?? false) ||
                 (s.Phone?.Contains(searchText) ?? false) ||
                 (s.Name?.ToLower().Contains(searchText) ?? false) ||
                 (s.Surname?.ToLower().Contains(searchText) ?? false) ||
                 (s.Patronymic?.ToLower().Contains(searchText) ?? false) ||
-                (s.StatusName?.ToLower().Contains(searchText) ?? false)))
+                (s.StatusName?.ToLower().Contains(searchText) ?? false)
+            )).ToList();
+
+            _filtersSpeakers.Clear();
+            foreach (var speaker in filtered)
             {
-                _speakers.Add(speaker);
+                _filtersSpeakers.Add(speaker);
             }
         }
+
         private void ChangeStatusButton_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;

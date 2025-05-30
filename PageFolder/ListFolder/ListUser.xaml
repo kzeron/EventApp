@@ -70,8 +70,7 @@
                  Margin="0" Padding="30"
                  Grid.Row="1"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                 HorizontalAlignment="Center"
-                 HorizontalContentAlignment="Center">
+                 HorizontalAlignment="Left">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel x:Name="UserWrapPanel" IsItemsHost="True" />

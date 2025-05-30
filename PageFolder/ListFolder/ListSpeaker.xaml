@@ -66,10 +66,9 @@
                 </Border>
             </Popup>
         </StackPanel>
-        <ListBox x:Name="SpeakersListBox" Margin="10" Grid.Row="1"
+        <ListBox x:Name="SpeakersListBox" Margin="0" Grid.Row="1"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                 HorizontalAlignment="Center"
-                 HorizontalContentAlignment="Center">
+                 HorizontalAlignment="Left">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel x:Name="SpeakerWrapPanel" IsItemsHost="True" />

@@ -10,23 +10,23 @@
     using System.Windows.Controls;
 
 
-    namespace EventApp.PageFolder.ListFolder
-    {
+namespace EventApp.PageFolder.ListFolder
+{
         /// <summary>
         /// Логика взаимодействия для ListEvent.xaml
         /// </summary>
-        public partial class ListEvent : Page
-        {
-            private ObservableCollection<ClassEvent> _events;
+    public partial class ListEvent : Page
+    {
+        private ObservableCollection<ClassEvent> _events;
         public ObservableCollection<StatusFilter> StatusFilters { get; set; } = new ObservableCollection<StatusFilter>();
 
         public ListEvent()
-            {
-                InitializeComponent();
-                _events = new ObservableCollection<ClassEvent>();
+        {
+            InitializeComponent();
+            _events = new ObservableCollection<ClassEvent>();
             InitializeFilters();
             LoadEvents();
-            }
+        }
         private void InitializeFilters()
         {
             StatusFilters.Add(new StatusFilter { Id = 6, Name = "Сбор на мероприятие" });
@@ -35,23 +35,40 @@
             StatusFilters.Add(new StatusFilter { Id = 9, Name = "Завершилось" });
             StatusFilters.Add(new StatusFilter { Id = 10, Name = "Отменено" });
         }
-        private void FilterCheckBox_Changed(object sender, RoutedEventArgs e)
+        private void ApplyFilters()
         {
+            string searchText = SearchTextBox.Text.ToLower();
+
             var selectedIds = StatusFilters
                 .Where(f => f.IsChecked)
                 .Select(f => f.Id)
                 .ToList();
 
-            if (!selectedIds.Any())
+            var filtered = _events.AsEnumerable();
+
+            // Фильтрация по статусу (если выбраны фильтры)
+            if (selectedIds.Any())
             {
-                EventsListBox.ItemsSource = _events;
+                filtered = filtered.Where(ev => selectedIds.Contains(ev.StatusId));
             }
-            else
+
+            // Фильтрация по тексту поиска
+            if (!string.IsNullOrWhiteSpace(searchText))
             {
-                EventsListBox.ItemsSource = _events
-                    .Where(ev => selectedIds.Contains(ev.StatusId))
-                    .ToList();
+                filtered = filtered.Where(ev =>
+                    ev.Title.ToLower().Contains(searchText) ||
+                    ev.Description.ToLower().Contains(searchText) ||
+                    (ev.LocationName != null && ev.LocationName.ToLower().Contains(searchText)) ||
+                    ev.DateStart?.ToString("dd.MM.yyyy").Contains(searchText) == true
+                );
             }
+
+            EventsListBox.ItemsSource = new ObservableCollection<ClassEvent>(filtered);
+        }
+
+        private void FilterCheckBox_Changed(object sender, RoutedEventArgs e)
+        {
+            ApplyFilters();
         }
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
         {
@@ -207,16 +224,7 @@
             }
             private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
             {
-                string searchText = SearchTextBox.Text.ToLower();
-
-                var filteredEvents = _events.Where(ev =>
-                    ev.Title.ToLower().Contains(searchText) ||
-                    ev.Description.ToLower().Contains(searchText) ||
-                    (ev.LocationName != null && ev.LocationName.ToLower().Contains(searchText)) ||
-                    ev.DateStart?.ToString("dd.MM.yyyy").Contains(searchText) == true // Проверяем на null
-                ).ToList();
-
-                EventsListBox.ItemsSource = new ObservableCollection<ClassEvent>(filteredEvents);
+                ApplyFilters();
             }
         private void FilterButton_Click(object sender, RoutedEventArgs e)
         {
@@ -259,7 +267,7 @@
         }
 
         private void MenuItemEdit_Click(object sender, RoutedEventArgs e)
-            {
+        {
                 var menuItem = sender as MenuItem;
                 var contextMenu = menuItem?.Parent as ContextMenu;
                 var border = contextMenu?.PlacementTarget as Border;
@@ -278,7 +286,7 @@
                 {
                     mainWindow.OpenEditEventModal(selectedEvent.IdEvent);
                 }
-            }
+        }
 
             private void MenuItemParticipants_Click(object sender, RoutedEventArgs e)
             {
@@ -319,6 +327,6 @@
                     }
                 }
             }
-        }
     }
+}
 

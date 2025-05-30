@@ -39,23 +39,41 @@ namespace EventApp.PageFolder.ListFolder
             FilterPopup.IsOpen = !FilterPopup.IsOpen;
         }
 
-        private void FilterCheckBox_Changed(object sender, RoutedEventArgs e)
+        private void ApplyFilters()
         {
+            string searchText = SearchTextBox.Text.ToLower();
+
             var selectedIds = StatusFilters
                 .Where(f => f.IsChecked)
                 .Select(f => f.Id)
                 .ToList();
 
-            if (!selectedIds.Any())
+            var filtered = _events.AsEnumerable();
+
+            // Фильтрация по статусу (если выбраны фильтры)
+            if (selectedIds.Any())
             {
-                EventsListBox.ItemsSource = _events;
+                filtered = filtered.Where(ev => selectedIds.Contains(ev.StatusId));
             }
-            else
+
+            // Фильтрация по тексту поиска
+            if (!string.IsNullOrWhiteSpace(searchText))
             {
-                EventsListBox.ItemsSource = _events
-                    .Where(ev => selectedIds.Contains(ev.StatusId))
-                    .ToList();
+                filtered = filtered.Where(ev =>
+                    ev.Title.ToLower().Contains(searchText) ||
+                    ev.Description.ToLower().Contains(searchText) ||
+                    (ev.LocationName != null && ev.LocationName.ToLower().Contains(searchText)) ||
+                    ev.DateStart?.ToString("dd.MM.yyyy").Contains(searchText) == true
+                );
             }
+
+            EventsListBox.ItemsSource = new ObservableCollection<ClassEvent>(filtered);
+        }
+
+
+        private void FilterCheckBox_Changed(object sender, RoutedEventArgs e)
+        {
+            ApplyFilters();
         }
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -256,16 +274,7 @@ namespace EventApp.PageFolder.ListFolder
         }
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            string searchText = SearchTextBox.Text.ToLower();
-
-            var filteredEvents = _events.Where(ev =>
-                ev.Title.ToLower().Contains(searchText) ||
-                ev.Description.ToLower().Contains(searchText) ||
-                (ev.LocationName != null && ev.LocationName.ToLower().Contains(searchText)) ||
-                ev.DateStart?.ToString("dd.MM.yyyy").Contains(searchText) == true // Проверяем на null
-            ).ToList();
-
-            EventsListBox.ItemsSource = new ObservableCollection<ClassEvent>(filteredEvents);
+            ApplyFilters();
         }
     }
 }

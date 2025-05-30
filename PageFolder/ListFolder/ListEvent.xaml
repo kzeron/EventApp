@@ -77,7 +77,7 @@
         <ListBox x:Name="EventsListBox"
                  Grid.Row="1"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                 HorizontalAlignment="Center"
+                 HorizontalAlignment="Left"
                  Margin="0">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
