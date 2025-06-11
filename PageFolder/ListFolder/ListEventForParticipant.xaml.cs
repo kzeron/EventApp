@@ -123,6 +123,9 @@ namespace EventApp.PageFolder.ListFolder
                              join loc in context.Locations
                              on ev.LocationId equals loc.IdLocation into locGroup
                              from loc in locGroup.DefaultIfEmpty()
+                             join st in context.Status
+                                     on ev.StatusId equals st.IdStatus into statGroup
+                             from stat in statGroup.DefaultIfEmpty()
                              let participantCount = context.Participants.Count(p => p.IdEvent == ev.IdEvent)
                              select new
                              {
@@ -138,7 +141,8 @@ namespace EventApp.PageFolder.ListFolder
                                  capacity = loc != null ? loc.Capacity : (int?)null,
                                  ev.OrganizerId,
                                  participantCount,
-                                 ev.StatusId
+                                 ev.StatusId,
+                                 stat.NameStatus
                              }).OrderByDescending(e => e.DateStart)
                              .ToList();
 
@@ -160,7 +164,8 @@ namespace EventApp.PageFolder.ListFolder
                     Capacity = item.capacity,
                     OrganizerId = item.OrganizerId,
                     CurrentParticipants = item.participantCount,
-                    StatusId = item.StatusId
+                    StatusId = item.StatusId,
+                    StatusName = item.NameStatus
                 });
             }
 

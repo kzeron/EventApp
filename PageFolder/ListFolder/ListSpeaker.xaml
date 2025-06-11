@@ -86,34 +86,36 @@
                                Margin="0,0,10,0"/>
                             <StackPanel Orientation="Vertical">
                                 <!-- Логин пользователя -->
-                                <TextBlock Text="{Binding Login}" 
-                                       Style="{StaticResource StandartText}"/>
+                                <TextBlock Style="{StaticResource StandartText}">
+                                    <Run Text="Логин: " FontWeight="SemiBold"/>
+                                    <Run Text="{Binding Login}"/>
+                                    </TextBlock>
 
-                                <!-- ФИО -->
+                                    <!-- ФИО -->
                                 <TextBlock
                                        Style="{StaticResource StandartText}">
-                                <Run Text="ФИО: " FontWeight="Bold"/>
+                                <Run Text="ФИО: " FontWeight="SemiBold"/>
                                 <Run Text="{Binding FullName, Mode=OneWay}"/>
                                 </TextBlock>
 
                                 <!-- Email -->
                                 <TextBlock 
                                        Style="{StaticResource StandartText}">
-                                <Run Text="Email: " FontWeight="Bold"/>
+                                <Run Text="Email: " FontWeight="SemiBold"/>
                                 <Run Text="{Binding Email}"/>
                                 </TextBlock>
 
                                 <!-- Телефон -->
                                 <TextBlock 
                                        Style="{StaticResource StandartText}">
-                                <Run Text="Телефон: " FontWeight="Bold"/>
+                                <Run Text="Телефон: " FontWeight="SemiBold"/>
                                 <Run Text="{Binding Phone}"/>
                                 </TextBlock>
 
                                 <!-- Статус -->
                                 <TextBlock 
                                        Style="{StaticResource StandartText}">
-                                <Run Text="Статус: " FontWeight="Bold"/>
+                                <Run Text="Статус: " FontWeight="SemiBold"/>
                                 <Run Text="{Binding StatusName}"/>
                                 </TextBlock>
 

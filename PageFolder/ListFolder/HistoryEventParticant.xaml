@@ -18,20 +18,24 @@
             <Button Content="← Назад" Click="BackButton_Click"
               Background="Transparent" BorderBrush="White"/>
             <TextBlock Text="История мероприятий" Style="{StaticResource TitleText}"
-                 Margin="20,0,0,0"/>
+                 Margin="120,0,0,0"/>
         </StackPanel>
 
         <DataGrid x:Name="ParticipantEventsList" Grid.Row="1"
               AutoGenerateColumns="False" IsReadOnly="True"
                   Style="{StaticResource CustomDataGridStyle}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Название" Binding="{Binding Title}"/>
+                <DataGridTextColumn Header="Название" Binding="{Binding Title}"
+                                    HeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}"/>
                 <DataGridTextColumn Header="Дата начала"
-                            Binding="{Binding DateStart, StringFormat={}{0:dd.MM.yyyy}}"/>
+                                    Binding="{Binding DateStart, StringFormat={}{0:dd.MM.yyyy}}"
+                                    HeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}"/>
                 <DataGridTextColumn Header="Статус участника"
-                            Binding="{Binding ParticipantStatus}"/>
+                                    Binding="{Binding ParticipantStatus}"
+                                    HeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}"/>
                 <DataGridTextColumn Header="Дата регистрации"
-                            Binding="{Binding RegistrationDate, StringFormat={}{0:dd.MM.yyyy}}"/>
+                                    Binding="{Binding RegistrationDate, StringFormat={}{0:dd.MM.yyyy}}"
+                                    HeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

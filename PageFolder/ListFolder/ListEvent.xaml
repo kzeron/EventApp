@@ -114,18 +114,23 @@
                             </ContextMenu>
                         </Border.ContextMenu>
                         <StackPanel Orientation="Vertical">
-                            <TextBlock Text="{Binding Title}" FontWeight="Bold" Style="{StaticResource TitleText}"/>
-                            <TextBlock Text="Описание:" FontWeight="Bold" Style="{StaticResource StandartText}"/>
-                            <TextBlock Text="{Binding Description}" Margin="0,2,0,5" Style="{StaticResource StandartText}"/>
-                            <TextBlock Text="Локация:" FontWeight="Bold" Style="{StaticResource StandartText}"/>
+                            <TextBlock Text="{Binding Title}" FontWeight="Bold" 
+                                       TextWrapping="Wrap"
+                                       Style="{StaticResource TitleText}"
+                                       FontSize="22"/>
+                            <TextBlock Text="Описание:" FontWeight="SemiBold" Style="{StaticResource StandartText}"/>
+                            <TextBlock Text="{Binding Description}" 
+                                       TextWrapping="Wrap"
+                                       Margin="0,2,0,5" Style="{StaticResource StandartText}"/>
+                            <TextBlock Text="Локация:" FontWeight="SemiBold" Style="{StaticResource StandartText}"/>
                             <TextBlock Text="{Binding LocationName}" Margin="0,2,0,5" Style="{StaticResource StandartText}"/>
-                            <TextBlock Text="Дата начала:" FontWeight="Bold" Style="{StaticResource StandartText}"/>
+                            <TextBlock Text="Дата начала:" FontWeight="SemiBold" Style="{StaticResource StandartText}"/>
                             <TextBlock Text="{Binding DateStart, StringFormat={}{0:dd.MM.yyyy}}" Margin="0,2,0,5" Style="{StaticResource StandartText}"/>
-                            <TextBlock Text="Участников:" FontWeight="Bold" Style="{StaticResource StandartText}"/>
+                            <TextBlock Text="Участников:" FontWeight="SemiBold" Style="{StaticResource StandartText}"/>
                             <TextBlock Text="{Binding CurrentParticipants}" Margin="0,2,0,5" Style="{StaticResource StandartText}"/>
-                            <TextBlock Text="Максимальная вместимость:" FontWeight="Bold" Style="{StaticResource StandartText}"/>
+                            <TextBlock Text="Максимальная вместимость:" FontWeight="SemiBold" Style="{StaticResource StandartText}"/>
                             <TextBlock Text="{Binding Capacity}" Margin="0,2,0,5" Style="{StaticResource StandartText}"/>
-                            <TextBlock Text="Статус мероприятия" FontWeight="Bold" Style="{StaticResource StandartText}"/>
+                            <TextBlock Text="Статус мероприятия" FontWeight="SemiBold" Style="{StaticResource StandartText}"/>
                             <TextBlock Text="{Binding StatusName}" Margin="0,2,0,5" Style="{StaticResource StandartText}"/>
                         </StackPanel>
                     </Border>

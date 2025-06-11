@@ -41,23 +41,40 @@ namespace EventApp.PageFolder.ListFolder
         }
         private void LoadHistory()
         {
-            var list = (from p in _ctx.Participants
-                        where p.IdEmploee == _employeeId
-                        join ev in _ctx.Events on p.IdEvent equals ev.IdEvent
-                        join ps in _ctx.Status on p.IdStatus equals ps.IdStatus
-                        orderby ev.DateStart descending
-                        select new
-                        {
-                            p.IdParticipants,
-                            ev.Title,
-                            ev.DateStart,
-                            RegistrationDate = p.RegistrationDate,
-                            RegistrationStatusName = ps.NameStatus,
-                            CanUnregister = ev.DateStart > DateTime.Now
-                        })
-                       .ToList();
+            var participantList = (from p in _ctx.Participants
+                                   where p.IdEmploee == _employeeId
+                                   join ev in _ctx.Events on p.IdEvent equals ev.IdEvent
+                                   join ps in _ctx.Status on p.IdStatus equals ps.IdStatus
+                                   select new
+                                   {
+                                       p.IdParticipants,
+                                       ev.Title,
+                                       ev.DateStart,
+                                       RegistrationDate = p.RegistrationDate,
+                                       RegistrationStatusName = ps.NameStatus,
+                                       CanUnregister = ev.DateStart > DateTime.Now
+                                   }).ToList();
+            var trainer = _ctx.Trainers.FirstOrDefault(t => t.EmployeeId == _employeeId);
+            if (trainer != null)
+            {
+                var trainerEventList = (from ev in _ctx.Events
+                                        where ev.OrganizerId == trainer.IdTrainer
+                                        select new
+                                        {
+                                            IdParticipants = 0, // фиктивное значение
+                                            ev.Title,
+                                            ev.DateStart,
+                                            RegistrationDate = (DateTime?)null,
+                                            RegistrationStatusName = "Организатор",
+                                            CanUnregister = false
+                                        }).ToList();
 
-            HistoryGrid.ItemsSource = new ObservableCollection<dynamic>(list);
+                participantList.AddRange(trainerEventList);
+            }
+
+
+
+            HistoryGrid.ItemsSource = new ObservableCollection<dynamic>(participantList.OrderByDescending(ev => ev.DateStart));
         }
 
 

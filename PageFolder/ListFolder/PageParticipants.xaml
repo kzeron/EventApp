@@ -9,7 +9,24 @@
       Title="PageParticipants">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!-- Заголовок и кнопка назад -->
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
+            <Button Content="← Назад"
+             Background="Transparent"
+             BorderBrush="White"
+       Click="BackButton_Click"
+       Margin="10,0,10,0"/>
+            <TextBlock Text="Мои мероприятия" Style="{StaticResource TitleText}" VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Margin="140 10"/>
+        </StackPanel>
+        
         <DataGrid x:Name="ParticipantsDataGrid" 
+                  Grid.Row="1"
                   Margin="10" 
                   AutoGenerateColumns="False" 
                   IsReadOnly="True"
@@ -30,7 +47,8 @@
                 </Style>
             </DataGrid.RowStyle>
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="ФИО" Width="*" >
+                <DataGridTemplateColumn Header="ФИО" Width="*"
+                                        HeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock>
@@ -45,10 +63,14 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*" />
-                <DataGridTextColumn Header="Телефон" Binding="{Binding Phone}" Width="*" />
-                <DataGridTextColumn Header="Дата регистрации" Binding="{Binding RegistrationDate, StringFormat={}{0:dd.MM.yyyy}}" Width="Auto" />
-                <DataGridTextColumn Header="Статус" Binding="{Binding  NameStatus}" Width="*"/>
+                <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*" 
+                                    HeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}"/>
+                <DataGridTextColumn Header="Телефон" Binding="{Binding Phone}" Width="*"
+                                    HeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}"/>
+                <DataGridTextColumn Header="Дата регистрации" Binding="{Binding RegistrationDate, StringFormat={}{0:dd.MM.yyyy}}" Width="Auto"
+                                    HeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}"/>
+                <DataGridTextColumn Header="Статус" Binding="{Binding  NameStatus}" Width="*"
+                                    HeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

@@ -116,7 +116,10 @@ namespace EventApp.PageFolder.ListFolder
             LoadParticipants();
         }
 
-
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.GoBack();
+        }
 
     }
 }

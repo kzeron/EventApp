@@ -34,11 +34,16 @@
               CanUserAddRows="False"
               IsReadOnly="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Название"       Binding="{Binding Title}"/>
-                <DataGridTextColumn Header="Дата начала"    Binding="{Binding DateStart, StringFormat={}{0:dd.MM.yyyy}}"/>
-                <DataGridTextColumn Header="Мой статус"     Binding="{Binding RegistrationStatusName}"/>
-                <DataGridTextColumn Header="Дата записи"    Binding="{Binding RegistrationDate, StringFormat={}{0:dd.MM.yyyy}}"/>
-                <DataGridTemplateColumn Header="Отменить">
+                <DataGridTextColumn Header="Название"       Binding="{Binding Title}"
+                                    HeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}"/>
+                <DataGridTextColumn Header="Дата начала"    Binding="{Binding DateStart, StringFormat={}{0:dd.MM.yyyy}}"
+                                    HeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}"/>
+                <DataGridTextColumn Header="Мой статус"     Binding="{Binding RegistrationStatusName}"
+                                    HeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}"/>
+                <DataGridTextColumn Header="Дата записи"    Binding="{Binding RegistrationDate, StringFormat={}{0:dd.MM.yyyy}}"
+                                    HeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}"/>
+                <DataGridTemplateColumn Header="Отменить"
+                                        HeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Content="Отменить"

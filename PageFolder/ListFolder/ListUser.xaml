@@ -79,7 +79,7 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Border BorderThickness="1" BorderBrush="Gray" Padding="10" CornerRadius="5" 
-                            MinWidth="250" Width="{Binding ElementName=EventsListBox, Path=Tag}">
+                            MinWidth="250" Width="450">
                         <Border.ContextMenu>
                             <ContextMenu Background="#4A4A4A" Foreground="White">
                                 <!-- … ваши другие MenuItem … -->
@@ -87,7 +87,7 @@
                                 <MenuItem Header="История мероприятий" Click="MenuItemHistory_Click">
                                     <MenuItem.Icon>
                                         <Image Source="/EventApp;component/AssetFolder/MenuItemContent/History.png"
-                     Width="15" Height="15"/>
+                                               Width="15" Height="15"/>
                                     </MenuItem.Icon>
                                 </MenuItem>
                             </ContextMenu>
@@ -100,34 +100,37 @@
                                    Margin="0,0,10,0"/>
                             <StackPanel Orientation="Vertical">
                                 <!-- Логин пользователя -->
-                                <TextBlock Text="{Binding Login}" 
-                                           Style="{StaticResource StandartText}"/>
+
+                                <TextBlock Style="{StaticResource StandartText}">
+                                    <Run Text="Логин: " FontWeight="SemiBold"/>
+                                    <Run Text="{Binding Login}"/>
+                                </TextBlock>
 
                                 <!-- ФИО -->
                                 <TextBlock
                                            Style="{StaticResource StandartText}">
-                                    <Run Text="ФИО: " FontWeight="Bold"/>
+                                    <Run Text="ФИО: " FontWeight="SemiBold"/>
                                     <Run Text="{Binding FullName, Mode=OneWay}"/>
                                 </TextBlock>
 
                                 <!-- Email -->
                                 <TextBlock 
                                            Style="{StaticResource StandartText}">
-                                    <Run Text="Email: " FontWeight="Bold"/>
+                                    <Run Text="Email: " FontWeight="SemiBold"/>
                                     <Run Text="{Binding Email}"/>
                                 </TextBlock>
 
                                 <!-- Телефон -->
                                 <TextBlock 
                                            Style="{StaticResource StandartText}">
-                                    <Run Text="Телефон: " FontWeight="Bold"/>
+                                    <Run Text="Телефон: " FontWeight="SemiBold"/>
                                     <Run Text="{Binding Phone}"/>
                                 </TextBlock>
 
                                 <!-- Статус -->
                                 <TextBlock 
                                            Style="{StaticResource StandartText}">
-                                    <Run Text="Статус: " FontWeight="Bold"/>
+                                    <Run Text="Статус: " FontWeight="SemiBold"/>
                                     <Run Text="{Binding StatusName}"/>
                                 </TextBlock>
 

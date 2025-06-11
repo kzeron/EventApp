@@ -103,6 +103,14 @@ namespace EventApp.PageFolder.AddFolder
                 MBClass.WarningMB("Введите положительную вместимость.");
                 return;
             }
+
+            var currentUser = ClassSaveSassion.LoadSession();
+            var organizator = _ctx.Trainers.FirstOrDefault(t => t.Employee.UserId == currentUser.IdUser);
+            if (organizator == null)
+            {
+                MBClass.ErrorMB("Не удалось определить тренера для текущего пользователя.");
+                return;
+            }
             // Создаём новую локацию, привязываем к address
             var newLocation = new Locations
             {
@@ -122,7 +130,8 @@ namespace EventApp.PageFolder.AddFolder
                 DateStart = StartDatePicker.SelectedDate,
                 EndDate = EndDatePicker.SelectedDate,
                 LocationId = newLocation.IdLocation,
-                StatusId = (int)EventStatuses.Collecting
+                StatusId = (int)EventStatuses.Collecting,
+                OrganizerId = organizator.IdTrainer
             };
             _ctx.Events.Add(newEvent);
             _ctx.SaveChanges();

@@ -2,7 +2,6 @@
 using EventApp.PageFolder.ListFolder;
 using EventApp.PageFolder.AddFolder;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using EventApp.PageFolder.EditFolder;
 using EventApp.DataFolder;
